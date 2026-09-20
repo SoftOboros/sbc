@@ -93,8 +93,26 @@ dependencies. To test existing audited wheel files without installation:
 python -I -S tools/check_git_provider.py C:/path/to/audited-wheels
 ```
 
-Eight provider tests reject process/network operations and exercise real local
-Git objects. Full authority-manifest validation, complete authoritative corpus
-inventory, packed/shallow and submodule repository coverage remain pending.
+Provider tests reject process/network operations and exercise real local
+Git objects. Packed/shallow and submodule repository coverage remain pending.
 This reader is a provenance primitive, not the BundleValidator's complete
 trusted provenance verifier. Runtime gates remain open.
+
+## Authority and corpus inputs
+
+`verify_authority_inputs` checks exact manifest bytes against a trusted
+host-supplied approval digest, the closed role inventory, canonical ordering,
+committed file identities and reviewed-patch hash. It returns immutable base
+file bytes. Matching hashes do not establish approval: the expected manifest
+digest must come from the owner's approved baseline. Patch application and
+resulting support-file identities are separate pending checks; the intermediate
+result cannot satisfy BundleValidator's provenance interface.
+
+`inventory_committed_corpus` includes every nonexcluded file under explicit
+source roots plus required configuration, authority, registry and evidence
+files. Missing inputs, overlapping roots and selected symlink/gitlink members
+fail. `corpus_digest` implements the approved sorted repository/path/hash
+identity. Configuration validation must still establish that required inputs
+and registered child mounts are complete before full provenance composition.
+There are now 36 core tests and 18 Git/provenance tests; these are bounded
+implementation evidence, not end-to-end acceptance.
