@@ -3,8 +3,8 @@
 This separate local repository begins the approved portable implementation.
 Its current implemented surface is the standard-library-only SBCT cursor
 codec, transactional SQLite publication store, extracted projection validators
-and an offline committed Git reader.
-Indexing, query extraction, committed-source verification, Django/MCP OAuth and dashboard
+and offline committed Git verification for a single source repository.
+Indexing, query extraction, Django/MCP OAuth and dashboard
 integration are not yet implemented here.
 
 The governing SBCT documents remain in their existing authoring home until
@@ -62,8 +62,9 @@ helpers extracted from the approved ingest Git blob
 source blob and reproduces the module; corpus roots are explicit per instance.
 Validation reads only supplied bytes and requires a trusted host provenance
 verifier for committed bytes, approved authority/profile and corpus identity.
-There is no default verifier. Tests use synthetic provenance; Git verification
-and production-history acceptance are still outstanding.
+There is no default verifier. Tests cover both synthetic provenance and real
+Git-backed integrity composition with synthetic approval fixtures.
+Production-history acceptance remains outstanding.
 
 The five historical golden vectors stored pretty-printed diagnostic JSON, which
 the pinned ingest validator rejects. Reproduction with the exact pinned producer
@@ -114,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 46 core tests and 41 Git/provenance tests; these are bounded
+There are now 46 core tests and 48 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -154,5 +155,24 @@ before parents. Dirty or revision-mismatched children prevent clean parent
 results. A reader of identical history at a different physical checkout is
 rejected. Excluded children are not opened or assumed clean, so their presence
 prevents a whole-repository clean result until a separately defined scoped
-policy applies. Acceptance of additional checkout forms and complete
-BundleValidator provenance integration remain pending.
+policy applies. Acceptance of additional checkout forms remains pending.
+
+## Committed provenance composition
+
+`CommittedProvenanceVerifier` composes authority input checks, reviewed support
+patch application, configured corpus inventory and exact committed projection
+membership/bytes. Trusted host construction fixes the repository, configuration,
+branch, profile, authority approval digest and support-result hashes. The
+`bundle_validator()` factory uses those same roots and profile for semantic
+validation. SQLite revalidates candidates, including ones fabricated by callers.
+
+This initial composition supports a single source repository and separate pinned
+authority repositories. It requires an explicit branch and rejects configured
+child source mounts. Required evidence paths are host-supplied; a production
+profile must register its complete evidence inventory. Child corpus composition,
+producer regeneration and clean-scan admission wiring remain unfinished.
+
+Retained verification reads exact source/projection commits and does not depend
+on current HEAD or dirty working files. This proves committed integrity, not that
+a new scan ran from a clean checkout. Use the separate checkout observations for
+that admission decision; no runtime gate or access authorization is implied.
