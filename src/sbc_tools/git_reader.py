@@ -56,6 +56,10 @@ class GitCommitReader:
     def close(self):
         self._repo.close()
 
+    @property
+    def checkout_path(self):
+        return Path(os.fsdecode(self._repo.path)).resolve()
+
     def __enter__(self):
         return self
 
@@ -169,12 +173,13 @@ class GitCommitReader:
                     or self._object(entry.oid, b"blob").data != supplied[path]):
                 raise GitReadError("Committed projection bytes mismatch")
 
-    def observe_checkout(self, commit):
+    def observe_checkout(self, commit, *, child_checks=None):
         """Bounded byte-exact observation; never runs ambient Git filters.
 
         All index and working files are checked. Untracked files, including
-        ignored files, prevent this conservative clean result. Gitlinks and
-        symlinks require additional handling and are not accepted here. This is
+        ignored files, prevent this conservative clean result. Each gitlink
+        requires a trusted child reader and its already completed observation.
+        Symlinks are not accepted here. This is
         an observation, not a filesystem lock or a general Git-status clone.
         """
         from dulwich.config import ConfigDict
@@ -185,7 +190,11 @@ class GitCommitReader:
         if self._repo.bare:
             return failed("checkout_unavailable")
         entries = {e.path:e for e in self.entries(commit)}
-        if any(e.mode not in {0o100644, 0o100755} for e in entries.values()):
+        children = {} if child_checks is None else dict(child_checks)
+        gitlinks = {p:e for p,e in entries.items() if e.mode == 0o160000}
+        if set(children) != set(gitlinks):
+            return failed("child_checkout_evidence_incomplete")
+        if any(e.mode not in {0o100644, 0o100755, 0o160000} for e in entries.values()):
             return failed("unsupported_member_mode")
         if os.name == "nt" and any(e.mode == 0o100755 for e in entries.values()):
             return failed("executable_mode_unverifiable")
@@ -199,7 +208,15 @@ class GitCommitReader:
             for path, item in indexed.items():
                 if getattr(item,"sha",None) != entries[path].oid.encode() or getattr(item,"mode",None) != entries[path].mode:
                     return failed("staged_change_or_conflict")
-            root = Path(os.fsdecode(self._repo.path)).resolve()
+            root = self.checkout_path
+            for path, (reader, observation) in children.items():
+                if (not isinstance(observation, CheckoutObservation) or not observation.clean
+                        or observation.commit != gitlinks[path].oid):
+                    return failed("child_checkout_not_clean")
+                if reader.checkout_path != (root/path).resolve():
+                    return failed("child_checkout_location_mismatch")
+                if reader.resolve_commit("HEAD") != gitlinks[path].oid:
+                    return failed("child_checkout_revision_mismatch")
             observed = set()
             def walk_error(error):
                 raise error
@@ -212,6 +229,11 @@ class GitCommitReader:
                     metadata = path.lstat()
                     if stat.S_ISLNK(metadata.st_mode) or getattr(metadata,"st_file_attributes",0) & 0x400:
                         return failed("symlink_or_reparse_point")
+                for name in tuple(dirs):
+                    relative = (Path(directory)/name).relative_to(root).as_posix()
+                    if relative in gitlinks:
+                        observed.add(relative)
+                        dirs.remove(name)
                 for name in files:
                     path = Path(directory)/name
                     relative = path.relative_to(root).as_posix()
@@ -233,6 +255,8 @@ class GitCommitReader:
                 return failed("missing_worktree_file")
             if self.resolve_commit("HEAD") != commit or index_path.read_bytes() != original_index:
                 return failed("selection_changed_during_observation")
+            if any(reader.resolve_commit("HEAD") != gitlinks[path].oid for path,(reader,_) in children.items()):
+                return failed("child_selection_changed_during_observation")
             return CheckoutObservation(commit, True, "byte_exact")
         except (OSError, ValueError, KeyError, AttributeError, UnicodeError):
             return failed("checkout_evidence_unavailable")

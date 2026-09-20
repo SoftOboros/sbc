@@ -114,7 +114,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 46 core tests and 35 Git/provenance tests; these are bounded
+There are now 46 core tests and 41 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -145,7 +145,14 @@ committed tree, and working files against committed bytes. It catches staged,
 unstaged, missing and untracked files without ambient filters or fsmonitor
 commands. The result is a conservative byte-exact observation, not general Git
 status: ignored files also prevent a clean result, line-ending normalization is
-not applied, and symlinks/gitlinks and unverifiable executable modes fail closed.
+not applied, and symlinks and unverifiable executable modes fail closed.
+Gitlinks require completed child observations bound to both their committed pin
+and physical checkout location.
 This does not lock the filesystem or prove absence of concurrent changes.
-Recursive child checkout composition, acceptance of additional checkout forms,
-and complete BundleValidator provenance integration remain pending.
+`observe_checkout_tree` revalidates committed mount pins and checks children
+before parents. Dirty or revision-mismatched children prevent clean parent
+results. A reader of identical history at a different physical checkout is
+rejected. Excluded children are not opened or assumed clean, so their presence
+prevents a whole-repository clean result until a separately defined scoped
+policy applies. Acceptance of additional checkout forms and complete
+BundleValidator provenance integration remain pending.

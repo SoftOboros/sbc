@@ -4,6 +4,7 @@ Pins prove committed relationships only. Checkout/dirty-state acceptance is a
 separate mandatory check before claiming a clean committed scan.
 """
 from dataclasses import dataclass
+from types import MappingProxyType
 
 from .identity import copy_files
 from .git_reader import GitReadError, GitUnavailableError
@@ -88,3 +89,31 @@ def pin_child_mounts(*, root_repository_id, root_commit, mounts, source_roots, r
                 if path not in pinned:
                     raise ValueError("Included gitlink requires explicit mount registration")
     return tuple(pinned[p] for p in sorted(pinned))
+
+
+@dataclass(frozen=True)
+class CheckoutTreeObservation:
+    pins: tuple
+    observations: object
+    clean: bool
+
+
+def observe_checkout_tree(*, root_repository_id, root_commit, mounts, source_roots, readers, exclude=()):
+    """Revalidate committed pins and observe leaves before their parents.
+
+    Readers are host-registered and must match the physical parent mount paths.
+    Excluded/unselected gitlinks receive no clean proof; a whole-repository
+    observation containing them therefore remains not clean. No scoped-clean
+    exemption or request-selected child evidence is inferred.
+    """
+    pins = pin_child_mounts(root_repository_id=root_repository_id, root_commit=root_commit,
+        mounts=mounts, source_roots=source_roots, readers=readers, exclude=exclude)
+    observations = {}
+    ordered = sorted(pins, key=lambda p:(p.mount_path.count("/"),p.mount_path), reverse=True)
+    selections = [(p.repository_id,p.child_commit) for p in ordered] + [(root_repository_id,root_commit)]
+    for repository_id, commit in selections:
+        children = {p.parent_relative_path:(readers[p.repository_id],observations[p.repository_id])
+                    for p in pins if p.parent_repository_id == repository_id}
+        observations[repository_id] = readers[repository_id].observe_checkout(commit, child_checks=children)
+    return CheckoutTreeObservation(pins, MappingProxyType(observations),
+                                   all(o.clean for o in observations.values()))
