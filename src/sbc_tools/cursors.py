@@ -13,6 +13,7 @@ import json
 import re
 import unicodedata
 from collections.abc import Mapping
+from .canonical import canonical_json as _canonical
 
 _HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 _HEX40 = re.compile(r"[0-9a-f]{40}\Z")
@@ -27,11 +28,6 @@ _BINDING = _DIGESTS | {"repository_id", "projection_commit", "capability", "limi
 _CLAIMS = _BINDING | {"version", "last", "issued_at", "expires_at"}
 MAX_TOKEN_BYTES = 8192
 TTL_SECONDS = 900
-
-
-def _canonical(value: dict) -> bytes:
-    return (json.dumps(value, sort_keys=True, ensure_ascii=False,
-                       allow_nan=False, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _b64(raw: bytes) -> str:
