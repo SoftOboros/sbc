@@ -19,7 +19,7 @@ class PinnedMount:
     child_commit: str
 
 
-def pin_child_mounts(*, root_repository_id, root_commit, mounts, source_roots, readers):
+def pin_child_mounts(*, root_repository_id, root_commit, mounts, source_roots, readers, exclude=()):
     """Use host readers and explicit mount mappings; never discover or fetch children.
 
     A source root below a child selects its registered ancestors too. Nested
@@ -30,6 +30,17 @@ def pin_child_mounts(*, root_repository_id, root_commit, mounts, source_roots, r
     roots = tuple(source_roots) if not isinstance(source_roots, (str, bytes)) else ()
     if not roots:
         raise ValueError("Explicit source roots required")
+    if isinstance(exclude, (str, bytes)):
+        raise ValueError("Exclusions must be a sequence of literal paths")
+    excluded = tuple(exclude)
+    for path in excluded:
+        copy_files({path:b""})
+    if len(set(excluded)) != len(excluded) or any(
+            s == e or s.startswith(e + "/") for s in roots for e in excluded):
+        raise ValueError("Invalid or source-hiding exclusions")
+    def included(path):
+        return (not any(path == e or path.startswith(e + "/") for e in excluded)
+                and any(path == s or path.startswith(s + "/") or s.startswith(path + "/") for s in roots))
     seen_paths, seen_ids = set(), {root_repository_id}
     for path in roots:
         copy_files({path:b""})
@@ -40,8 +51,7 @@ def pin_child_mounts(*, root_repository_id, root_commit, mounts, source_roots, r
             raise ValueError("Duplicate or cyclic mount mapping")
         seen_paths.add(path)
         seen_ids.add(repository_id)
-    selected = [(p,r) for p,r in mounts if any(
-        p == s or p.startswith(s + "/") or s.startswith(p + "/") for s in roots)]
+    selected = [(p,r) for p,r in mounts if included(p)]
     if root_repository_id not in readers:
         raise GitUnavailableError("Root repository unavailable")
     if readers[root_repository_id].resolve_commit(root_commit) != root_commit:
@@ -74,8 +84,7 @@ def pin_child_mounts(*, root_repository_id, root_commit, mounts, source_roots, r
     for prefix, repository_id, commit in parents:
         for entry in readers[repository_id].entries(commit):
             path = prefix + entry.path
-            if entry.mode == 0o160000 and any(
-                    path == s or path.startswith(s + "/") or s.startswith(path + "/") for s in roots):
+            if entry.mode == 0o160000 and included(path):
                 if path not in pinned:
                     raise ValueError("Included gitlink requires explicit mount registration")
     return tuple(pinned[p] for p in sorted(pinned))

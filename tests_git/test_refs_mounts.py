@@ -122,5 +122,12 @@ class ReferenceMountTests(unittest.TestCase):
         self.assertEqual((),self.pin(source_roots=("elsewhere",),readers={"root":self.readers["root"]}))
         with self.assertRaises(ValueError): self.pin(mounts=(("child","root"),))
 
+    def test_excluded_nested_child_not_opened(self):
+        pins = self.pin(source_roots=("child",),exclude=("child/inner",),
+                        readers={"root":self.readers["root"],"child":self.readers["child"]})
+        self.assertEqual(["child"],[p.mount_path for p in pins])
+        with self.assertRaises(ValueError): self.pin(exclude=("child",))
+        with self.assertRaises(ValueError): self.pin(exclude="child/inner")
+
 
 if __name__ == "__main__": unittest.main()

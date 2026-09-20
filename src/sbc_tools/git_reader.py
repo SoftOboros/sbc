@@ -5,7 +5,10 @@ The host supplies the repository location; callers cannot select repositories.
 """
 from dataclasses import dataclass
 import hashlib
+import os
+from pathlib import Path
 import re
+import stat
 import unicodedata
 
 
@@ -22,6 +25,13 @@ class CommittedEntry:
     path: str
     mode: int
     oid: str
+
+
+@dataclass(frozen=True)
+class CheckoutObservation:
+    commit: str
+    clean: bool
+    reason: str
 
 
 def _path(value):
@@ -158,3 +168,71 @@ class GitCommitReader:
             if (entry.mode not in {0o100644, 0o100755}
                     or self._object(entry.oid, b"blob").data != supplied[path]):
                 raise GitReadError("Committed projection bytes mismatch")
+
+    def observe_checkout(self, commit):
+        """Bounded byte-exact observation; never runs ambient Git filters.
+
+        All index and working files are checked. Untracked files, including
+        ignored files, prevent this conservative clean result. Gitlinks and
+        symlinks require additional handling and are not accepted here. This is
+        an observation, not a filesystem lock or a general Git-status clone.
+        """
+        from dulwich.config import ConfigDict
+        def failed(reason):
+            return CheckoutObservation(commit, False, reason)
+        if self.resolve_commit("HEAD") != commit:
+            return failed("checkout_revision_mismatch")
+        if self._repo.bare:
+            return failed("checkout_unavailable")
+        entries = {e.path:e for e in self.entries(commit)}
+        if any(e.mode not in {0o100644, 0o100755} for e in entries.values()):
+            return failed("unsupported_member_mode")
+        if os.name == "nt" and any(e.mode == 0o100755 for e in entries.values()):
+            return failed("executable_mode_unverifiable")
+        try:
+            index_path = Path(os.fsdecode(self._repo.index_path()))
+            original_index = index_path.read_bytes()
+            index = self._repo.open_index(config=ConfigDict())
+            indexed = {p.decode("utf-8"):e for p,e in index.items()}
+            if set(indexed) != set(entries):
+                return failed("staged_membership_change")
+            for path, item in indexed.items():
+                if getattr(item,"sha",None) != entries[path].oid.encode() or getattr(item,"mode",None) != entries[path].mode:
+                    return failed("staged_change_or_conflict")
+            root = Path(os.fsdecode(self._repo.path)).resolve()
+            observed = set()
+            def walk_error(error):
+                raise error
+            for directory, dirs, files in os.walk(root, followlinks=False, onerror=walk_error):
+                if Path(directory) == root:
+                    dirs[:] = [d for d in dirs if d != ".git"]
+                    files = [f for f in files if f != ".git"]
+                for name in dirs + files:
+                    path = Path(directory)/name
+                    metadata = path.lstat()
+                    if stat.S_ISLNK(metadata.st_mode) or getattr(metadata,"st_file_attributes",0) & 0x400:
+                        return failed("symlink_or_reparse_point")
+                for name in files:
+                    path = Path(directory)/name
+                    relative = path.relative_to(root).as_posix()
+                    if relative not in entries:
+                        return failed("untracked_file")
+                    before = path.stat()
+                    if not stat.S_ISREG(before.st_mode):
+                        return failed("unsupported_worktree_member")
+                    if os.name != "nt" and bool(before.st_mode & 0o111) != (entries[relative].mode == 0o100755):
+                        return failed("executable_mode_changed")
+                    raw = path.read_bytes()
+                    after = path.stat()
+                    if (before.st_size,before.st_mtime_ns,before.st_ino) != (after.st_size,after.st_mtime_ns,after.st_ino):
+                        return failed("worktree_changed_during_observation")
+                    if raw != self._object(entries[relative].oid,b"blob").data:
+                        return failed("worktree_bytes_differ")
+                    observed.add(relative)
+            if observed != set(entries):
+                return failed("missing_worktree_file")
+            if self.resolve_commit("HEAD") != commit or index_path.read_bytes() != original_index:
+                return failed("selection_changed_during_observation")
+            return CheckoutObservation(commit, True, "byte_exact")
+        except (OSError, ValueError, KeyError, AttributeError, UnicodeError):
+            return failed("checkout_evidence_unavailable")
