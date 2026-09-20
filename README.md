@@ -114,7 +114,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 46 core tests and 18 Git/provenance tests; these are bounded
+There are now 46 core tests and 27 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -127,6 +127,15 @@ the live SBC submodule was not modified.
 `validate_configuration` parses the closed TOML key set, checks host-registered
 repository identity, local path containment and input/output separation, and
 validates reference syntax and explicit capabilities/mount mappings. It returns
-an immutable configuration. Git reference resolution, child gitlink validation,
-dirty-state checks and complete BundleValidator provenance composition remain
-pending. These checks do not authorize a request or ratify a baseline.
+an immutable configuration. These checks do not authorize a request or ratify
+a baseline.
+
+`GitCommitReader.resolve_commit` resolves an allowed ref once and peels checked
+annotated tags to an exact SHA-1 commit. Missing refs/objects raise
+GitUnavailableError, separately from invalid syntax or wrong object types.
+`pin_child_mounts` validates explicitly included child gitlinks through their
+immediate registered parent's pinned tree, retaining parent and child identities.
+Included unregistered children fail; unrelated children are not opened.
+Dirty-state and checked-out-child revision checks, exclusion-aware mount
+composition, and complete BundleValidator provenance integration remain pending.
+Committed relationship pins alone do not establish a clean scan.

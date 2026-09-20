@@ -13,6 +13,10 @@ class GitReadError(ValueError):
     """Missing, corrupt, unsafe or unsupported committed evidence."""
 
 
+class GitUnavailableError(GitReadError):
+    """A syntactically valid selection has unavailable refs or objects."""
+
+
 @dataclass(frozen=True)
 class CommittedEntry:
     path: str
@@ -30,7 +34,7 @@ def _path(value):
 
 
 class GitCommitReader:
-    """No ref resolution, checkout, hooks, subprocesses or network acquisition.
+    """No checkout, hooks, subprocesses or network acquisition.
 
     Symlinks and gitlinks are returned as inventory entries and never followed.
     read_blob accepts only regular files. Missing objects fail without fallback.
@@ -48,21 +52,62 @@ class GitCommitReader:
     def __exit__(self, *args):
         self.close()
 
-    def _object(self, oid, kind):
+    def _object(self, oid, kind=None):
         if not isinstance(oid, str) or not re.fullmatch(r"[0-9a-f]{40}", oid):
             raise GitReadError("This query profile requires an exact SHA-1 object ID")
         try:
             obj = self._repo.object_store[oid.encode("ascii")]
             raw = obj.as_raw_string()
             identity = hashlib.sha1(obj.type_name + b" " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
-            if obj.type_name != kind or identity != oid:
+            if (kind is not None and obj.type_name != kind) or identity != oid:
                 raise GitReadError("Committed object type or hash mismatch")
             obj.check()
             return obj
         except GitReadError:
             raise
+        except KeyError as exc:
+            raise GitUnavailableError("Committed object unavailable") from exc
         except Exception as exc:
             raise GitReadError("Committed object unavailable or invalid") from exc
+
+    def resolve_commit(self, selection):
+        """Resolve once, peel annotated tags, then return an exact commit pin.
+
+        SHA-256 repositories remain outside the approved query profile. Missing
+        refs/objects have a distinct error from malformed selections/wrong types.
+        """
+        from .configuration import validate_ref_syntax
+        validate_ref_syntax(selection)
+        if re.fullmatch(r"[0-9a-f]{64}", selection):
+            raise GitReadError("SHA-256 Git is unsupported by this query profile")
+        if re.fullmatch(r"[0-9a-f]{40}", selection):
+            oid = selection
+        else:
+            try:
+                chain, target = self._repo.refs.follow(selection.encode("utf-8"))
+                for ref in chain:
+                    validate_ref_syntax(ref.decode("utf-8"))
+                if target is None:
+                    raise GitUnavailableError("Selected reference unavailable")
+                oid = target.decode("ascii")
+            except GitReadError:
+                raise
+            except Exception as exc:
+                raise GitReadError("Invalid symbolic reference chain") from exc
+        seen, expected = set(), None
+        for _ in range(64):
+            if oid in seen:
+                raise GitReadError("Cyclic tag chain")
+            seen.add(oid)
+            obj = self._object(oid, expected)
+            if obj.type_name == b"commit":
+                return oid
+            if obj.type_name != b"tag":
+                raise GitReadError("Selection does not resolve to a commit")
+            target_type, target_oid = obj.object
+            expected = target_type.type_name
+            oid = target_oid.decode("ascii")
+        raise GitReadError("Tag chain exceeds traversal limit")
 
     def entries(self, commit):
         """Return a deterministic immutable leaf inventory of one exact commit."""

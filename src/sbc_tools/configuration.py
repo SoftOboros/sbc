@@ -32,7 +32,7 @@ def _overlap(a, b):
     return a == b or a.startswith(b + "/") or b.startswith(a + "/")
 
 
-def _ref(value):
+def validate_ref_syntax(value):
     if not isinstance(value, str):
         raise ValueError("Invalid tracked reference")
     if value == "HEAD" or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", value):
@@ -115,6 +115,6 @@ def validate_configuration(raw, *, config_directory, registered_repositories):
         seen_ids.add(child_id)
         normalized.append((path, child_id))
     result = dict(value, source_roots=roots, exclude=excluded, registry_paths=registry,
-                  tracked_ref=_ref(value["tracked_ref"]), capabilities=tuple(capabilities),
+                  tracked_ref=validate_ref_syntax(value["tracked_ref"]), capabilities=tuple(capabilities),
                   submodules=tuple(sorted(normalized)))
     return ResolvedConfiguration(root, MappingProxyType(result))
