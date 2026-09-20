@@ -15,7 +15,7 @@ from sbc_tools.git_reader import GitCommitReader
 from sbc_tools.validation import VerifiedProvenance
 
 
-def commit_files(repo, files):
+def commit_files(repo, files, gitlinks=None):
     nested = {}
     for path, data in files.items():
         node = nested
@@ -23,9 +23,18 @@ def commit_files(repo, files):
         for part in parts[:-1]:
             node = node.setdefault(part, {})
         node[parts[-1]] = data
+    for path, oid in (gitlinks or {}).items():
+        node = nested
+        parts = path.split("/")
+        for part in parts[:-1]:
+            node = node.setdefault(part,{})
+        node[parts[-1]] = (0o160000,oid.encode())
     def tree_for(node):
         tree = Tree()
         for name, value in node.items():
+            if isinstance(value,tuple):
+                tree.add(name.encode(),*value)
+                continue
             obj = tree_for(value) if isinstance(value, dict) else Blob.from_string(value)
             repo.object_store.add_object(obj)
             tree.add(name.encode(), 0o40000 if isinstance(value, dict) else 0o100644, obj.id)

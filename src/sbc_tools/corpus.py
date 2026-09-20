@@ -42,30 +42,9 @@ def inventory_committed_corpus(reader, *, repository_id, commit, source_roots,
     obligation; this primitive never emits VerifiedProvenance by itself.
     Unsupported symlinks/gitlinks in the selected scope fail, not disappear.
     """
-    if (not isinstance(repository_id, str) or not repository_id
-            or unicodedata.normalize("NFC", repository_id) != repository_id):
-        raise ValueError("Invalid registered repository ID")
-    roots, required, excluded = map(_paths, (source_roots, required_files, exclude))
-    if not roots or any(_within(a, b) for a in roots for b in roots if a != b):
-        raise ValueError("Source roots must be nonempty and nonoverlapping")
-    if any(_within(path, e) for path in (*required, *roots) for e in excluded):
-        raise ValueError("Exclusions cannot hide required inputs or whole roots")
-    entries = {e.path: e for e in reader.entries(commit)}
-    for root in roots:
-        if root in entries or not any(p.startswith(root + "/") for p in entries):
-            raise ValueError("Missing committed source directory")
-    if any(path not in entries for path in required):
-        raise ValueError("Missing required committed input")
-    selected = set(required) | {p for p in entries
-        if any(_within(p, root) for root in roots)
-        and not any(_within(p, e) for e in excluded)}
-    records = []
-    for path in sorted(selected):
-        if entries[path].mode not in {0o100644, 0o100755}:
-            raise ValueError("Selected corpus member is not a regular committed file")
-        data = reader.read_blob(commit, path)
-        records.append(CorpusInput(repository_id, path, hashlib.sha256(data).hexdigest()))
-    return tuple(records)
+    return inventory_mounted_corpus(repository_id=repository_id, commit=commit,
+        readers={repository_id:reader}, mounts=(), source_roots=source_roots,
+        required_files=required_files, exclude=exclude).records
 
 
 def corpus_digest(records):
@@ -76,3 +55,61 @@ def corpus_digest(records):
     payload = [{"repository_id": r.repository_id, "path": r.path, "sha256": r.sha256}
                for r in records]
     return hashlib.sha256(canonical_json(payload)).hexdigest()
+
+
+@dataclass(frozen=True)
+class MountedCorpus:
+    records: tuple
+    pins: tuple
+
+
+def inventory_mounted_corpus(*, repository_id, commit, readers, mounts,
+                             source_roots, required_files, exclude=()):
+    """Select in parent-relative coordinates, hash in owning-repository coordinates.
+
+    Every child is opened at the gitlink commit in its immediate pinned parent.
+    Exclusions are literal parent-relative paths; they never hide required files.
+    No checkout files or current child HEADs contribute committed corpus bytes.
+    """
+    from .mounts import pin_child_mounts
+    if (not isinstance(repository_id,str) or not repository_id
+            or unicodedata.normalize("NFC",repository_id) != repository_id):
+        raise ValueError("Invalid registered repository ID")
+    roots, required, excluded = map(_paths,(source_roots,required_files,exclude))
+    if not roots or any(_within(a,b) for a in roots for b in roots if a != b):
+        raise ValueError("Source roots must be nonempty and nonoverlapping")
+    if any(_within(p,e) for p in (*roots,*required) for e in excluded):
+        raise ValueError("Exclusions cannot hide required inputs or whole roots")
+    scopes = tuple(sorted(set((*roots,*required))))
+    pins = pin_child_mounts(root_repository_id=repository_id,root_commit=commit,
+        mounts=mounts,source_roots=scopes,readers=readers,exclude=excluded)
+    mounted_paths = {p.mount_path for p in pins}
+    selections = [("",repository_id,commit)] + [
+        (p.mount_path + "/",p.repository_id,p.child_commit) for p in pins]
+    virtual, directories = {}, set(mounted_paths)
+    for prefix, owner, selected_commit in selections:
+        for entry in readers[owner].entries(selected_commit):
+            path = prefix + entry.path
+            parts = path.split("/")
+            directories.update("/".join(parts[:i]) for i in range(1,len(parts)))
+            if path in mounted_paths and entry.mode == 0o160000:
+                continue
+            if path in virtual:
+                raise ValueError("Conflicting mounted corpus paths")
+            virtual[path] = (owner,selected_commit,entry)
+    if any(root not in directories or root in virtual for root in roots):
+        raise ValueError("Missing committed source directory")
+    if any(path not in virtual for path in required):
+        raise ValueError("Missing required committed input")
+    selected = set(required) | {p for p in virtual if any(_within(p,r) for r in roots)
+                               and not any(_within(p,e) for e in excluded)}
+    records = []
+    for path in sorted(selected):
+        owner, selected_commit, entry = virtual[path]
+        if entry.mode not in {0o100644,0o100755}:
+            raise ValueError("Selected corpus member is not a regular committed file")
+        data = readers[owner].read_blob(selected_commit,entry.path)
+        records.append(CorpusInput(owner,entry.path,hashlib.sha256(data).hexdigest()))
+    # Verify unique ownership now, even when the caller only consumes records.
+    corpus_digest(records)
+    return MountedCorpus(tuple(sorted(records)),pins)

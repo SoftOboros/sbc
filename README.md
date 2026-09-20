@@ -3,7 +3,7 @@
 This separate local repository begins the approved portable implementation.
 Its current implemented surface is the standard-library-only SBCT cursor
 codec, transactional SQLite publication store, extracted projection validators
-and offline committed Git verification for a single source repository.
+and offline committed Git verification for registered source repositories.
 Indexing, query extraction, Django/MCP OAuth and dashboard
 integration are not yet implemented here.
 
@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 46 core tests and 48 Git/provenance tests; these are bounded
+There are now 46 core tests and 55 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -166,11 +166,16 @@ branch, profile, authority approval digest and support-result hashes. The
 `bundle_validator()` factory uses those same roots and profile for semantic
 validation. SQLite revalidates candidates, including ones fabricated by callers.
 
-This initial composition supports a single source repository and separate pinned
-authority repositories. It requires an explicit branch and rejects configured
-child source mounts. Required evidence paths are host-supplied; a production
-profile must register its complete evidence inventory. Child corpus composition,
-producer regeneration and clean-scan admission wiring remain unfinished.
+This composition supports explicit child source mounts and separate pinned
+authority repositories. It requires an explicit branch and host-registered
+readers. `inventory_mounted_corpus` selects files by parent-relative paths but
+hashes them under their owning repository ID and repository-relative path.
+Nested children use the immediate parent's committed gitlink. Exclusions do not
+hide required evidence, and missing history fails without current-HEAD fallback.
+Single-repository inventory delegates to the same implementation. Required
+evidence paths are host-supplied; a production profile must register its complete
+evidence inventory. Producer regeneration and clean-scan admission wiring remain
+unfinished.
 
 Retained verification reads exact source/projection commits and does not depend
 on current HEAD or dirty working files. This proves committed integrity, not that

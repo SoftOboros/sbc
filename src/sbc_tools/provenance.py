@@ -1,4 +1,4 @@
-"""Committed integrity composition for the initial single-source-repository path.
+"""Committed integrity composition for explicitly registered source repositories.
 
 Trusted host construction fixes repositories, configuration, profile and approval
 pins. Verification reads immutable objects, so retained publications do not
@@ -12,7 +12,7 @@ from types import MappingProxyType
 
 from .authority import ROLES, verify_authority_inputs
 from .configuration import validate_configuration
-from .corpus import CorpusInput, corpus_digest, inventory_committed_corpus
+from .corpus import CorpusInput, corpus_digest, inventory_mounted_corpus
 from .identity import copy_files, copy_publication
 from .patches import verify_support_patch
 from .validation import BundleValidator, VerifiedProvenance
@@ -22,13 +22,13 @@ class CommittedProvenanceVerifier:
     """Exact binding of committed projections, configuration, corpus and authority.
 
     No caller-selected repositories, roots, profiles, patches or approval pins.
-    Child source repositories remain unsupported rather than partially verified.
+    Child source repositories use explicitly registered parent gitlink history.
     Authority repositories may be separately registered, with exact manifest pins.
     """
     def __init__(self, *, repository_id, reader, config_path, config_bytes,
                  tracked_branch, profile_path, profile_sha256, patch_path,
                  approved_authority_sha256, approved_support_sha256,
-                 authority_readers, evidence_paths=()):
+                 authority_readers, evidence_paths=(), source_readers=None):
         for digest in (profile_sha256, approved_authority_sha256):
             if not isinstance(digest,str) or not re.fullmatch(r"[0-9a-f]{64}",digest):
                 raise ValueError("Exact trusted profile and authority digests required")
@@ -39,14 +39,16 @@ class CommittedProvenanceVerifier:
             raise ValueError("Duplicate provenance input paths")
         for path in paths:
             copy_files({path:b""})
+        sources = {} if source_readers is None else dict(source_readers)
+        if repository_id in sources and sources[repository_id] is not reader:
+            raise ValueError("Conflicting source repository registration")
+        sources[repository_id] = reader
         configured = validate_configuration(config_bytes,
             config_directory=(reader.checkout_path/config_path).parent,
-            registered_repositories={repository_id:reader.checkout_path})
+            registered_repositories={key:value.checkout_path for key,value in sources.items()})
         config = configured.values
         if config["repository_id"] != repository_id or config["mode"] != "committed":
             raise ValueError("Committed registered repository configuration required")
-        if config["submodules"]:
-            raise ValueError("Child corpus composition is not implemented")
         if not isinstance(tracked_branch,str) or not tracked_branch:
             raise ValueError("Explicit tracked branch required")
         if config["tracked_ref"] != "refs/heads/" + tracked_branch:
@@ -54,9 +56,10 @@ class CommittedProvenanceVerifier:
         if any(p == config["output_root"] or p.startswith(config["output_root"] + "/") for p in paths):
             raise ValueError("Provenance inputs cannot be generated outputs")
         registered = dict(authority_readers)
-        if repository_id in registered and registered[repository_id] is not reader:
-            raise ValueError("Conflicting repository registration")
-        registered[repository_id] = reader
+        for key,value in sources.items():
+            if key in registered and registered[key] is not value:
+                raise ValueError("Conflicting repository registration")
+            registered[key] = value
         self._repository_id, self._reader = repository_id, reader
         self._config_path, self._config_bytes = config_path, bytes(config_bytes)
         self._config, self._branch = config, tracked_branch
@@ -64,6 +67,7 @@ class CommittedProvenanceVerifier:
         self._patch_path, self._authority_sha = patch_path, approved_authority_sha256
         self._support_sha = MappingProxyType(dict(approved_support_sha256))
         self._readers = MappingProxyType(registered)
+        self._sources = MappingProxyType(sources)
         self._required = tuple(sorted(set((*paths,config["authority_manifest"],*config["registry_paths"]))))
 
     def bundle_validator(self):
@@ -90,10 +94,11 @@ class CommittedProvenanceVerifier:
         authority = verify_authority_inputs(raw, approved_manifest_sha256=self._authority_sha,
                                             patch_bytes=patch, readers=self._readers)
         verify_support_patch(authority,patch,approved_result_sha256=self._support_sha)
-        records = inventory_committed_corpus(reader, repository_id=self._repository_id,
-            commit=source, source_roots=self._config["source_roots"],
-            required_files=self._required, exclude=self._config["exclude"])
-        combined = {(r.repository_id,r.path):r for r in records}
+        inventory = inventory_mounted_corpus(repository_id=self._repository_id,
+            commit=source, readers=self._sources, mounts=self._config["submodules"],
+            source_roots=self._config["source_roots"],required_files=self._required,
+            exclude=self._config["exclude"])
+        combined = {(r.repository_id,r.path):r for r in inventory.records}
         # Authority input pins may live outside source roots or in another registered repo.
         manifest = json.loads(raw)
         for group in ROLES:
