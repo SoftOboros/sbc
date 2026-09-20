@@ -2,8 +2,8 @@
 
 This separate local repository begins the approved portable implementation.
 Its current implemented surface is the standard-library-only SBCT cursor
-codec and transactional SQLite publication store. Indexing, query extraction,
-full bundle validation, Django/MCP OAuth and dashboard
+codec, transactional SQLite publication store and extracted projection validators.
+Indexing, query extraction, committed-source verification, Django/MCP OAuth and dashboard
 integration are not yet implemented here.
 
 The governing SBCT documents remain in their existing authoring home until
@@ -37,7 +37,7 @@ BSD-3-Clause; future dependencies retain their own notices.
 SQLiteSnapshotStore requires an explicitly supplied BundleValidator. There is
 no permissive default: the host's validator must verify the approved complete
 bundle, content identity, authority/profile and committed-publication binding.
-The storage tests use a synthetic exact-byte validator, not SIDX validation.
+Storage tests cover both a synthetic validator and extracted SIDX semantics.
 This storage slice is not yet a runnable ingest/query product.
 
 Publication and replay keys are scoped by repository. BEGIN IMMEDIATE serializes
@@ -52,3 +52,21 @@ retained publications or implement projection reset/garbage collection.
 It only creates and writes sbct-prefixed tables; unrelated identity tables are
 outside its operations. Filesystem power-loss durability and full Django/store
 parity remain acceptance work.
+
+## Projection validation
+
+BundleValidator checks the c6-v3 object/location/diagnostic triple using 46
+helpers extracted from the approved ingest Git blob
+`d77b462102367d143a4d1d204df3df7dd586d193`. The extraction script verifies the
+source blob and reproduces the module; corpus roots are explicit per instance.
+Validation reads only supplied bytes and requires a trusted host provenance
+verifier for committed bytes, approved authority/profile and corpus identity.
+There is no default verifier. Tests use synthetic provenance; Git verification
+and production-history acceptance are still outstanding.
+
+The five historical producer vectors use pretty-printed diagnostic JSON, which
+the pinned ingest validator rejects. Tests retain those exact rejection cases
+and separately adapt diagnostic formatting and family byte hashes for successful
+semantic/store integration. The original ingest validation agrees on all ten
+outcomes. Producer/ingest wire-format reconciliation remains open; these tests
+do not establish end-to-end indexing acceptance or close runtime gates.
