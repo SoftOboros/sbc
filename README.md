@@ -1,8 +1,31 @@
 # Spec Before Code (SBC)
 
+<p align="center">
+  <a href="assets/sbc-spec-before-code.png">
+    <img src="assets/sbc-spec-before-code.png" alt="Spec Before Code: specifications and conformance gates guiding an AI agent's code generation" width="900">
+  </a>
+</p>
+
 A portable, standards-body-style planning discipline for multi-phase software initiatives,
 designed to survive agent context resets, weak model executors, and cross-team vocabulary
 drift.
+
+## Prerelease status and release direction
+
+This repository is public and developed on `main`. Guiding documents and
+incomplete work are shared there as prerelease material; each document's own
+status identifies its approval state. Release tags will identify release
+milestones.
+
+The first release goal for the supporting tools is a working, limited indexing
+and dashboard set that can be used in an independent repository. The shared
+core and public interfaces should support maximum reuse by downstream hosts,
+while internal production policy, identity integrations, and deployment
+configuration remain in those hosts. Supporting tooling is planned for a
+separate repository; this repository remains the home of the SBC discipline.
+
+The guiding documents are available now. Their publication does not claim that
+the indexing or dashboard implementation is complete.
 
 ## What it is
 
