@@ -105,7 +105,7 @@ host-supplied approval digest, the closed role inventory, canonical ordering,
 committed file identities and reviewed-patch hash. It returns immutable base
 file bytes. Matching hashes do not establish approval: the expected manifest
 digest must come from the owner's approved baseline. Patch application and
-resulting support-file identities are separate pending checks; the intermediate
+resulting support-file identities are separate checks described below; the intermediate
 result cannot satisfy BundleValidator's provenance interface.
 
 `inventory_committed_corpus` includes every nonexcluded file under explicit
@@ -114,5 +114,19 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 36 core tests and 18 Git/provenance tests; these are bounded
+There are now 46 core tests and 18 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
+
+`verify_support_patch` applies the approved support-only unified patch entirely
+in memory, with exact context and hunk positions, no fuzzy matching, and trusted
+result hashes. It rejects renames, duplicate file sections, missing support roles
+and changes outside AGENTS.md, CLAUDE.md and README.md. The recorded operational
+patch reproduced all three staged reconciliation files exactly in a local probe;
+the live SBC submodule was not modified.
+
+`validate_configuration` parses the closed TOML key set, checks host-registered
+repository identity, local path containment and input/output separation, and
+validates reference syntax and explicit capabilities/mount mappings. It returns
+an immutable configuration. Git reference resolution, child gitlink validation,
+dirty-state checks and complete BundleValidator provenance composition remain
+pending. These checks do not authorize a request or ratify a baseline.
