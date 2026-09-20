@@ -40,23 +40,13 @@ def publication(files, commit="a"):
     return p
 
 
-def ingest_files(case):
-    """Adapt only diagnostic wire formatting; preserve all semantic payloads.
+WIRE_FIXTURES = json.loads((Path(__file__).parent / "fixtures/projection-wire-vectors.json").read_bytes())
 
-    Historical producer vectors are pretty-printed. Pinned ingestion requires
-    compact diagnostic JSON and matching family byte hashes. Keep the originals
-    unchanged so their rejection remains an explicit compatibility witness.
-    """
-    files = {p: s.encode() for p, s in case["files"].items()}
-    for path in files:
-        if path.startswith("diagnostics/") and not path.endswith("_manifest.json"):
-            files[path] = canonical_json(json.loads(files[path]))
-    manifest = json.loads(files["diagnostics/_manifest.json"])
-    for descriptor in manifest["families"]:
-        descriptor["sha256"] = hashlib.sha256(
-            files["diagnostics/" + descriptor["filename"]]).hexdigest()
-    files["diagnostics/_manifest.json"] = canonical_json(manifest)
-    return files
+
+def ingest_files(case):
+    """Exact pinned emitter bytes; historical serialization remains unchanged."""
+    wire = next(c for c in WIRE_FIXTURES["cases"] if c["name"] == case["name"])
+    return {p: s.encode() for p, s in wire["files"].items()}
 
 
 class ValidationTests(unittest.TestCase):

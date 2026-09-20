@@ -1,0 +1,6 @@
+# Use this hash-constrained installation path, not an unconstrained extra.
+--only-binary=:all:
+--require-hashes
+dulwich==1.2.15 --hash=sha256:5c863992962bab0fc5f75be132399a16f670f2a9283faf9aaeb953fd8891db83
+urllib3==2.8.0 --hash=sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3
+typing_extensions==4.16.0 ; python_version < "3.12" --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8

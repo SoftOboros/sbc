@@ -2,7 +2,8 @@
 
 This separate local repository begins the approved portable implementation.
 Its current implemented surface is the standard-library-only SBCT cursor
-codec, transactional SQLite publication store and extracted projection validators.
+codec, transactional SQLite publication store, extracted projection validators
+and an offline committed Git reader.
 Indexing, query extraction, committed-source verification, Django/MCP OAuth and dashboard
 integration are not yet implemented here.
 
@@ -64,9 +65,36 @@ verifier for committed bytes, approved authority/profile and corpus identity.
 There is no default verifier. Tests use synthetic provenance; Git verification
 and production-history acceptance are still outstanding.
 
-The five historical producer vectors use pretty-printed diagnostic JSON, which
-the pinned ingest validator rejects. Tests retain those exact rejection cases
-and separately adapt diagnostic formatting and family byte hashes for successful
-semantic/store integration. The original ingest validation agrees on all ten
-outcomes. Producer/ingest wire-format reconciliation remains open; these tests
-do not establish end-to-end indexing acceptance or close runtime gates.
+The five historical golden vectors stored pretty-printed diagnostic JSON, which
+the pinned ingest validator rejects. Reproduction with the exact pinned producer
+emitters confirms that the producer emits the required compact bytes and the
+recorded family hashes already match. The mismatch was in golden serialization,
+not producer behavior. Tests retain the historical rejection cases and use
+`projection-wire-vectors.json` for successful semantic/store integration.
+`tools/reproduce_wire_vectors.py` verifies producer blobs and reproduces these
+bytes from the historical semantic payloads; it does not perform a full rescan.
+This correction supersedes the compatibility diagnosis in commit 892438e.
+
+## Offline Git evidence
+
+GitCommitReader inventories an exact SHA-1 commit, reads regular committed files
+and verifies complete projection subtree membership and bytes. It ignores dirty
+working files, rejects missing or corrupt objects and never follows symlinks or
+submodule entries. Gitlinks remain explicit inventory entries for later relation
+handling. No Git executable, hooks or network acquisition are used.
+
+The optional reader requires the audited pure Python provider. Install it with
+`python -m pip install -r requirements-git.txt`; the pinned hashes select only
+the approved universal wheels. Do not substitute an unconstrained installation
+or native wheel. Core validation and storage still have no third-party runtime
+dependencies. To test existing audited wheel files without installation:
+
+```powershell
+python -I -S tools/check_git_provider.py C:/path/to/audited-wheels
+```
+
+Eight provider tests reject process/network operations and exercise real local
+Git objects. Full authority-manifest validation, complete authoritative corpus
+inventory, packed/shallow and submodule repository coverage remain pending.
+This reader is a provenance primitive, not the BundleValidator's complete
+trusted provenance verifier. Runtime gates remain open.
