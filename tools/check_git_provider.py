@@ -20,12 +20,9 @@ def reject_process_and_network(event, args):
         raise RuntimeError("Offline provider test rejected " + event)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("wheel_directory", type=Path)
-    args = parser.parse_args()
+def load_verified_wheels(wheel_directory):
     for name, expected in PINS.items():
-        path = args.wheel_directory/name
+        path = wheel_directory/name
         if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
             raise ValueError("Unapproved wheel bytes")
         with zipfile.ZipFile(path) as archive:
@@ -33,6 +30,13 @@ if __name__ == "__main__":
                    for member in archive.namelist()):
                 raise ValueError("Native archive member")
         sys.path.insert(0, str(path.resolve()))
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("wheel_directory", type=Path)
+    args = parser.parse_args()
+    load_verified_wheels(args.wheel_directory)
     root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(root/"src"))
     sys.addaudithook(reject_process_and_network)

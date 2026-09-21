@@ -189,3 +189,21 @@ during verification reject admission. This operation neither generates files nor
 publishes a snapshot. Its result is a bounded scan-start observation, not a lock,
 authorization grant or renewable lease; producer execution must read the pinned
 committed bytes. Retained verification deliberately does not perform admission.
+
+## Producer extraction reference
+
+`tools/regenerate_reference_vectors.py` builds fixture Git commits from the five
+original source cases, reads those bytes through GitCommitReader, and runs the
+exact pinned producer's scan, object/diagnostic build, location build and bundle
+validation. Every emitted byte matches the corrected wire vectors, including
+malformed-gate and duplicate-invariant cases. Run it with:
+
+```powershell
+python -I -S tools/regenerate_reference_vectors.py C:/path/to/pinned/scripts/specidx C:/path/to/audited-wheels
+```
+
+The harness verifies source blobs and pure-wheel hashes and blocks process and
+network calls. It writes only temporary fixture repositories and materialized
+inputs. This is a full-regeneration reference witness, not the extracted portable
+producer or the scan CLI. Archive coverage, configurable producer scopes and
+admitted-source-to-producer wiring remain extraction work.

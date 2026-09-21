@@ -11,7 +11,7 @@ PINS = {"scan.py": "551c0ab7d70f82ad9e6fdfd99ef57a1ff78aeabb",
         "locations.py": "31217a012c99785cd0bda3cae3a3d9feb3cf33d5",
         "suspect.py": "d4da35b954285f757e03add62c5087765a754b88"}
 
-def reproduce(source):
+def load_pinned_scanner(source):
     for name, expected in PINS.items():
         raw = (source/name).read_bytes()
         actual = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
@@ -22,6 +22,11 @@ def reproduce(source):
     scanner = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = scanner
     spec.loader.exec_module(scanner)
+    return scanner
+
+
+def reproduce(source):
+    scanner = load_pinned_scanner(source)
     fixtures = Path(__file__).resolve().parents[1]/"tests/fixtures"
     historical = json.loads((fixtures/"projection-vectors.json").read_bytes())
     cases = []
