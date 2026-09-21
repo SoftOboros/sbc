@@ -4,7 +4,7 @@ import json
 
 from .canonical import canonical_json
 from .git_reader import GitUnavailableError
-from .provenance import ReferenceUnavailableError
+from .provenance import ReferenceUnavailableError, ScanPublicationError
 
 
 _ERRORS = {
@@ -80,25 +80,41 @@ def check_envelope(checked):
                          for p,b in sorted(candidate.files.items())]}}
 
 
-def execute_check(verifier, *, document_families, archive_families):
-    """Run the committed host operation and map failures without raw error text.
+def scan_envelope(candidate):
+    findings = _findings(candidate)
+    return {'schema_version':1, 'command':'scan', 'mode':'committed',
+            'status':'findings' if findings else 'ok', 'exit_code':int(bool(findings)),
+            'selection':_selection(candidate,None), 'findings':findings, 'error':None,
+            'result':{'publication':'published','comparison':'not_applicable',
+                'files':[{'path':p,'sha256':hashlib.sha256(b).hexdigest()}
+                         for p,b in sorted(candidate.files.items())]}}
 
-    Host construction/configuration validation precedes this function. Hosts can
-    use CommandFailure at known boundaries; unclassified failures are internal.
-    """
+
+def execute_check(verifier, **routing):
+    return _execute(verifier,'check',routing)
+
+
+def execute_scan(verifier, **routing):
+    return _execute(verifier,'scan',routing)
+
+
+def _execute(verifier, command, routing):
     try:
-        return check_envelope(verifier.check_source(document_families=document_families,
-                                                     archive_families=archive_families))
+        if command == 'scan':
+            return scan_envelope(verifier.scan_source(**routing))
+        return check_envelope(verifier.check_source(**routing))
+    except ScanPublicationError as exc:
+        return failure_envelope(exc.code,command=command,mode='committed',candidate=exc.candidate)
     except ReferenceUnavailableError as exc:
-        return failure_envelope('evidence_unavailable',command='check',mode='committed',candidate=exc.candidate)
+        return failure_envelope('evidence_unavailable',command=command,mode='committed',candidate=exc.candidate)
     except CommandFailure as exc:
-        return failure_envelope(exc.code,command='check',mode='committed')
+        return failure_envelope(exc.code,command=command,mode='committed')
     except GitUnavailableError:
-        return failure_envelope('evidence_unavailable',command='check',mode='committed')
+        return failure_envelope('evidence_unavailable',command=command,mode='committed')
     except OSError:
-        return failure_envelope('io_failure',command='check',mode='committed')
+        return failure_envelope('io_failure',command=command,mode='committed')
     except Exception:
-        return failure_envelope('internal_failure',command='check',mode='committed')
+        return failure_envelope('internal_failure',command=command,mode='committed')
 
 
 def render_envelope(envelope, *, format='text'):

@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 84 core tests and 75 Git/provenance tests; these are bounded
+There are now 84 core tests and 80 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -286,7 +286,7 @@ it does not write streams or terminate the process. The developer-only
 schema using jsonschema; this is not a runtime dependency.
 
 `python -m sbc_tools` and the packaged `sbc-tools` entry point now provide strict
-argument parsing, help/version and a host-backed committed check dispatcher.
+argument parsing, help/version and host-backed committed scan/check dispatch.
 Unknown/abbreviated/repeated flags and conflicting invocations return exit 2.
 Help/version do not load a repository. Package version comes from `__version__`.
 
@@ -294,18 +294,18 @@ An embedding application calls `cli.main(argv, load_host=loader)`; its trusted
 loader receives the explicit configuration path and returns a context manager
 for `CommittedCheckHost(verifier, document_families, archive_families)`. The loader
 owns validation of that configuration, approval pins and reader cleanup. The
-verifier's configured `check` capability must be enabled. Neither TOML nor CLI
+verifier's configured command capability must be enabled. Neither TOML nor CLI
 arguments can select Python plugins or turn manifest hashes into approvals.
 
 The default entry point has no host loader and fails repository operations with
-`invalid_configuration`; it is not yet a standalone operational CLI. `scan`
-likewise fails until atomic publication is integrated. Host configuration and
-approval loading, working-tree execution, scan publication and full CLI
+`invalid_configuration`; it is not yet a standalone operational CLI. Host configuration and
+approval loading, working-tree execution and full CLI
 conformance remain open. JSON output is written as UTF-8 bytes, once, after host
 cleanup. Cleanup failure overrides completion while retaining available findings.
 
 `DirectoryProjectionStore` supplies the local complete-bundle publication
-primitive. A host provides an existing output directory and a semantic validator.
+primitive. A host provides an output directory and a semantic validator; explicit
+creation checks existing ancestors before creating missing directory components.
 Publication validates the candidate, writes a uniquely named bundle, flushes its
 files, rereads and revalidates every byte, then uses `os.replace` to switch
 `current.json`. It never overwrites a prior bundle. Readers load one pointer and
@@ -319,6 +319,17 @@ Concurrent writers use last-switch-wins semantics; this store is distinct from
 the transactional snapshot store's generation checks. Failed staging directories
 are retained and never selected; cleanup is not implemented.
 
-CLI scan wiring and reconciliation between this selected-directory layout and
-the committed reference payload layout remain open. This primitive does not
-claim committed provenance, a release, or cross-platform runtime acceptance.
+`scan_source` now publishes at the configured output root, and the host CLI reports
+the candidate identity with a null projection commit. The operation creates no
+Git commit. Commit the selected directory and pointer before committed `check`:
+clean admission deliberately rejects uncommitted generated output. After a
+commit, comparison and retained snapshot validation read the selected payloads
+through the same pointer/manifest decoder used for local reads. Retained bundle
+directories do not enter the selected payload identity.
+
+Existing flat committed triples remain readable. A mixed flat/selected layout is
+rejected, and scan requires explicit migration of flat output instead of silently
+overwriting it. Corrupt selection metadata never falls back to another bundle.
+Five integration tests cover scan/commit/check/SQLite publication, failed switch,
+corrupt pointers, ambiguous layouts and retained bundles. No release or
+cross-platform runtime acceptance is claimed.

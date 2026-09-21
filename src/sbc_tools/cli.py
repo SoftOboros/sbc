@@ -8,7 +8,7 @@ from dataclasses import dataclass
 import sys
 
 from . import __version__
-from .cli_results import CommandFailure, execute_check, failure_envelope, render_envelope
+from .cli_results import CommandFailure, execute_check, execute_scan, failure_envelope, render_envelope
 from .git_reader import GitUnavailableError
 from .provenance import CommittedProvenanceVerifier
 
@@ -53,11 +53,10 @@ class CommittedCheckHost:
     archive_families: object
 
     def execute(self, invocation):
-        if invocation.command != 'check':
+        if not self.verifier.supports(invocation.command):
             raise CommandFailure('invalid_configuration')
-        if not self.verifier.supports('check'):
-            raise CommandFailure('invalid_configuration')
-        return execute_check(self.verifier,document_families=self.document_families,
+        execute = execute_scan if invocation.command == 'scan' else execute_check
+        return execute(self.verifier,document_families=self.document_families,
                              archive_families=self.archive_families)
 
 
@@ -77,7 +76,7 @@ def main(argv=None, *, load_host=None, stdout=None):
     if args in (['--help'],['check','--help'],['scan','--help']):
         output.write(b'Usage: sbc-tools {scan,check} --config PATH [--format text|json]\n'
                      b'Options: --help, --version\n'
-                     b'Prerelease: check requires an explicit trusted host; scan is not implemented.\n')
+                     b'Prerelease: repository operations require an explicit trusted host.\n')
         return 0
     if args == ['--version']:
         output.write(('sbc-tools '+__version__+'\n').encode('utf-8'))

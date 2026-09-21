@@ -4,7 +4,7 @@ import json
 from types import SimpleNamespace
 import unittest
 
-from sbc_tools.cli_results import (CommandFailure, check_envelope, execute_check,
+from sbc_tools.cli_results import (CommandFailure, check_envelope, scan_envelope, execute_check,
                                    failure_envelope, render_envelope)
 from sbc_tools.git_reader import GitUnavailableError
 from sbc_tools.projections import build_projection_files
@@ -28,7 +28,8 @@ def sample_envelopes():
             check_envelope(CheckedProjection(noisy,'6'*40,())),
             failure_envelope('evidence_unavailable',command='check',mode='committed',candidate=noisy),
             *[failure_envelope(code) for code in ('invalid_invocation','invalid_configuration',
-                'invalid_authority','evidence_unavailable','io_failure','internal_failure')]]
+                'invalid_authority','evidence_unavailable','io_failure','internal_failure')],
+            scan_envelope(quiet), scan_envelope(noisy)]
 
 
 class CLIResultTests(unittest.TestCase):

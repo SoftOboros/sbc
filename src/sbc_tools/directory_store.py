@@ -2,7 +2,7 @@
 
 Trusted local directory ownership is required. This is not an OS sandbox or a
 power-loss durability guarantee. Unselected staging directories are retained;
-garbage collection and Git projection-layout integration are separate work.
+garbage collection is separate work.
 """
 import hashlib
 import json
@@ -42,11 +42,13 @@ class DirectoryProjectionStore:
     Readers load the pointer once and return copied, revalidated bytes. Retained
     views remain pinned after later switches. No operation overwrites a bundle.
     """
-    def __init__(self, root, validator):
+    def __init__(self, root, validator, *, create=False):
         if not callable(getattr(validator,'validate_files',None)):
             raise ValueError('Semantic validator required')
         self.root = Path(os.path.abspath(root))
         for path in reversed((self.root,*self.root.parents)):
+            if create and not os.path.lexists(path):
+                path.mkdir()
             _safe_existing(path,directory=True)
         self.validator = validator
 
@@ -92,52 +94,55 @@ class DirectoryProjectionStore:
         return self._read(path.read_bytes())
 
     def _read(self, raw):
-        pointer = json.loads(raw)
-        if (set(pointer) != {'bundle','manifest_sha256'} or canonical_json(pointer) != raw
-                or not isinstance(pointer['bundle'],str)
-                or not re.fullmatch(r'bundle-[0-9a-f]{32}',pointer['bundle'])):
-            raise ValueError('Invalid selection pointer')
-        bundle = self.root/pointer['bundle']
-        _safe_existing(bundle,directory=True)
-        manifest_path = bundle/'manifest.json'
-        _safe_existing(manifest_path,directory=False)
-        manifest_raw = manifest_path.read_bytes()
-        if hashlib.sha256(manifest_raw).hexdigest() != pointer['manifest_sha256']:
-            raise ValueError('Manifest integrity mismatch')
-        manifest = json.loads(manifest_raw)
-        if set(manifest) != {'files'} or canonical_json(manifest) != manifest_raw:
-            raise ValueError('Invalid bundle manifest')
-        rows = manifest['files']
-        if not isinstance(rows,list):
-            raise ValueError('Invalid bundle members')
-        files = {}
-        content = bundle/'files'
-        _safe_existing(content,directory=True)
-        for row in rows:
-            if not isinstance(row,dict) or set(row) != {'path','sha256'}:
-                raise ValueError('Invalid member descriptor')
-            path = row['path']
-            copy_files({path:b''})
-            if path in files:
-                raise ValueError('Duplicate bundle member')
-            target = content
-            for part in path.split('/')[:-1]:
-                target = target/part
-                _safe_existing(target,directory=True)
-            target = target/path.split('/')[-1]
-            _safe_existing(target,directory=False)
-            data = target.read_bytes()
-            if hashlib.sha256(data).hexdigest() != row['sha256']:
-                raise ValueError('Projection integrity mismatch')
-            files[path] = data
-        actual = set()
-        for directory, dirs, names in os.walk(content,followlinks=False,onerror=_walk_error):
+        paths = set()
+        # Validate directories without following symlinks/reparse points.
+        for directory, dirs, names in os.walk(self.root,followlinks=False,onerror=_walk_error):
             for name in dirs:
                 _safe_existing(Path(directory)/name,directory=True)
             for name in names:
                 path = Path(directory)/name
                 _safe_existing(path,directory=False)
-                actual.add(path.relative_to(content).as_posix())
-        if actual != set(files):
-            raise ValueError('Unlisted bundle members')
-        return MappingProxyType(self._checked(files))
+                paths.add(path.relative_to(self.root).as_posix())
+        def read(path):
+            return (self.root/path).read_bytes()
+        return MappingProxyType(self._checked(read_selected_bundle(raw,read,paths)))
+
+
+def read_selected_bundle(raw, read, paths):
+    """Decode one selected bundle using disk or exact committed byte access."""
+    pointer = json.loads(raw)
+    if (not isinstance(pointer,dict) or set(pointer) != {'bundle','manifest_sha256'} or canonical_json(pointer) != raw
+            or not isinstance(pointer['bundle'],str)
+            or not re.fullmatch(r'bundle-[0-9a-f]{32}',pointer['bundle'])):
+        raise ValueError('Invalid selection pointer')
+    bundle = pointer['bundle']
+    manifest_raw = read(bundle + '/manifest.json')
+    if hashlib.sha256(manifest_raw).hexdigest() != pointer['manifest_sha256']:
+        raise ValueError('Manifest integrity mismatch')
+    manifest = json.loads(manifest_raw)
+    if not isinstance(manifest,dict) or set(manifest) != {'files'} or canonical_json(manifest) != manifest_raw:
+        raise ValueError('Invalid bundle manifest')
+    rows = manifest['files']
+    if not isinstance(rows,list):
+        raise ValueError('Invalid bundle members')
+    files = {}
+    content = bundle + '/files/'
+    for row in rows:
+        if not isinstance(row,dict) or set(row) != {'path','sha256'}:
+            raise ValueError('Invalid member descriptor')
+        path = row['path']
+        if not isinstance(path,str):
+            raise ValueError('Invalid member path')
+        copy_files({path:b''})
+        if path in files:
+            raise ValueError('Duplicate bundle member')
+        data = read(content + path)
+        if hashlib.sha256(data).hexdigest() != row['sha256']:
+            raise ValueError('Projection integrity mismatch')
+        files[path] = data
+    actual = {p[len(content):] for p in paths if p.startswith(content)}
+    if {p for p in paths if p.startswith(bundle + '/')} != {content+p for p in files} | {bundle+'/manifest.json'}:
+        raise ValueError('Unlisted selected-bundle members')
+    if actual != set(files):
+        raise ValueError('Unlisted bundle members')
+    return files

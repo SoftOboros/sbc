@@ -47,6 +47,12 @@ class ReferenceUnavailableError(ValueError):
         self.candidate = candidate
 
 
+class ScanPublicationError(ValueError):
+    def __init__(self, candidate, code):
+        super().__init__('Projection publication failed.')
+        self.candidate, self.code = candidate, code
+
+
 @dataclass(frozen=True)
 class CheckedProjection:
     """Candidate identity remains distinct from the committed reference."""
@@ -129,7 +135,8 @@ class CommittedProvenanceVerifier:
             raise ValueError("Publication does not match trusted host context")
         source = publication["source_commit"]
         proof = self._verify_source(source)
-        self._reader.verify_files(publication["projection_commit"],self._config["output_root"],files)
+        if dict(self._committed_projection(publication['projection_commit'])) != files:
+            raise ValueError('Committed projection bytes mismatch')
         return proof
 
     def admit_source(self):
@@ -206,21 +213,51 @@ class CommittedProvenanceVerifier:
         candidate = self.generate_source(document_families=document_families,
                                          archive_families=archive_families)
         commit = candidate.admission.source_commit
-        prefix = self._config['output_root'] + '/'
         try:
-            reference = {}
-            for entry in self._reader.entries(commit):
-                if not entry.path.startswith(prefix):
-                    continue
-                if entry.mode not in {0o100644,0o100755}:
-                    raise ValueError('Reference contains unsupported entries')
-                reference[entry.path[len(prefix):]] = self._reader.read_blob(commit,entry.path)
-            reference = self.bundle_validator().validate_files(reference)
+            reference = self._committed_projection(commit)
         except (GitReadError, OSError, ValueError, IngestError):
             raise ReferenceUnavailableError(candidate) from None
         changed = tuple(sorted(p for p in set(reference) | set(candidate.files)
                                if reference.get(p) != candidate.files.get(p)))
         return CheckedProjection(candidate,commit,changed)
+
+    def _committed_projection(self, commit):
+        from .directory_store import read_selected_bundle
+        prefix = self._config['output_root'] + '/'
+        files = {}
+        for entry in self._reader.entries(commit):
+            if not entry.path.startswith(prefix):
+                continue
+            if entry.mode not in {0o100644,0o100755}:
+                raise ValueError('Reference contains unsupported entries')
+            files[entry.path[len(prefix):]] = self._reader.read_blob(commit,entry.path)
+        if 'current.json' in files:
+            if any(p.startswith(('index/','locations/','diagnostics/')) for p in files):
+                raise ValueError('Ambiguous flat and selected projection layouts')
+            try:
+                files = read_selected_bundle(files['current.json'],files.__getitem__,set(files))
+            except KeyError:
+                raise ValueError('Incomplete selected projection') from None
+        return self.bundle_validator().validate_files(files)
+
+    def scan_source(self, *, document_families, archive_families):
+        """Generate and publish at the configured output root; no Git commit."""
+        from .directory_store import DirectoryProjectionStore
+        from ._sidx_validation import IngestError
+        candidate = self.generate_source(document_families=document_families,
+                                         archive_families=archive_families)
+        try:
+            root = self._reader.checkout_path/self._config['output_root']
+            # Flat tracked payloads require explicit migration, never a mixed layout.
+            if any((root/name).exists() for name in ('index','locations','diagnostics')):
+                raise ValueError('Flat output layout requires migration before scan')
+            store = DirectoryProjectionStore(root,self.bundle_validator(),create=True)
+            store.publish(candidate.files)
+        except OSError:
+            raise ScanPublicationError(candidate,'io_failure') from None
+        except (ValueError,IngestError):
+            raise ScanPublicationError(candidate,'internal_failure') from None
+        return candidate
 
     def _source_inputs(self, source):
         reader = self._reader
