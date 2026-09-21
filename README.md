@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 84 core tests and 80 Git/provenance tests; these are bounded
+There are now 84 core tests and 86 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -298,8 +298,8 @@ verifier's configured command capability must be enabled. Neither TOML nor CLI
 arguments can select Python plugins or turn manifest hashes into approvals.
 
 The default entry point has no host loader and fails repository operations with
-`invalid_configuration`; it is not yet a standalone operational CLI. Host configuration and
-approval loading, working-tree execution and full CLI
+`invalid_configuration`; it is not yet a standalone operational CLI. Default
+registration/approval discovery, working-tree execution and full CLI
 conformance remain open. JSON output is written as UTF-8 bytes, once, after host
 cleanup. Cleanup failure overrides completion while retaining available findings.
 
@@ -333,3 +333,28 @@ overwriting it. Corrupt selection metadata never falls back to another bundle.
 Five integration tests cover scan/commit/check/SQLite publication, failed switch,
 corrupt pointers, ambiguous layouts and retained bundles. No release or
 cross-platform runtime acceptance is claimed.
+
+`HostRegistration` and `RegisteredHostLoader` now provide explicit host loading
+without extending the ratified TOML schema. Register the root and authority
+repository paths, exact configuration bytes, approval/profile pins, support
+hashes, evidence paths and family mappings in trusted application code. The
+registration copies mutable mappings. A requested config path must match one
+registration before it is read, must not resolve through a different path, and
+must still contain the registered bytes. Unknown or changed configurations fail.
+
+The loader opens only registered offline Git readers and owns their cleanup with
+an exit stack, including partial-open and construction failures. It supplies the
+same verifier/host used by the CLI:
+
+```python
+from sbc_tools.cli import main
+from sbc_tools.host import RegisteredHostLoader
+
+# registrations are HostRegistration objects supplied by the trusted application.
+raise SystemExit(main(load_host=RegisteredHostLoader(registrations)))
+```
+
+This is an explicit in-process API, not a new settings file, environment-variable
+protocol or Python plugin selected by repository content. It does not establish
+that a supplied digest was approved. A default standalone registration channel
+still needs an explicit contract; the unconfigured console entry fails closed.
