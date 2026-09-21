@@ -18,6 +18,7 @@ from .identity import copy_files, copy_publication
 from .patches import verify_support_patch
 from .mounts import observe_checkout_tree
 from .validation import BundleValidator, VerifiedProvenance
+from .canonical import canonical_json
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,15 @@ class AdmittedSource:
     profile_sha256: str
     provenance: VerifiedProvenance
     checkout: object
+
+
+@dataclass(frozen=True)
+class GeneratedProjection:
+    """Semantically checked generation result; not a committed publication."""
+    admission: AdmittedSource
+    snapshot_id: str
+    files: object
+    location_diagnostics: bytes
 
 
 class CommittedProvenanceVerifier:
@@ -122,6 +132,46 @@ class CommittedProvenanceVerifier:
         return AdmittedSource(self._repository_id,source,self._profile_sha,proof,after)
 
     def _verify_source(self, source):
+        return self._source_inputs(source)[0]
+
+    def generate_source(self, *, document_families, archive_families):
+        """Admit and generate from pinned bytes with explicit host family routing.
+
+        Every selected Markdown file needs a family; caller omissions fail.
+        Prefixes come only from configured committed registry files. Source roots
+        are visited in configuration order, with paths sorted within each root.
+        No files, refs, commits or store selections are written by this operation.
+        """
+        from . import _producer_parser as producer
+        from .projections import build_projection_files
+        admission = self.admit_source()
+        proof, inventory = self._source_inputs(admission.source_commit)
+        if proof != admission.provenance or inventory.pins != admission.checkout.pins:
+            raise ValueError("Admitted source inventory changed")
+        ordered = [p for root in self._config['source_roots'] for p in sorted(inventory.files)
+                   if p.startswith(root + '/')]
+        documents = [p for p in ordered if p.endswith('.md')]
+        families = dict(document_families)
+        if set(families) != set(documents):
+            raise ValueError("Explicit family routing must cover the exact Markdown corpus")
+        prefixes = set()
+        for path in self._config['registry_paths']:
+            prefixes.update(producer._registered_invariant_prefixes(
+                inventory.files[path].decode('utf-8', errors='replace')))
+        files, diagnostics = build_projection_files(
+            [(p, families[p], inventory.files[p]) for p in documents],
+            registered_prefixes=prefixes,
+            archives={p:inventory.files[p] for p in ordered if p.endswith('.zip')},
+            archive_families=archive_families)
+        checked = self.bundle_validator().validate_files(files)
+        snapshot = {'authority_manifest_sha256':proof.authority_manifest_sha256,
+                    'corpus_sha256':proof.corpus_sha256,
+                    'files':[{'path':p,'sha256':hashlib.sha256(b).hexdigest()}
+                             for p,b in sorted(checked.items())]}
+        return GeneratedProjection(admission,hashlib.sha256(canonical_json(snapshot)).hexdigest(),
+                                   checked,canonical_json(diagnostics))
+
+    def _source_inputs(self, source):
         reader = self._reader
         if reader.read_blob(source,self._config_path) != self._config_bytes:
             raise ValueError("Committed configuration differs from trusted configuration")
@@ -148,4 +198,4 @@ class CommittedProvenanceVerifier:
                 if key in combined and combined[key] != record:
                     raise ValueError("Conflicting corpus identity across authority revisions")
                 combined[key] = record
-        return VerifiedProvenance(corpus_digest(combined.values()), authority.manifest_sha256)
+        return VerifiedProvenance(corpus_digest(combined.values()), authority.manifest_sha256), inventory

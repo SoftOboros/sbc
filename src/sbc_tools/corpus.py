@@ -6,6 +6,7 @@ source roots, resolve child mounts or authorize a semantic profile.
 from dataclasses import dataclass
 import hashlib
 import unicodedata
+from types import MappingProxyType
 
 from .canonical import canonical_json
 from .identity import copy_files
@@ -61,6 +62,7 @@ def corpus_digest(records):
 class MountedCorpus:
     records: tuple
     pins: tuple
+    files: object
 
 
 def inventory_mounted_corpus(*, repository_id, commit, readers, mounts,
@@ -103,13 +105,14 @@ def inventory_mounted_corpus(*, repository_id, commit, readers, mounts,
         raise ValueError("Missing required committed input")
     selected = set(required) | {p for p in virtual if any(_within(p,r) for r in roots)
                                and not any(_within(p,e) for e in excluded)}
-    records = []
+    records, contents = [], {}
     for path in sorted(selected):
         owner, selected_commit, entry = virtual[path]
         if entry.mode not in {0o100644,0o100755}:
             raise ValueError("Selected corpus member is not a regular committed file")
         data = readers[owner].read_blob(selected_commit,entry.path)
+        contents[path] = data
         records.append(CorpusInput(owner,entry.path,hashlib.sha256(data).hexdigest()))
     # Verify unique ownership now, even when the caller only consumes records.
     corpus_digest(records)
-    return MountedCorpus(tuple(sorted(records)),pins)
+    return MountedCorpus(tuple(sorted(records)),pins,MappingProxyType(contents))

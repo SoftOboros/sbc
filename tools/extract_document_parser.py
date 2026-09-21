@@ -51,6 +51,11 @@ raw_lines = text.splitlines()
     historical.body = [n for n in historical.body if not (
         isinstance(n,ast.Assign) and isinstance(n.value,ast.Call)
         and isinstance(n.value.func,ast.Name) and n.value.func.id == "_registered_invariant_prefixes")]
+    registry = next(n for n in trees['scan'].body if isinstance(n,ast.FunctionDef) and n.name == '_registered_invariant_prefixes')
+    registry.args = ast.parse('def _registered_invariant_prefixes(text): pass').body[0].args
+    prefix_start = next(i for i,n in enumerate(registry.body) if isinstance(n,ast.Assign)
+                        and any(isinstance(t,ast.Name) and t.id == 'prefixes' for t in n.targets))
+    registry.body = registry.body[prefix_start:]
     scan = next(n for n in trees["scan"].body if isinstance(n,ast.FunctionDef) and n.name == "scan")
     scan.args = ast.parse("def scan(sources, registered_prefixes): pass").body[0].args
     # Preserve the corpus-wide resolution pass after replacing traversal and reads.
@@ -137,7 +142,7 @@ diagnostics.extend(declaration_diagnostics)
         if isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id == 'scan_archives':
             n.args[0] = ast.Name(id='archive_sources',ctx=ast.Load())
     lookup = {module:{name:node for node in tree.body for name in bindings(node)} for module,tree in trees.items()}
-    needed = {"scan":{"parse_document", "scan", "build_projection_bundle_with_expectations", "_render", "_diagnostic_render"},"locations":{"build_location_index", "render"}}
+    needed = {"scan":{"parse_document", "scan", "_registered_invariant_prefixes", "build_projection_bundle_with_expectations", "_render", "_diagnostic_render"},"locations":{"build_location_index", "render"}}
     visited = {"scan":set(),"locations":set()}
     while any(needed[m]-visited[m] for m in needed):
         for module in needed:

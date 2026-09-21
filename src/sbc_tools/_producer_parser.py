@@ -973,6 +973,11 @@ def parse_document(text, relative_path, family, registered_prefixes) -> tuple[Do
 def RE_CL_SECTION_PRESENT(lines) -> bool:
     return any((RE_CL_SECTION.match(ln) for ln in lines))
 
+def _registered_invariant_prefixes(text) -> set[str]:
+    prefixes = {match.group(1) for match in re.finditer('^\\| `([A-Z]{2,8})` \\|', text, re.MULTILINE)}
+    prefixes.update((match.group(1) for match in re.finditer('\\*\\*Claimed[^\\n]*`([A-Z]{2,8})`', text)))
+    return prefixes - EXAMPLE_PREFIXES - {'PHASE'}
+
 def _append_known_mentions(lines: list[str], doc: Document, projected: list[_ProjectedDefinition], citations: list[Citation], *, eligible_kinds: set[str], token_map: dict[str, str] | None=None, token_pattern: re.Pattern | None=None) -> None:
     """Add citations only for exact known object-id tokens outside carriers."""
     tokens: dict[str, str] = dict(token_map or {})

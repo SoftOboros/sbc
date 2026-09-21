@@ -80,13 +80,7 @@ class BundleValidator:
             if profile_sha256 != self._profile:
                 raise ValueError("Profile mismatch")
             published = copy_publication(publication)
-            bundle = copy_files(files)
-            consumed = set()
-            roots = [_MemoryPath(name, bundle, consumed)
-                     for name in ("index", "locations", "diagnostics")]
-            self._semantics.validate_triple(*roots)
-            if consumed != set(bundle):
-                raise ValueError("Unlisted bundle members")
+            bundle = self.validate_files(files)
             pinned = MappingProxyType(published)
             pinned_files = MappingProxyType(bundle)
             proof = self._provenance.verify(pinned, pinned_files, profile_sha256)
@@ -106,3 +100,14 @@ class BundleValidator:
             return ValidatedBundle(pinned, profile_sha256, pinned_files)
         except Exception:
             return {"code": "invalid_bundle", "message": "Invalid projection bundle.", "retryable": False}
+
+    def validate_files(self, files):
+        """Check projection semantics only; no provenance or publication claim."""
+        bundle = copy_files(files)
+        consumed = set()
+        roots = [_MemoryPath(name, bundle, consumed)
+                 for name in ("index", "locations", "diagnostics")]
+        self._semantics.validate_triple(*roots)
+        if consumed != set(bundle):
+            raise ValueError("Unlisted bundle members")
+        return MappingProxyType(bundle)
