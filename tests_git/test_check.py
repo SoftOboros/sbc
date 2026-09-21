@@ -4,6 +4,7 @@ from unittest.mock import patch
 import test_admission as fixtures
 from test_provenance_inputs import commit_files
 from sbc_tools.provenance import ReferenceUnavailableError
+from sbc_tools.cli_results import execute_check
 
 
 class CommittedCheckTests(unittest.TestCase):
@@ -32,6 +33,9 @@ class CommittedCheckTests(unittest.TestCase):
         self.assertEqual(before,after)
         # Equality must retain diagnostics from the deliberately unidentified source.
         self.assertIn(b'document_id_missing',result.candidate.files['diagnostics/example.json'])
+        envelope = execute_check(self.verifier,**self.routing)
+        self.assertEqual((1,'equal'),(envelope['exit_code'],envelope['result']['comparison']))
+        self.assertEqual(result.candidate.snapshot_id,envelope['selection']['snapshot_id'])
 
     def test_complete_other_bundle_is_drift_over_full_path_union(self):
         commit = self.select(self.bundle)
@@ -49,6 +53,10 @@ class CommittedCheckTests(unittest.TestCase):
             self.verifier.check_source(**self.routing)
         self.assertEqual(self.generated.files,caught.exception.candidate.files)
         self.assertEqual('Committed projection reference is unavailable.',str(caught.exception))
+        envelope = execute_check(self.verifier,**self.routing)
+        self.assertEqual(3,envelope['exit_code'])
+        self.assertTrue(envelope['findings'])
+        self.assertIsNone(envelope['result'])
 
     def test_corrupt_reference_is_unavailable_not_drift(self):
         files = dict(self.generated.files)

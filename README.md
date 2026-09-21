@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 59 core tests and 74 Git/provenance tests; these are bounded
+There are now 67 core tests and 74 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -270,4 +270,19 @@ identifies the reference; candidate files and snapshot identity remain separate.
 The check performs no persistent writes and does not reread a moved branch.
 Equality does not clear source diagnostics or approve acceptance. This is the
 committed comparison operation for a future CLI, not an executable command or
-working-tree implementation; command envelopes and exit mapping remain open.
+working-tree implementation.
+
+`cli_results.execute_check` maps the committed operation to the ratified command
+envelope: exit 0 for equal/no findings, 1 for drift or source findings, 3 for
+unavailable references or I/O failures, and 4 for unclassified/internal failures.
+Hosts can classify known invocation/configuration/authority failures using the
+closed `CommandFailure` vocabulary (exit 2). Unknown exception text never enters
+an error message. Unavailable references preserve generated source findings but
+have a null result, as required by the ratified schema.
+
+`render_envelope` returns text or one UTF-8 JSON object with a final newline;
+it does not write streams or terminate the process. The developer-only
+`tools/check_cli_envelopes.py` checks sample outcomes against a supplied ratified
+schema using jsonschema; this is not a runtime dependency. Argument parsing,
+host configuration/approval loading, scan publication and the executable entry
+point remain unimplemented. No working-tree or full CLI conformance is claimed.
