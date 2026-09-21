@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 67 core tests and 74 Git/provenance tests; these are bounded
+There are now 75 core tests and 75 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -269,8 +269,8 @@ identifies the reference; candidate files and snapshot identity remain separate.
 
 The check performs no persistent writes and does not reread a moved branch.
 Equality does not clear source diagnostics or approve acceptance. This is the
-committed comparison operation for a future CLI, not an executable command or
-working-tree implementation.
+committed comparison operation behind the host-backed CLI boundary; working-tree
+comparison remains unimplemented.
 
 `cli_results.execute_check` maps the committed operation to the ratified command
 envelope: exit 0 for equal/no findings, 1 for drift or source findings, 3 for
@@ -283,6 +283,23 @@ have a null result, as required by the ratified schema.
 `render_envelope` returns text or one UTF-8 JSON object with a final newline;
 it does not write streams or terminate the process. The developer-only
 `tools/check_cli_envelopes.py` checks sample outcomes against a supplied ratified
-schema using jsonschema; this is not a runtime dependency. Argument parsing,
-host configuration/approval loading, scan publication and the executable entry
-point remain unimplemented. No working-tree or full CLI conformance is claimed.
+schema using jsonschema; this is not a runtime dependency.
+
+`python -m sbc_tools` and the packaged `sbc-tools` entry point now provide strict
+argument parsing, help/version and a host-backed committed check dispatcher.
+Unknown/abbreviated/repeated flags and conflicting invocations return exit 2.
+Help/version do not load a repository. Package version comes from `__version__`.
+
+An embedding application calls `cli.main(argv, load_host=loader)`; its trusted
+loader receives the explicit configuration path and returns a context manager
+for `CommittedCheckHost(verifier, document_families, archive_families)`. The loader
+owns validation of that configuration, approval pins and reader cleanup. The
+verifier's configured `check` capability must be enabled. Neither TOML nor CLI
+arguments can select Python plugins or turn manifest hashes into approvals.
+
+The default entry point has no host loader and fails repository operations with
+`invalid_configuration`; it is not yet a standalone operational CLI. `scan`
+likewise fails until atomic publication is implemented. Host configuration and
+approval loading, working-tree execution, scan publication and full CLI
+conformance remain open. JSON output is written as UTF-8 bytes, once, after host
+cleanup. Cleanup failure overrides completion while retaining available findings.

@@ -1,10 +1,14 @@
 import unittest
+from contextlib import nullcontext
+import io
+import json
 from unittest.mock import patch
 
 import test_admission as fixtures
 from test_provenance_inputs import commit_files
 from sbc_tools.provenance import ReferenceUnavailableError
 from sbc_tools.cli_results import execute_check
+from sbc_tools.cli import CommittedCheckHost, main
 
 
 class CommittedCheckTests(unittest.TestCase):
@@ -85,6 +89,19 @@ class CommittedCheckTests(unittest.TestCase):
             result = self.verifier.check_source(**self.routing)
         self.assertEqual(selected,result.projection_commit)
         self.assertEqual('equal',result.comparison)
+
+    def test_cli_dispatch_over_real_committed_comparison(self):
+        self.select(self.generated.files)
+        host = CommittedCheckHost(self.verifier,self.routing['document_families'],{})
+        output = io.BytesIO()
+        def loader(path):
+            self.assertEqual('sbc.toml',path)
+            return nullcontext(host)
+        code = main(['check','--config','sbc.toml','--format=json'],load_host=loader,stdout=output)
+        result = json.loads(output.getvalue())
+        self.assertEqual(1,code)
+        self.assertEqual('equal',result['result']['comparison'])
+        self.assertEqual(self.generated.snapshot_id,result['selection']['snapshot_id'])
 
 
 if __name__ == '__main__': unittest.main()

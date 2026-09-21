@@ -116,6 +116,10 @@ class CommittedProvenanceVerifier:
         return BundleValidator(source_roots=self._config["source_roots"],
                                profile_sha256=self._profile_sha,provenance_verifier=self)
 
+    def supports(self, capability):
+        """Expose configured CLI capability membership without mutable config."""
+        return capability in self._config['capabilities']
+
     def verify(self, publication, files, profile_sha256):
         publication, files = copy_publication(publication), copy_files(files)
         if (publication["repository_id"] != self._repository_id

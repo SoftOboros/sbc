@@ -4,11 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sbc-tools"
-version = "0.1.0.dev17"
+dynamic = ["version"]
 description = "Portable Spec Before Code supporting tools"
 requires-python = ">=3.11"
 license = {file = "LICENSE"}
 dependencies = []
+
+[project.scripts]
+sbc-tools = "sbc_tools.cli:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "sbc_tools.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
