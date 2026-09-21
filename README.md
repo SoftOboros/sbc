@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 75 core tests and 75 Git/provenance tests; these are bounded
+There are now 84 core tests and 75 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -299,7 +299,26 @@ arguments can select Python plugins or turn manifest hashes into approvals.
 
 The default entry point has no host loader and fails repository operations with
 `invalid_configuration`; it is not yet a standalone operational CLI. `scan`
-likewise fails until atomic publication is implemented. Host configuration and
+likewise fails until atomic publication is integrated. Host configuration and
 approval loading, working-tree execution, scan publication and full CLI
 conformance remain open. JSON output is written as UTF-8 bytes, once, after host
 cleanup. Cleanup failure overrides completion while retaining available findings.
+
+`DirectoryProjectionStore` supplies the local complete-bundle publication
+primitive. A host provides an existing output directory and a semantic validator.
+Publication validates the candidate, writes a uniquely named bundle, flushes its
+files, rereads and revalidates every byte, then uses `os.replace` to switch
+`current.json`. It never overwrites a prior bundle. Readers load one pointer and
+return immutable copied bytes after integrity and semantic checks.
+
+Nine tests cover pinned views, visibility before/after the switch, interrupted
+writes, failed replacement, invalid/tampered/unlisted members and pointer traversal.
+They exercise this Windows filesystem only. Trusted local directory ownership is
+required; this is neither an OS sandbox nor a power-loss durability guarantee.
+Concurrent writers use last-switch-wins semantics; this store is distinct from
+the transactional snapshot store's generation checks. Failed staging directories
+are retained and never selected; cleanup is not implemented.
+
+CLI scan wiring and reconciliation between this selected-directory layout and
+the committed reference payload layout remain open. This primitive does not
+claim committed provenance, a release, or cross-platform runtime acceptance.
