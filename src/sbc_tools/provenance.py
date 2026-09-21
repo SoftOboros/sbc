@@ -40,6 +40,25 @@ class GeneratedProjection:
     location_diagnostics: bytes
 
 
+class ReferenceUnavailableError(ValueError):
+    """The committed comparison reference cannot support a complete check."""
+    def __init__(self, candidate):
+        super().__init__('Committed projection reference is unavailable.')
+        self.candidate = candidate
+
+
+@dataclass(frozen=True)
+class CheckedProjection:
+    """Candidate identity remains distinct from the committed reference."""
+    candidate: GeneratedProjection
+    projection_commit: str
+    differing_paths: tuple
+
+    @property
+    def comparison(self):
+        return 'different' if self.differing_paths else 'equal'
+
+
 class CommittedProvenanceVerifier:
     """Exact binding of committed projections, configuration, corpus and authority.
 
@@ -170,6 +189,34 @@ class CommittedProvenanceVerifier:
                              for p,b in sorted(checked.items())]}
         return GeneratedProjection(admission,hashlib.sha256(canonical_json(snapshot)).hexdigest(),
                                    checked,canonical_json(diagnostics))
+
+    def check_source(self, *, document_families, archive_families):
+        """Regenerate and compare with the complete reference at the selected pin.
+
+        Missing or invalid references are unavailable, never ordinary drift.
+        Equality does not clear source findings or constitute acceptance. This
+        operation performs no persistent writes and never rereads a moved ref.
+        """
+        from ._sidx_validation import IngestError
+        from .git_reader import GitReadError
+        candidate = self.generate_source(document_families=document_families,
+                                         archive_families=archive_families)
+        commit = candidate.admission.source_commit
+        prefix = self._config['output_root'] + '/'
+        try:
+            reference = {}
+            for entry in self._reader.entries(commit):
+                if not entry.path.startswith(prefix):
+                    continue
+                if entry.mode not in {0o100644,0o100755}:
+                    raise ValueError('Reference contains unsupported entries')
+                reference[entry.path[len(prefix):]] = self._reader.read_blob(commit,entry.path)
+            reference = self.bundle_validator().validate_files(reference)
+        except (GitReadError, OSError, ValueError, IngestError):
+            raise ReferenceUnavailableError(candidate) from None
+        changed = tuple(sorted(p for p in set(reference) | set(candidate.files)
+                               if reference.get(p) != candidate.files.get(p)))
+        return CheckedProjection(candidate,commit,changed)
 
     def _source_inputs(self, source):
         reader = self._reader

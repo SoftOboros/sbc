@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 59 core tests and 68 Git/provenance tests; these are bounded
+There are now 59 core tests and 74 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -258,3 +258,16 @@ SQLite publication. Tests exercise that complete bounded path, child inclusion,
 registry-derived wire parity and changes after admission. Admission remains an
 observation, not a lock: generation reads only pinned Git bytes. Host family
 policy, CLI orchestration and runtime acceptance gates remain open.
+
+`CommittedProvenanceVerifier.check_source` regenerates from admitted inputs and
+compares the full union of payload paths against the complete committed reference
+at that same selected commit. It validates the reference before comparison:
+absent, incomplete or corrupt references raise `ReferenceUnavailableError`,
+preserving the generated candidate for later error-envelope reporting. Valid
+byte/path differences return a sorted `differing_paths` tuple. `projection_commit`
+identifies the reference; candidate files and snapshot identity remain separate.
+
+The check performs no persistent writes and does not reread a moved branch.
+Equality does not clear source diagnostics or approve acceptance. This is the
+committed comparison operation for a future CLI, not an executable command or
+working-tree implementation; command envelopes and exit mapping remain open.
