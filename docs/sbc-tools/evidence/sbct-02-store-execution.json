@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-20",
+  "authority": "SBCT-CONTRACT-02 revision 0.1.1; approved GATE-206",
+  "slice": "SQLite publication storage with required injected validator",
+  "python": "3.14.6",
+  "sqlite": "3.50.4",
+  "tests": {
+    "total": 25,
+    "cursor": 13,
+    "storage": 12,
+    "normal_run": "passed",
+    "isolated_no_site_packages": "passed"
+  },
+  "witnesses": [
+    "repository isolation",
+    "same content with separate publications",
+    "immutable pinned reads",
+    "compare-and-swap competing writers",
+    "idempotent replay preserves newer current",
+    "validation rejection retains current",
+    "transaction failure rollback",
+    "process exit before commit recovery",
+    "corrupt retained bytes rejected",
+    "unrelated identity table preserved"
+  ],
+  "source_sha256": {
+    "sbc-tools/src/sbc_tools/store.py": "f0b3679603e3d5a0c4226e9b009785217766b3eb3a5ecae73c90f27ee8b07058",
+    "sbc-tools/src/sbc_tools/canonical.py": "763010611d49cbadb681db02c7e963c3e18ab5fa3ca51df34bf0dd0305344333",
+    "sbc-tools/tests/test_store.py": "887f65c4dc8d5d802872157bd9726fbab15cc6646886aad47ba2c57292027b1a"
+  },
+  "limitations": [
+    "Synthetic exact-byte validator only; no SIDX semantic/provenance acceptance",
+    "No query or Django adapter parity",
+    "No reset/garbage collection implementation",
+    "No power-loss or multi-platform acceptance"
+  ],
+  "runtime_gates_completed": [],
+  "local_commit": "873768b"
+}

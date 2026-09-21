@@ -1,0 +1,37 @@
+{
+  "kind": "bounded byte-exact checkout observation and mount exclusion evidence",
+  "date": "2026-09-20",
+  "tooling_commit": "a0b28e59130e403363f0ba5f73b6781eefb79263",
+  "python": "3.14.6",
+  "checks": {
+    "core_tests": 46,
+    "core_result": "pass under -I -S",
+    "git_provenance_tests": 35,
+    "git_provenance_result": "pass with audited pure wheels and process/network audit blocking",
+    "diff_check": "pass"
+  },
+  "covered": [
+    "HEAD-to-pin mismatch detection",
+    "Staged membership and content changes",
+    "Working-file content, missing and untracked detection",
+    "Missing index and line-ending differences fail closed",
+    "Ambient filter and fsmonitor commands not executed",
+    "Excluded nested mounts need not be opened",
+    "Source-hiding exclusions rejected"
+  ],
+  "limitations": [
+    "Byte-exact clean subset, not general Git status equivalence",
+    "Ignored files are conservatively treated as untracked",
+    "Symlinks, gitlinks and unverifiable executable modes prevent clean observation",
+    "No filesystem lock or complete concurrent-change proof",
+    "Recursive child checkout composition and full provenance integration remain pending",
+    "Runtime gates remain open"
+  ],
+  "sha256": {
+    "src/sbc_tools/git_reader.py": "233028fdf618c81c871923f346854a686277afc694ee69f26c0cd5cb0344000c",
+    "src/sbc_tools/mounts.py": "9bb194dcb685edf9d78de734b3975f736815995a0b3e64c9eb9e199840742cfe",
+    "tests_git/test_checkout.py": "5271e8a1940a4c56f86a6248a79cd5e7a94815cfb9acf1cfff40c1e0eb0a4700",
+    "tests_git/test_refs_mounts.py": "edb4bba1957a687dd271b395d389655e60d60dfcbfe36cdbf718194356e43c77"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

@@ -1,0 +1,105 @@
+{
+  "kind": "full reference producer regeneration witness, not portable producer implementation",
+  "date": "2026-09-20",
+  "tooling_commit": "25afff925b6c91f8e2eb74af8a837520301a1563",
+  "python": "3.14.6",
+  "checks": {
+    "regeneration_cases": 5,
+    "regeneration_result": "All exact byte matches after full scan/build/location/bundle validation from fixture Git commits",
+    "wire_reproduction": "pass",
+    "git_provenance_tests": 62,
+    "git_provenance_result": "pass",
+    "isolation": "Python -I -S, approved source blob and universal wheel hashes, process/network audit blocking",
+    "diff_check": "pass"
+  },
+  "regeneration": {
+    "scope": "Full pinned reference producer on committed fixture bytes; temporary files only",
+    "cases": [
+      {
+        "case": "empty",
+        "source_commit": "8f3c92ba03090791ad4cff8c6cc4cb82144603e9",
+        "files": 3,
+        "status": "exact match",
+        "location_diagnostics": 0,
+        "sha256": {
+          "diagnostics/_manifest.json": "50e6b60eb33dd589d0adb0a9038952b665967f052ff63d9f8a5f65ec8deeb8ad",
+          "index/_manifest.json": "97dd13f95e7599c9d7689be3cd3f4acf9e6732fa2578189d5f5e8f96ae456500",
+          "locations/_manifest.json": "131bd8c94464ec51a8bdf0a95c841e46c74573b1aa593002c3ecf727cb9e43e7"
+        }
+      },
+      {
+        "case": "stable",
+        "source_commit": "e7b720d4a5190845eb1aba073499a9b2f49b2205",
+        "files": 6,
+        "status": "exact match",
+        "location_diagnostics": 0,
+        "sha256": {
+          "diagnostics/_manifest.json": "09822f005d5f22a266c9e24ce61b5b089863282496263388e62e8eed4edf7e36",
+          "diagnostics/vectors.json": "0a1715801b4e68d935c97275a693fd0c61f63a2eb7e25635ff4f08e7d0b7c05a",
+          "index/_manifest.json": "a2907470483e24f78adcf151e786fd7208659cb9dd4bd449ec369d753f913012",
+          "index/vectors.json": "60a20dbc4baa046c19c632ec89495089242112e09dbb25374bcf6cda0e0c7674",
+          "locations/_manifest.json": "526a47ad10cde6789bf8f20365ad32756010da12366ad0634552e307f4ff1ff9",
+          "locations/vectors.json": "a02e4b31f23affa948c32a188a703da26be49921fb541c337e016b0840fcf423"
+        }
+      },
+      {
+        "case": "checked",
+        "source_commit": "79fb6747572e3eb4487b23003b8c73bfa94a70ba",
+        "files": 6,
+        "status": "exact match",
+        "location_diagnostics": 0,
+        "sha256": {
+          "diagnostics/_manifest.json": "09822f005d5f22a266c9e24ce61b5b089863282496263388e62e8eed4edf7e36",
+          "diagnostics/vectors.json": "0a1715801b4e68d935c97275a693fd0c61f63a2eb7e25635ff4f08e7d0b7c05a",
+          "index/_manifest.json": "a2907470483e24f78adcf151e786fd7208659cb9dd4bd449ec369d753f913012",
+          "index/vectors.json": "8e1a747a4897d2ddc63568a694d64d33389eedb5322a7f04a69f6aabdce35df5",
+          "locations/_manifest.json": "526a47ad10cde6789bf8f20365ad32756010da12366ad0634552e307f4ff1ff9",
+          "locations/vectors.json": "a02e4b31f23affa948c32a188a703da26be49921fb541c337e016b0840fcf423"
+        }
+      },
+      {
+        "case": "malformed_gate",
+        "source_commit": "cad3c971f63d57bde19c4fc989959e63608245a6",
+        "files": 6,
+        "status": "exact match",
+        "location_diagnostics": 0,
+        "sha256": {
+          "diagnostics/_manifest.json": "35cad460ebb88c27d9d9729c24161256d071aa498b950d46863d916534496312",
+          "diagnostics/vectors.json": "000e76039b04c69dbb4b26d9b7aeef96d6500ec4f7bb6cc63c65eb07ff5d911e",
+          "index/_manifest.json": "cd9b801cac63566337de28fc113726daa4eb8a4d79d3730af986f212fa2052e2",
+          "index/vectors.json": "8057723baad3483e3ec2c2ccb1a20e0b8941162114434f5738ed9692badf14ed",
+          "locations/_manifest.json": "526a47ad10cde6789bf8f20365ad32756010da12366ad0634552e307f4ff1ff9",
+          "locations/vectors.json": "a02e4b31f23affa948c32a188a703da26be49921fb541c337e016b0840fcf423"
+        }
+      },
+      {
+        "case": "duplicate_invariant",
+        "source_commit": "24afd5240baf46bbdaf50f5f1881dcba8d91da58",
+        "files": 6,
+        "status": "exact match",
+        "location_diagnostics": 0,
+        "sha256": {
+          "diagnostics/_manifest.json": "dbb59e6fc242c1cd6caf5827f737e672916df9f395430d3041c095e94132518f",
+          "diagnostics/vectors.json": "72f45e84013d203166663b40144696e8aabb38c1990c25d1c91f3fc94b468d9c",
+          "index/_manifest.json": "6a23836075f598eed06826301ecb620b87ef6263968a6b6efe23b69eb541ecea",
+          "index/vectors.json": "6b46d69d4955ebb6091a8baae71bf741f032d2ebab26aee4978ae43aa03e4c87",
+          "locations/_manifest.json": "223ad9d709c7d146221432484b05f80c20ad162715a471b381502c9771abdb1d",
+          "locations/vectors.json": "640758a132bf314f29d51dffa18a7e8c369a19e308280c1606ae5c297b5c1893"
+        }
+      }
+    ]
+  },
+  "limitations": [
+    "Reference code loaded from exact pinned source; runtime producer not extracted",
+    "Five bounded source fixtures, not full production/archive coverage",
+    "No scan CLI or admitted-source producer wiring",
+    "Runtime gates remain open"
+  ],
+  "sha256": {
+    "tools/regenerate_reference_vectors.py": "9f726a7e9b3b5245ea4db3a13f4674b969072dbc8f25fe871dd41ef2d9c7a6b8",
+    "tools/reproduce_wire_vectors.py": "dd85cf891e17c24029569c329a32cde0a82e0a9e5f7490f42a8fb10827a2c324",
+    "tools/check_git_provider.py": "24dccea1737a6bebde7bcdec853e09ecb06fff667184903575b63069df1aa03c",
+    "tests/fixtures/producer-source-vectors.json": "30a7b86f4fdcecf83f1f5e0fd7b29e5626ec3d304acb2ec5bfc2f548c3290236"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

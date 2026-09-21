@@ -1,0 +1,36 @@
+{
+  "kind": "bounded single-source-repository committed provenance integration",
+  "date": "2026-09-20",
+  "tooling_commit": "995931366bf35030d04c43b62986bc3e7336ecee",
+  "python": "3.14.6",
+  "checks": {
+    "core_tests": 46,
+    "core_result": "pass under -I -S",
+    "git_provenance_tests": 48,
+    "git_provenance_result": "pass with audited pure wheels and process/network audit blocking",
+    "diff_check": "pass"
+  },
+  "covered": [
+    "Real committed source/projection/authority objects with synthetic approval fixtures",
+    "Authority and support patch verification composed with corpus identity",
+    "Exact committed projection membership and bytes",
+    "BundleValidator to SQLite publication and immutable view",
+    "Retained validation survives changed HEAD and dirty working configuration",
+    "Changed configuration/profile/patch/authority evidence rejected",
+    "Changed source corpus rejected by snapshot identity",
+    "Forged staged candidate rejected without changing current publication"
+  ],
+  "limitations": [
+    "Single source repository only; child source mounts rejected",
+    "Synthetic approval fixtures are not production baseline acceptance",
+    "Production profile must supply complete additional evidence inventory",
+    "Producer regeneration and clean-scan admission are separate unfinished paths",
+    "Multi-source corpus composition and shared query engine pending",
+    "Runtime gates remain open"
+  ],
+  "sha256": {
+    "src/sbc_tools/provenance.py": "db07e922d50bcea39358992e0a8f18ed77a6d98659a861d9974e2c7b3ce43dd7",
+    "tests_git/test_provenance_integration.py": "7fb9bdfd5f07229053cc933ed4ac8d3ee6e7383d40bc25656057282b326bea43"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

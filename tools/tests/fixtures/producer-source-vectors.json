@@ -1,0 +1,42 @@
+{
+  "source_commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+  "scanner_blob": "551c0ab7d70f82ad9e6fdfd99ef57a1ff78aeabb",
+  "scope": "Original declared source bytes; preserved historical fixtures",
+  "cases": [
+    {
+      "name": "empty",
+      "inputs": {
+        "docs/spec-index/PREFIX-REGISTRY.md": "| Prefix | Family |\n|---|---|\n| `VECT` | vectors |\n"
+      }
+    },
+    {
+      "name": "stable",
+      "inputs": {
+        "docs/todo/vectors/VECT-00.md": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** DRAFT\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [ ] `GATE-001` \u2014 A selection MUST retain input identity.\n",
+        "docs/spec-index/PREFIX-REGISTRY.md": "| Prefix | Family |\n|---|---|\n| `VECT` | vectors |\n"
+      }
+    },
+    {
+      "name": "checked",
+      "inputs": {
+        "docs/todo/vectors/VECT-00.md": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** DRAFT\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [x] `GATE-001` \u2014 A selection MUST retain input identity.\n",
+        "docs/spec-index/PREFIX-REGISTRY.md": "| Prefix | Family |\n|---|---|\n| `VECT` | vectors |\n"
+      }
+    },
+    {
+      "name": "malformed_gate",
+      "inputs": {
+        "docs/todo/vectors/VECT-00.md": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** DRAFT\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [ ] `GATE-001` - A selection MUST retain input identity.\n",
+        "docs/spec-index/PREFIX-REGISTRY.md": "| Prefix | Family |\n|---|---|\n| `VECT` | vectors |\n"
+      }
+    },
+    {
+      "name": "duplicate_invariant",
+      "inputs": {
+        "docs/todo/vectors/VECT-00.md": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** DRAFT\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [ ] `GATE-001` \u2014 A selection MUST retain input identity.\n",
+        "docs/todo/vectors/VECT-01.md": "# Duplicate fixture\n\n**Document ID:** VECT-01\n\n## \u00a79 Invariants\n\n| ID | Requirement |\n|---|---|\n| **INV-VECT-1** | Conflicting requirement. |\n",
+        "docs/spec-index/PREFIX-REGISTRY.md": "| Prefix | Family |\n|---|---|\n| `VECT` | vectors |\n"
+      }
+    }
+  ]
+}

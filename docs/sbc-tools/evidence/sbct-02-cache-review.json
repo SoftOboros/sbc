@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-20",
+  "document": "SBCT-CONTRACT-02",
+  "revision": "0.1.1",
+  "scope": "Limited review of C11-only query-result caching and concrete expiration contracts",
+  "reviewer": "sbct_ratification_review subagent",
+  "original_findings": [
+    {
+      "id": "c12-cache-identity",
+      "disposition": "resolved",
+      "resolution": "PageCache is explicitly C11-only; C12 must not call get or put."
+    },
+    {
+      "id": "undefined-evidence-lease",
+      "disposition": "resolved",
+      "resolution": "Absolute expiry min(now+300, access.expires_at, evidence.fresh_until), with zero/deadline rejection and independent QueryService verification."
+    }
+  ],
+  "review_finding": {
+    "id": "degraded-evidence-semantics",
+    "priority": "P2",
+    "disposition": "resolved",
+    "resolution": "Retired publication/view errors remain distinct from valid unavailable-provider identity and inherited partial/unknown/error results."
+  },
+  "closure": "No remaining targeted blockers after follow-up review.",
+  "validation": {
+    "structural_checks_passed": 31,
+    "scenario_count": 28,
+    "new_scenarios": 4,
+    "new_scenarios_executed": false
+  },
+  "owner_approval": false,
+  "runtime_conformance": false,
+  "gate_206": "open_pending_owner_approval"
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "specified_not_executed",
+  "publication_a": {
+    "repository_id": "example-repo",
+    "snapshot_id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "source_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "projection_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "tracked_branch": "main",
+    "authority_manifest_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "publication_id": "752da04d3ffb247e66df4fc5f51eb068c8b9f1b6701d202884eb121ee67e62d4"
+  },
+  "publication_b": {
+    "repository_id": "example-repo",
+    "snapshot_id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "source_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "projection_commit": "cccccccccccccccccccccccccccccccccccccccc",
+    "tracked_branch": "main",
+    "authority_manifest_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "publication_id": "bb86708477cd17968320f0a9355971665ae44780cd546c64194f78c2dffbc0b6"
+  },
+  "access": {
+    "principal_id": "example-principal",
+    "repository_grants": [
+      "example-repo"
+    ],
+    "capability_grants": [
+      "C11",
+      "C12"
+    ],
+    "authorization_revision": "revision-1",
+    "issued_at": 1700000000,
+    "expires_at": 1700003600
+  },
+  "selection": {
+    "publication": {
+      "repository_id": "example-repo",
+      "snapshot_id": "1111111111111111111111111111111111111111111111111111111111111111",
+      "source_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "projection_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "tracked_branch": "main",
+      "authority_manifest_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "publication_id": "752da04d3ffb247e66df4fc5f51eb068c8b9f1b6701d202884eb121ee67e62d4"
+    },
+    "generation": 1,
+    "evidence": {
+      "profile_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "context_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "evidence_manifest_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+      "head_observation_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "bootstrap_manifest_sha256": null,
+      "algorithm_versions": {
+        "staleness": "1",
+        "history": "1",
+        "suspicion": "1"
+      },
+      "availability": "validated",
+      "observation_state": "fresh",
+      "fresh_until": 1700000300,
+      "suspicion_envelope_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+      "history_envelope_sha256": null,
+      "inherited_provider_identity": "8888888888888888888888888888888888888888888888888888888888888888",
+      "identity_sha256": "48d8fd20a9f50bcf8b72384923bd2eb2472dec096b7774e0601de3878bba0974"
+    },
+    "capability_profile_sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+  },
+  "cursor_claims": {
+    "version": 1,
+    "repository_id": "example-repo",
+    "snapshot_id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "publication_id": "752da04d3ffb247e66df4fc5f51eb068c8b9f1b6701d202884eb121ee67e62d4",
+    "projection_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "capability_profile_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+    "evidence_identity_sha256": "48d8fd20a9f50bcf8b72384923bd2eb2472dec096b7774e0601de3878bba0974",
+    "inherited_provider_identity": "8888888888888888888888888888888888888888888888888888888888888888",
+    "access_context_sha256": "c02d99b6e483393aa5d0f32d91af79f27e1707d2cbcb72cffd422dcbf72eae01",
+    "capability": "C11",
+    "filter_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "limit": 1,
+    "last": [
+      "fam",
+      "DOC-1",
+      "GATE-ALPHA",
+      "docs/todo/fam/SPEC.md",
+      10
+    ],
+    "issued_at": 1700000000,
+    "expires_at": 1700000900
+  },
+  "request": {
+    "version": 1,
+    "repository_id": "example-repo",
+    "selector": {
+      "kind": "current"
+    },
+    "capability": "C11",
+    "limit": 1
+  }
+}

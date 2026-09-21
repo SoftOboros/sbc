@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "profile": "sidx-schema3-location1",
+  "license": "BSD-3-Clause",
+  "authority_inputs": [
+    {
+      "role": "SBC-00-CONCEPTS.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/docs/SBC-00-CONCEPTS.md",
+          "blob_oid": "397824d5d057c368d0fe970d430e7ffb49706f77",
+          "sha256": "aa94d1c6497fcb5bfca00b2d53c7262f19378e5f12b97bac1bbf573e849fc942"
+        }
+      ]
+    },
+    {
+      "role": "SBC-00-ADDENDUM-A.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/docs/SBC-00-ADDENDUM-A.md",
+          "blob_oid": "037cd725fc1c9893da0a6d9238bb68e317557410",
+          "sha256": "590858c107f4f07ca501a8c5598b1270f93711dddcbe9491da3b76b9ec2c1acb"
+        }
+      ]
+    },
+    {
+      "role": "SBC-00-ADDENDUM-B.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/docs/SBC-00-ADDENDUM-B.md",
+          "blob_oid": "b316690cf6bbd9e99367a77df1fd4806223865d2",
+          "sha256": "4f0ce82403333b7abc9377d0acf6c5cb18bf48926cabc81dddbb1ae67d8e584d"
+        }
+      ]
+    },
+    {
+      "role": "SBC-00-ADDENDUM-C.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/docs/SBC-00-ADDENDUM-C.md",
+          "blob_oid": "f6f9ee39f854b681a9ab12ae966e64aaadaa0ed4",
+          "sha256": "9b888374d8baed43879a2b478dd5c258192be2c4fc8d928698bd77680b49f6c9"
+        }
+      ]
+    },
+    {
+      "role": "SBC-00-ADDENDUM-D.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/docs/SBC-00-ADDENDUM-D.md",
+          "blob_oid": "dcfc42a85522a4008c25038be4216cb1622aea5a",
+          "sha256": "7696d63778d5da0a3a597ec619fc16de8300deaaba45bd525ee3de5aff45dd69"
+        }
+      ]
+    },
+    {
+      "role": "TODO-SIDX-00-CONCEPTS.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/todo/spec-index/TODO-SIDX-00-CONCEPTS.md",
+          "blob_oid": "27f2c598abbc6149577ba14afcace114bcf3e1b2",
+          "sha256": "112e5a981adb363f5830f74c3d76c227cdf0503066ba1e373ca7324eef87edb0"
+        }
+      ]
+    },
+    {
+      "role": "TODO-SIDX-06A-CORPUS-AND-LOCATION-PROJECTION.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/todo/spec-index/TODO-SIDX-06A-CORPUS-AND-LOCATION-PROJECTION.md",
+          "blob_oid": "2a01a52959f9546dc8a9ab79fb4d76523751dae6",
+          "sha256": "2d0bdab2475494496a7b4f31368469a97d7f2ad7c262e2876d20006c0694b609"
+        }
+      ]
+    },
+    {
+      "role": "SBC-ERRATA.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/docs/SBC-ERRATA.md",
+          "blob_oid": "2a2670d72c3ea078fa63993f98dc4c7f211fa165",
+          "sha256": "19cb8aa41e67365cf2d19f1099463022cadc102048c12e2d132bda347f87c5da"
+        }
+      ]
+    },
+    {
+      "role": "SPEC-BEFORE-CODE-CONCEPTS.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+          "blob_oid": "937c514e609d1fcd0efdebd220bc7ad3668c79b3",
+          "sha256": "ec0140dc6a9e956ce60525ce169961ff8bdcd2a535a37ec8e08f29bc5b6e091c"
+        }
+      ]
+    }
+  ],
+  "producer_inputs": [
+    {
+      "role": "scan.py",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "scripts/specidx/scan.py",
+          "blob_oid": "551c0ab7d70f82ad9e6fdfd99ef57a1ff78aeabb",
+          "sha256": "96bc39316b1b00720427d0e0d3af04b6b476528765023c1145aff28539da5017"
+        }
+      ]
+    },
+    {
+      "role": "locations.py",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "scripts/specidx/locations.py",
+          "blob_oid": "31217a012c99785cd0bda3cae3a3d9feb3cf33d5",
+          "sha256": "8609ae5ef3400ae344616bbb34dd6ab2fb3854efa5cc6d2e836b49160e3f4d23"
+        }
+      ]
+    },
+    {
+      "role": "suspect.py",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "scripts/specidx/suspect.py",
+          "blob_oid": "d4da35b954285f757e03add62c5087765a754b88",
+          "sha256": "accdb602a344216bfc887401ca0349f61b01f94f3daba664bab0ee219b5eff9b"
+        }
+      ]
+    }
+  ],
+  "reviewed_patches": [
+    {
+      "role": "proposed-operational-metadata-correction",
+      "sha256": "73d03886cd20bedb48256ed5ea496f67df59ab60cbd5bcce4c6c95c253762e9d",
+      "applies_to": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "README.md"
+      ]
+    }
+  ],
+  "payload_schemas": {
+    "index": 3,
+    "locations": 1,
+    "diagnostics": 3
+  },
+  "support_inputs": [
+    {
+      "role": "AGENTS.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/AGENTS.md",
+          "blob_oid": "0a5be42ce5180cd577813e8ed7679fc9fa9d80f7",
+          "sha256": "72bbb1e4ee96a8bd5c89f9e0557c4ee1b43bd9633a618ef2395cebc6486e6357"
+        }
+      ]
+    },
+    {
+      "role": "CLAUDE.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/CLAUDE.md",
+          "blob_oid": "743bb0489aa3ccd1f9454d04470a92d671b38af4",
+          "sha256": "2fc44638234c4b4ccd6c972cd84accaef4b90163eb30c81895b6df68278b14ce"
+        }
+      ]
+    },
+    {
+      "role": "README.md",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/README.md",
+          "blob_oid": "8a76ee1db9ff115d05a167de97d441b663e6b5d9",
+          "sha256": "656db8d760f9f01b4b238aef11d9b511ece5ca98b7bef02d27da325a54dfa4d9"
+        }
+      ]
+    },
+    {
+      "role": "LICENSE",
+      "repository_id": "review-source",
+      "commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+      "files": [
+        {
+          "path": "docs/spec-before-code/LICENSE",
+          "blob_oid": "be527a7b086eb882e4ad805e99e43d67da4fe5e9",
+          "sha256": "5fe08ac8fceb4688ce7d97d45e346399a41e9eda9868f0fcde7d800443aad699"
+        }
+      ]
+    }
+  ]
+}

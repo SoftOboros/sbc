@@ -1,0 +1,39 @@
+{
+  "kind": "Bounded CLI result envelopes and committed check exit mapping",
+  "date": "2026-09-21",
+  "tooling_commit": "6bf39ce8957df4ffb90cec130cfa692387798167",
+  "python": "3.14.6",
+  "checks": {
+    "isolated_core_tests": 67,
+    "isolated_git_provenance_tests": 74,
+    "result": "pass",
+    "schema_valid_envelopes": 10,
+    "schema_sha256": "03ad2f6d1256e6e1a59880ba6b5ac9f9a54740210d2d8fc6288d49a0d708bf9d",
+    "diff_check": "pass",
+    "coverage": [
+      "Equal/no-findings exit 0",
+      "Valid drift or source findings exit 1",
+      "Closed host invocation/configuration/authority errors exit 2",
+      "Unavailable reference and I/O exit 3",
+      "Internal failures exit 4",
+      "Incomplete failure preserves findings and takes precedence",
+      "No raw exception disclosure in error messages",
+      "Candidate file hashes distinct from committed reference",
+      "Immediate-parent dependency coordinates",
+      "One UTF-8 JSON object with final newline"
+    ]
+  },
+  "limitations": [
+    "No argument parser, entry point, host approval/configuration loader or scan publication",
+    "Working-tree mode remains unimplemented",
+    "Schema validation dependency is developer-only",
+    "Runtime gates unchanged"
+  ],
+  "sha256": {
+    "src/sbc_tools/cli_results.py": "2d3622a6da064db9cf01b34dd263f717103235dc461c7a738f9e3b76db3153c2",
+    "tests/test_cli_results.py": "0d060cbd4a85175a60585a9136e5f289d847d7468f1fc8a600df6ced1de4e1f3",
+    "tests_git/test_check.py": "770a3546036cdd3bda15044d42af09e160d3252c62658b0f290a6f2efe582d88",
+    "tools/check_cli_envelopes.py": "024f37483b240ba866dac58b76396868431eea1bc85bfea36cf87b65344c3378"
+  },
+  "publication": "Local tooling commit only; no remote push or release tag"
+}

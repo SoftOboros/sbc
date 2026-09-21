@@ -1,0 +1,43 @@
+{
+  "kind": "bounded support-patch and structural configuration evidence; not full provenance",
+  "date": "2026-09-20",
+  "tooling_commit": "7ee297bed2d0b8ef8724f6d7db4bb9284cad4b3c",
+  "python": "3.14.6",
+  "checks": {
+    "core_tests": 46,
+    "core_result": "pass, including -I -S",
+    "git_provenance_tests": 18,
+    "git_provenance_result": "pass with audited pure wheels and process/network audit blocking",
+    "diff_check": "pass"
+  },
+  "recorded_patch_probe": {
+    "base_files": "Pinned support bytes checked against manifest blob OIDs and SHA-256 values",
+    "patch": "Hash checked against recorded manifest; exact in-memory application",
+    "result": "All three staged reconciliation files reproduced exactly",
+    "result_sha256": {
+      "AGENTS.md": "c7bcd694fe8151d3a9ced7b2c52a9ea5bd35e15a05898e632381d82366609636",
+      "CLAUDE.md": "3e3bf1eac0b51ad12c6088fa3d3592f294cf375bc1f787e8067e950470df61d6",
+      "README.md": "369a9f34d4adb02bfd3eafd28bf59740f2ad5bdfd9a9a1c726a1b8b4654438a2"
+    },
+    "limitation": "Replay of recorded evidence, not new approval; live SBC submodule unchanged"
+  },
+  "covered": [
+    "Exact patch context, hunk positions and counts",
+    "Support-only roles, required result hashes and immutable results",
+    "Closed TOML keys and explicit host identity mapping",
+    "Required local paths, containment, input/output separation",
+    "Reference syntax and capability/mount structural validation"
+  ],
+  "pending": [
+    "Git ref resolution and tag peeling",
+    "Committed child-gitlink validation and dirty-state checks",
+    "Full BundleValidator provenance composition",
+    "Runtime gate acceptance"
+  ],
+  "sha256": {
+    "src/sbc_tools/patches.py": "5164e0842dbdcc596d94aa5fcee72feffea559d227c071e5bb31d19fa84e53d1",
+    "src/sbc_tools/configuration.py": "29446085e81ab09a3db0e0f051032730de307972929ed3e51e3eab18b2d5ee75",
+    "tests/test_patch_configuration.py": "5c674711e88926783bf2a1b0980c6f36e56e3d2e83cbcd16fd6c2b6f4a5add75"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

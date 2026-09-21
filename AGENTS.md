@@ -11,11 +11,11 @@ status changes.  This file is the answer to "where are we?" — not a README.
 |---|---|
 | Family | `sbc` |
 | Active phase | `SBC-00` (Concepts) |
-| Phase status | DRAFT — pending ratification |
-| Canonical concepts doc | `docs/SBC-00-CONCEPTS.md` (rev 0.5.0). `docs/SPEC-BEFORE-CODE-CONCEPTS.md` is its SUPERSEDED predecessor — ERRATA-003. |
-| Ratified artifacts | none yet (the predecessor's self-declared "ratified" status applied to the in-repo narrative, not this portable family) |
+| Phase status | RATIFIED — canonical SBC-00 revision 0.11.0 |
+| Canonical concepts doc | `docs/SBC-00-CONCEPTS.md` (rev 0.11.0). `docs/SPEC-BEFORE-CODE-CONCEPTS.md` is its SUPERSEDED predecessor — ERRATA-003. |
+| Ratified artifacts | SBC-00 0.11.0; SBCT-00/01/02 per docs/sbc-tools/AGENTS.md |
 | Open errata | none (ERRATA-001…003 resolved) |
-| Next action | Ratification review of `docs/SBC-00-CONCEPTS.md` rev 0.5.0 |
+| Next action | SBCT-01/02 implementation acceptance; SBCT-03 through SBCT-06 remain drafts |
 
 ---
 
@@ -23,7 +23,7 @@ status changes.  This file is the answer to "where are we?" — not a README.
 
 | Artifact | Rev | Status |
 |---|---|---|
-| `docs/SBC-00-CONCEPTS.md` | 0.5.0 | DRAFT — canonical |
+| `docs/SBC-00-CONCEPTS.md` | 0.11.0 | RATIFIED — canonical |
 | `docs/SBC-00-ADDENDUM-A.md` | 0.1.0 | DRAFT |
 | `docs/SBC-00-ADDENDUM-B.md` | 0.1.0 | DRAFT |
 | `docs/SPEC-BEFORE-CODE-CONCEPTS.md` | — | SUPERSEDED predecessor (ERRATA-003); retained as institutional memory |
@@ -32,7 +32,11 @@ status changes.  This file is the answer to "where are we?" — not a README.
 
 ---
 
-## Ratification gate (SBC-00)
+## Historical ratification checklist (SBC-00)
+
+Retained from the earlier 0.5.0 operational record. The current canonical
+document records ratification at 0.11.0; these historical checkboxes are not a
+new ratification determination.
 
 The following MUST be true before `SBC-00-CONCEPTS.md` moves to RATIFIED:
 
@@ -74,6 +78,7 @@ unilaterally.
 (⚪), the §15 amendment in the affected phase doc lands in the same commit.  Commit subject
 cites `ERRATA-NNN` (SBC-INV-7).
 
-**What this repo does not contain.**  No executable code.  No migrations.  No generated
-artifacts.  If an authoring turn produces code, that is a conformance failure — stop and check
-the concepts doc.
+**Supporting tools.** Owner-approved consolidation on 2026-09-21 places supporting
+code in `tools/` and its governing SBCT family in `docs/sbc-tools/`. Read that
+family before tooling work. Its phase approvals are separate from discipline
+status. Generated tooling modules must be changed through their generators.

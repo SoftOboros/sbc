@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "status": "specified_not_executed",
+  "fixture": "query-contract.example.json",
+  "cases": [
+    {
+      "id": "same_content_two_publications",
+      "setup": "Publish A then B with the same snapshot_id.",
+      "expected": "Content identity stays equal; publication IDs/index_commit differ; staleness is independently evaluated.",
+      "executed": false
+    },
+    {
+      "id": "old_current_cursor",
+      "setup": "Issue a cursor at current A; switch current to B; continue current.",
+      "expected": "cursor_snapshot_mismatch; no silent continuation in B.",
+      "executed": false
+    },
+    {
+      "id": "explicit_old_publication",
+      "setup": "Continue explicitly retained A while current is B with unchanged evidence/access and an unexpired token.",
+      "expected": "A is used throughout; no current reselection.",
+      "executed": false
+    },
+    {
+      "id": "cross_repository",
+      "setup": "Replay example cursor in another authorized repository with equal content.",
+      "expected": "cursor_snapshot_mismatch.",
+      "executed": false
+    },
+    {
+      "id": "revoked_access",
+      "setup": "Revoke principal after page one and increment authorization_revision.",
+      "expected": "access_denied before store/cache/cursor lookup.",
+      "executed": false
+    },
+    {
+      "id": "mid_request_revocation",
+      "setup": "Revoke principal after computation but before final authorization check.",
+      "expected": "access_denied; computed data is not delivered.",
+      "executed": false
+    },
+    {
+      "id": "changed_grants",
+      "setup": "Refresh a still-authorized principal with different grants/revision.",
+      "expected": "Old signed cursor fails cursor_snapshot_mismatch; old cache entry cannot match.",
+      "executed": false
+    },
+    {
+      "id": "changed_evidence",
+      "setup": "Retain publication but change provider/evidence manifest or validated envelope.",
+      "expected": "Old cursor fails cursor_snapshot_mismatch; old cache entry cannot match.",
+      "executed": false
+    },
+    {
+      "id": "changed_observation",
+      "setup": "Retain content/publication but change head-observation identity.",
+      "expected": "Old cursor fails cursor_snapshot_mismatch even if domain rows are unchanged.",
+      "executed": false
+    },
+    {
+      "id": "expired_cursor",
+      "setup": "Decode at now equal to expires_at.",
+      "expected": "invalid_cursor.",
+      "executed": false
+    },
+    {
+      "id": "future_cursor",
+      "setup": "Decode at now less than issued_at.",
+      "expected": "invalid_cursor.",
+      "executed": false
+    },
+    {
+      "id": "unknown_key",
+      "setup": "Decode with a removed or unknown signing kid.",
+      "expected": "invalid_cursor.",
+      "executed": false
+    },
+    {
+      "id": "retiring_key",
+      "setup": "Verify an unexpired token using a retained verification-only key.",
+      "expected": "Valid until its original expiry; no lifetime extension.",
+      "executed": false
+    },
+    {
+      "id": "modified_filter_limit",
+      "setup": "Change normalized filter or page limit after page one.",
+      "expected": "cursor_snapshot_mismatch.",
+      "executed": false
+    },
+    {
+      "id": "forged_signature",
+      "setup": "Modify signed payload bytes.",
+      "expected": "invalid_cursor; no payload hints.",
+      "executed": false
+    },
+    {
+      "id": "invalid_bundle",
+      "setup": "Stage a corrupt diagnostic/object/location bundle then publish.",
+      "expected": "invalid_bundle; previous current remains exactly selected.",
+      "executed": false
+    },
+    {
+      "id": "cas_conflict",
+      "setup": "Two writers stage against generation 1; first commits generation 2.",
+      "expected": "Second returns selection_conflict; no implicit retry.",
+      "executed": false
+    },
+    {
+      "id": "idempotent_replay",
+      "setup": "Replay identical publication and key after a later current selection.",
+      "expected": "Original receipt; newer current is not reset.",
+      "executed": false
+    },
+    {
+      "id": "idempotency_conflict",
+      "setup": "Reuse a key with different validated publication.",
+      "expected": "idempotency_conflict; no mutation.",
+      "executed": false
+    },
+    {
+      "id": "cache_failure",
+      "setup": "Cache raises while valid pinned inputs are available.",
+      "expected": "Compute from the same pinned inputs, with final authorization check.",
+      "executed": false
+    },
+    {
+      "id": "cache_revocation",
+      "setup": "Populate a valid cache entry, revoke access, then repeat.",
+      "expected": "access_denied before cache read.",
+      "executed": false
+    },
+    {
+      "id": "projection_reset",
+      "setup": "Reset and rebuild projections for one repository.",
+      "expected": "Users/sessions/authored source and other repositories are preserved.",
+      "executed": false
+    },
+    {
+      "id": "history_document_scope",
+      "setup": "Read C12 history for DOC-1 and DOC-2 in one generation.",
+      "expected": "Same generation; independent validated document-scoped envelope digests.",
+      "executed": false
+    },
+    {
+      "id": "provider_override",
+      "setup": "Submit provider, evidence root, signer or access_context as public fields.",
+      "expected": "invalid_request; no invocation of caller-selected providers.",
+      "executed": false
+    },
+    {
+      "id": "c12_cache_bypass",
+      "setup": "Resolve two different requested_ids in the same document with identical publication/history context and a populated PageCache.",
+      "expected": "Neither C12 invocation calls PageCache.get/put; each result preserves its own requested_id and resolution.",
+      "executed": false
+    },
+    {
+      "id": "cache_expiry_boundary",
+      "setup": "Insert C11 data at now=1000 with access.expires_at=1200 and fresh_until=1100; read at 1099 and 1100.",
+      "expected": "expires_at=1100; reuse is eligible at 1099 after context/access checks and rejected at 1100 even if the backend returns the stale entry.",
+      "executed": false
+    },
+    {
+      "id": "cache_no_fresh_deadline",
+      "setup": "Attempt C11 cache insertion with fresh_until=0, then with a deadline equal to now.",
+      "expected": "Neither inserts an entry; query execution retains inherited staleness/evidence behavior.",
+      "executed": false
+    },
+    {
+      "id": "cache_retired_evidence",
+      "setup": "Populate C11 PageCache, then test a retired publication and, separately, a new invocation pinned to a valid unavailable-provider identity.",
+      "expected": "A retired publication returns the existing selection/store error before lookup. Valid unavailable-provider identity preserves inherited partial/unknown/error semantics without reusing the old evidence entry or repinning mid-request.",
+      "executed": false
+    }
+  ]
+}

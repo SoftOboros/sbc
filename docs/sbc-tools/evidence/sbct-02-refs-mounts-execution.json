@@ -1,0 +1,36 @@
+{
+  "kind": "bounded reference and committed-mount evidence; not clean-scan proof",
+  "date": "2026-09-20",
+  "tooling_commit": "bc607852afa747da7204432ce0bb02ed63667db2",
+  "python": "3.14.6",
+  "checks": {
+    "core_tests": 46,
+    "core_result": "pass under -I -S",
+    "git_provenance_tests": 27,
+    "git_provenance_result": "pass with audited pure wheels and process/network audit blocking",
+    "diff_check": "pass"
+  },
+  "covered": [
+    "Allowed reference syntax and one-time exact commit resolution",
+    "Lightweight and nested annotated tag resolution",
+    "Missing refs and objects distinguished as unavailable",
+    "Wrong types and symbolic reference cycles rejected",
+    "Immediate-parent nested gitlink validation",
+    "Missing ancestor and included unregistered child rejection",
+    "Unselected children not opened"
+  ],
+  "pending": [
+    "Dirty-state and checkout revision acceptance",
+    "Exclusion-aware mount composition",
+    "Full BundleValidator provenance integration",
+    "Packed/shallow history matrix",
+    "Runtime gates remain open"
+  ],
+  "sha256": {
+    "src/sbc_tools/configuration.py": "a2ffa47b16aca8a932b60faf1f0f0199f136580c70e82d6d0b0e52814d17f4ad",
+    "src/sbc_tools/git_reader.py": "e37d67a1feacec6fc1eaee036b9c66d253ce2e7876f4a56af14aa7e42f8496bf",
+    "src/sbc_tools/mounts.py": "d9f68369db05c9a8360e67a478eaa73c9e9a82ac0bd8e31cfc0cb75ecd70941f",
+    "tests_git/test_refs_mounts.py": "a4d532b1c72f143abf0114abdfd279cbc4f9d541a846ffdd51cd707f42b86ec3"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "repository_id": "example",
+  "source_repositories": {
+    "example": "../example-repository"
+  },
+  "authority_repositories": {
+    "authority": "../authority-repository"
+  },
+  "config_path": "sbc.toml",
+  "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "tracked_branch": "main",
+  "profile_path": "evidence/profile.json",
+  "profile_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "patch_path": "evidence/support.patch",
+  "approved_authority_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "approved_support_sha256": {
+    "AGENTS.md": "3333333333333333333333333333333333333333333333333333333333333333",
+    "CLAUDE.md": "4444444444444444444444444444444444444444444444444444444444444444",
+    "README.md": "5555555555555555555555555555555555555555555555555555555555555555"
+  },
+  "document_families": {
+    "specs/EX-00.md": "example"
+  },
+  "archive_families": [],
+  "evidence_paths": []
+}

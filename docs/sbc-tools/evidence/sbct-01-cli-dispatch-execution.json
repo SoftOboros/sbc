@@ -1,0 +1,41 @@
+{
+  "kind": "Strict CLI parsing and explicit trusted host dispatch",
+  "date": "2026-09-21",
+  "tooling_commit": "bf9a260f30e02c78d8a6982a8377fb6a9c24c3a3",
+  "python": "3.14.6",
+  "checks": {
+    "isolated_core_tests": 75,
+    "isolated_git_provenance_tests": 75,
+    "result": "pass",
+    "module_smoke": [
+      "Version output 0.1.0.dev18",
+      "Default unconfigured check emits safe JSON and exit 2"
+    ],
+    "diff_check": "pass",
+    "coverage": [
+      "Help/version avoid host loading",
+      "Unknown, abbreviated and repeated flags reject before loading",
+      "Explicit configuration path reaches trusted context manager",
+      "Disabled check capability and unimplemented scan never execute",
+      "Real committed comparison reaches CLI JSON output",
+      "Loader and cleanup failures use safe messages",
+      "Cleanup failure retains source findings"
+    ]
+  },
+  "limitations": [
+    "No default host loader or implicit approval discovery",
+    "Scan publication and working-tree execution remain unimplemented",
+    "Console entry metadata configured; installed-wheel console script not exercised",
+    "Runtime gates remain open"
+  ],
+  "sha256": {
+    "src/sbc_tools/cli.py": "f532f29b9725f753d82a283602bcfa1d9ded57c9a6f9274c8e01b46b5bcaac3d",
+    "src/sbc_tools/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/sbc_tools/__init__.py": "03d41612f98b743b6b2ce047becd8371e8fa7fd26b986576547f066c5bc42f14",
+    "src/sbc_tools/provenance.py": "a264728bfe6c9af28c9090b077841188ca5d5158aca55ccc1a226f1424043838",
+    "tests/test_cli.py": "111924871abc39f810200355a2c26da8accb29ea9ed30e544603429b1dbfcff4",
+    "tests_git/test_check.py": "325d15d4a3e849d938889b41852629a6fc0a3dcf89dd5f224a83d5d399c1197d",
+    "pyproject.toml": "46e91a357ebce3e00a6e3f238528cb13306f2d7cbfb4234e201adf1caea230a4"
+  },
+  "publication": "Local tooling commit only; no remote push or release tag"
+}

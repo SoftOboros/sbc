@@ -1,0 +1,32 @@
+{
+  "kind": "Bounded read-only committed projection comparison",
+  "date": "2026-09-21",
+  "tooling_commit": "326331b633f32697ec474d578eb566c6e5e9a65c",
+  "python": "3.14.6",
+  "checks": {
+    "git_provenance_tests": 74,
+    "result": "pass under -I -S with audited pure provider and process/network rejection",
+    "new_comparison_tests": 6,
+    "cases": [
+      "Exact equality retains candidate identity and source findings without file changes",
+      "Complete valid different reference compares full path union",
+      "Absent reference unavailable with candidate preserved",
+      "Corrupt reference unavailable with safe message",
+      "Internally incomplete reference unavailable",
+      "Branch change after generation does not change reference commit"
+    ],
+    "diff_check": "pass"
+  },
+  "limitations": [
+    "CLI executable, envelope and exit mapping remain unimplemented",
+    "Working-tree comparison remains unimplemented",
+    "Host family routing and approval composition remain explicit dependencies",
+    "Equality does not constitute source acceptance or runtime gate closure",
+    "Core producer tests not rerun because producer code is unchanged"
+  ],
+  "sha256": {
+    "src/sbc_tools/provenance.py": "344acaf56b85478bf4cb6a385453ce25fe32f63f4e6197e52050adca0cf19d8a",
+    "tests_git/test_check.py": "13af500ab00f675d8b28007f23390f3e804a2456d62e777472cdbf4432bf0da2"
+  },
+  "publication": "Local tooling commit only; no remote push or release tag"
+}

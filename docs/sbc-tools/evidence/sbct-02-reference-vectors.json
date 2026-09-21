@@ -1,0 +1,3109 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "executed_pinned_reference_producer",
+  "reference_commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+  "environment": {
+    "python": "3.14.6",
+    "django": "5.1.6",
+    "database": "in-memory SQLite",
+    "providers": "synthetic test seams"
+  },
+  "limitations": [
+    "Not a portable implementation",
+    "Not REST/MCP parity",
+    "Not production evidence validation",
+    "Not a complete conformance suite"
+  ],
+  "fixture_setup": "Ordered setup and provider inputs are defined by the pinned helper functions and companion reference-probe source.",
+  "vectors": [
+    {
+      "name": "no_snapshot",
+      "request": {
+        "capability": "C11"
+      },
+      "result": {
+        "index_commit": null,
+        "tracked_branch": null,
+        "staleness_state": "unknown",
+        "data": {},
+        "coverage": {
+          "current_snapshot_count": 0
+        },
+        "error": {
+          "code": "snapshot_unavailable",
+          "message": "No single current spec-index snapshot is available.",
+          "details": {
+            "current_snapshot_count": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "empty_vacuous",
+      "request": {
+        "capability": "C11"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {
+          "items": [],
+          "total": {
+            "value": null,
+            "eligible": 0,
+            "confidence": "vacuous"
+          },
+          "facets": {
+            "family": [],
+            "document": [],
+            "attention_class": [
+              {
+                "key": "decision",
+                "value": null,
+                "eligible": 0,
+                "confidence": "vacuous"
+              },
+              {
+                "key": "deviation",
+                "value": null,
+                "eligible": 0,
+                "confidence": "vacuous"
+              },
+              {
+                "key": "acceptance",
+                "value": null,
+                "eligible": 0,
+                "confidence": "vacuous"
+              },
+              {
+                "key": "coverage",
+                "value": null,
+                "eligible": 0,
+                "confidence": "vacuous"
+              },
+              {
+                "key": "suspicion",
+                "value": null,
+                "eligible": 0,
+                "confidence": "vacuous"
+              }
+            ],
+            "native_state": [],
+            "tag": [],
+            "location_kind": []
+          },
+          "page": {
+            "limit": 50,
+            "next_cursor": null
+          }
+        },
+        "coverage": {
+          "overall_complete": true,
+          "reason_code": null,
+          "reason_codes": [],
+          "attention_scope_complete": true,
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            }
+          ],
+          "diagnostics": {
+            "state_provenance_missing": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "suspicion_resolution": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "duplicate_definitions": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unresolved_document_ids": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "invalid_location_records": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unsafe_object_locators": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            }
+          },
+          "location_projection": {
+            "active_documents_missing_id": 2
+          },
+          "suspicion_provider": {
+            "schema_version": 2,
+            "available": true,
+            "coverage_complete": true,
+            "reason_code": null,
+            "finding_count": 0,
+            "metrics": {
+              "median_clear_latency_seconds": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "open_count": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "re_suspect_rate": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              }
+            },
+            "coverage": {
+              "clearing_ambiguity_count": 0,
+              "eligible_change_events": 0,
+              "eligible_dependency_edges": 0,
+              "history_gap_count": 0,
+              "identity_collision_count": 0,
+              "invalid_clearing_count": 0,
+              "pair_generation_ambiguity_count": 0,
+              "resolved_change_events": 0,
+              "resolved_dependency_edges": 0,
+              "unlogged_dependency_removal_count": 0,
+              "unlogged_object_change_count": 0
+            }
+          },
+          "object_projection_diagnostics": {
+            "available": true,
+            "schema_version": 3,
+            "manifest_sha256": "a2006c07a399024410a75e11d8cb6da18f507c34639009b6040f333748ceeab2",
+            "total_records": 0,
+            "reason_codes": [],
+            "source_coverage": {
+              "f18": {
+                "eligible_documents": 0,
+                "identified_documents": 0,
+                "missing_document_ids": 0,
+                "invalid_document_lifecycle": 0
+              },
+              "f19": {
+                "emitted_definitions": 0,
+                "unique_definition_ids": 0,
+                "duplicate_definition_ids": 0,
+                "malformed_handles": 0,
+                "status_counts": {
+                  "open": 0,
+                  "pending_ratification": 0,
+                  "resolved": 0,
+                  "unknown": 0
+                }
+              },
+              "f20": {
+                "diagnostic_records": 0
+              }
+            },
+            "code_buckets": [
+              {
+                "code": "document_id_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "invalid_document_lifecycle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "open_question_definition_duplicate",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "malformed_open_question_handle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_missing_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_index_without_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_unsupported_status",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_status_disagreement",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_source_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_target_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "change_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "touches_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "retirement_supersedes_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              }
+            ]
+          },
+          "object_projection_diagnostics_available": true
+        }
+      }
+    },
+    {
+      "name": "first_page",
+      "request": {
+        "capability": "C11",
+        "limit": 1
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {
+          "items": [
+            {
+              "object": {
+                "id": "GATE-ALPHA",
+                "kind": "gate",
+                "family": "fam",
+                "text": "Statement",
+                "locator": {
+                  "document": "docs/todo/fam/SPEC.md",
+                  "line": 10
+                },
+                "document_id": "DOC-1"
+              },
+              "attention_classes": [
+                "acceptance"
+              ],
+              "native_states": [
+                {
+                  "attribute": "checked",
+                  "value": false,
+                  "provenance": "declared"
+                }
+              ],
+              "attention_evidence": [
+                {
+                  "attention_class": "acceptance",
+                  "native_state": {
+                    "attribute": "checked",
+                    "value": false,
+                    "provenance": "declared"
+                  }
+                }
+              ],
+              "suspicion_evidence": [],
+              "tags": [
+                {
+                  "key": "family",
+                  "value": "fam",
+                  "label": "family:fam",
+                  "source_attribute": "family",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "kind",
+                  "value": "gate",
+                  "label": "kind:gate",
+                  "source_attribute": "kind",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "attention_class",
+                  "value": "acceptance",
+                  "label": "attention:acceptance",
+                  "source_attribute": "attention_classes",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "native_state",
+                  "value": "checked=false",
+                  "label": "state:checked=false",
+                  "source_attribute": "checked",
+                  "provenance": "declared"
+                },
+                {
+                  "key": "location_kind",
+                  "value": "repository",
+                  "label": "location:repository",
+                  "source_attribute": "location_kind",
+                  "provenance": "inferred"
+                }
+              ],
+              "location_kinds": [
+                "repository"
+              ]
+            }
+          ],
+          "total": {
+            "value": 2,
+            "eligible": 2,
+            "confidence": "measured"
+          },
+          "facets": {
+            "family": [
+              {
+                "key": "fam",
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "document": [
+              {
+                "key": {
+                  "family": "fam",
+                  "document_id": "DOC-1",
+                  "document": "docs/todo/fam/SPEC.md"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "attention_class": [
+              {
+                "key": "decision",
+                "value": 0,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": "deviation",
+                "value": 0,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": "acceptance",
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": "coverage",
+                "value": 0,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": "suspicion",
+                "value": 0,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "native_state": [
+              {
+                "key": {
+                  "attribute": "checked",
+                  "value": "false"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "tag": [
+              {
+                "key": {
+                  "key": "attention_class",
+                  "value": "acceptance"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": {
+                  "key": "family",
+                  "value": "fam"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": {
+                  "key": "kind",
+                  "value": "gate"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": {
+                  "key": "location_kind",
+                  "value": "repository"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": {
+                  "key": "native_state",
+                  "value": "checked=false"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "location_kind": [
+              {
+                "key": "repository",
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ]
+          },
+          "page": {
+            "limit": 1,
+            "next_cursor": "eyJmaWx0ZXJfZGlnZXN0IjoiMjMxZWM2OTgyNzZhZjE1ZTRjNDdjYTI2NzkxZDY5MTQ1MTYwMGQxYTY4Nzk4ZWJkZTlhYWM3NDMyN2VmNWVlMCIsImluZGV4X2NvbW1pdCI6ImFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJsYXN0IjpbImZhbSIsIkRPQy0xIiwiR0FURS1BTFBIQSIsImRvY3MvdG9kby9mYW0vU1BFQy5tZCIsMTBdLCJwcm92aWRlcl9pZGVudGl0eSI6ImZkYjhiMTdjOTYxYTgwMDQ1OGU0ZjY5MTkyMzkyNTUzMzRiNmVmMjZlMTVmNTY1ZDExYjc0OGUxODZlYzBkMjciLCJ2IjoyfQ.PG9o2GZQt9BTxHboH0azTuDORNN6_OhzWPTCp7OdEmk"
+          }
+        },
+        "coverage": {
+          "overall_complete": true,
+          "reason_code": null,
+          "reason_codes": [],
+          "attention_scope_complete": true,
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            }
+          ],
+          "diagnostics": {
+            "state_provenance_missing": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "suspicion_resolution": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "duplicate_definitions": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unresolved_document_ids": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "invalid_location_records": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unsafe_object_locators": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            }
+          },
+          "location_projection": {
+            "active_documents_missing_id": 2
+          },
+          "suspicion_provider": {
+            "schema_version": 2,
+            "available": true,
+            "coverage_complete": true,
+            "reason_code": null,
+            "finding_count": 0,
+            "metrics": {
+              "median_clear_latency_seconds": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "open_count": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "re_suspect_rate": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              }
+            },
+            "coverage": {
+              "clearing_ambiguity_count": 0,
+              "eligible_change_events": 0,
+              "eligible_dependency_edges": 0,
+              "history_gap_count": 0,
+              "identity_collision_count": 0,
+              "invalid_clearing_count": 0,
+              "pair_generation_ambiguity_count": 0,
+              "resolved_change_events": 0,
+              "resolved_dependency_edges": 0,
+              "unlogged_dependency_removal_count": 0,
+              "unlogged_object_change_count": 0
+            }
+          },
+          "object_projection_diagnostics": {
+            "available": true,
+            "schema_version": 3,
+            "manifest_sha256": "a2006c07a399024410a75e11d8cb6da18f507c34639009b6040f333748ceeab2",
+            "total_records": 0,
+            "reason_codes": [],
+            "source_coverage": {
+              "f18": {
+                "eligible_documents": 0,
+                "identified_documents": 0,
+                "missing_document_ids": 0,
+                "invalid_document_lifecycle": 0
+              },
+              "f19": {
+                "emitted_definitions": 0,
+                "unique_definition_ids": 0,
+                "duplicate_definition_ids": 0,
+                "malformed_handles": 0,
+                "status_counts": {
+                  "open": 0,
+                  "pending_ratification": 0,
+                  "resolved": 0,
+                  "unknown": 0
+                }
+              },
+              "f20": {
+                "diagnostic_records": 0
+              }
+            },
+            "code_buckets": [
+              {
+                "code": "document_id_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "invalid_document_lifecycle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "open_question_definition_duplicate",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "malformed_open_question_handle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_missing_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_index_without_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_unsupported_status",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_status_disagreement",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_source_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_target_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "change_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "touches_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "retirement_supersedes_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              }
+            ]
+          },
+          "object_projection_diagnostics_available": true
+        }
+      }
+    },
+    {
+      "name": "second_page",
+      "request": {
+        "capability": "C11",
+        "limit": 1,
+        "cursor": "eyJmaWx0ZXJfZGlnZXN0IjoiMjMxZWM2OTgyNzZhZjE1ZTRjNDdjYTI2NzkxZDY5MTQ1MTYwMGQxYTY4Nzk4ZWJkZTlhYWM3NDMyN2VmNWVlMCIsImluZGV4X2NvbW1pdCI6ImFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJsYXN0IjpbImZhbSIsIkRPQy0xIiwiR0FURS1BTFBIQSIsImRvY3MvdG9kby9mYW0vU1BFQy5tZCIsMTBdLCJwcm92aWRlcl9pZGVudGl0eSI6ImZkYjhiMTdjOTYxYTgwMDQ1OGU0ZjY5MTkyMzkyNTUzMzRiNmVmMjZlMTVmNTY1ZDExYjc0OGUxODZlYzBkMjciLCJ2IjoyfQ.PG9o2GZQt9BTxHboH0azTuDORNN6_OhzWPTCp7OdEmk"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {
+          "items": [
+            {
+              "object": {
+                "id": "GATE-BETA",
+                "kind": "gate",
+                "family": "fam",
+                "text": "Statement",
+                "locator": {
+                  "document": "docs/todo/fam/SPEC.md",
+                  "line": 20
+                },
+                "document_id": "DOC-1"
+              },
+              "attention_classes": [
+                "acceptance"
+              ],
+              "native_states": [
+                {
+                  "attribute": "checked",
+                  "value": false,
+                  "provenance": "declared"
+                }
+              ],
+              "attention_evidence": [
+                {
+                  "attention_class": "acceptance",
+                  "native_state": {
+                    "attribute": "checked",
+                    "value": false,
+                    "provenance": "declared"
+                  }
+                }
+              ],
+              "suspicion_evidence": [],
+              "tags": [
+                {
+                  "key": "family",
+                  "value": "fam",
+                  "label": "family:fam",
+                  "source_attribute": "family",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "kind",
+                  "value": "gate",
+                  "label": "kind:gate",
+                  "source_attribute": "kind",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "attention_class",
+                  "value": "acceptance",
+                  "label": "attention:acceptance",
+                  "source_attribute": "attention_classes",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "native_state",
+                  "value": "checked=false",
+                  "label": "state:checked=false",
+                  "source_attribute": "checked",
+                  "provenance": "declared"
+                },
+                {
+                  "key": "location_kind",
+                  "value": "repository",
+                  "label": "location:repository",
+                  "source_attribute": "location_kind",
+                  "provenance": "inferred"
+                }
+              ],
+              "location_kinds": [
+                "repository"
+              ]
+            }
+          ],
+          "total": {
+            "value": 2,
+            "eligible": 2,
+            "confidence": "measured"
+          },
+          "facets": {
+            "family": [
+              {
+                "key": "fam",
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "document": [
+              {
+                "key": {
+                  "family": "fam",
+                  "document_id": "DOC-1",
+                  "document": "docs/todo/fam/SPEC.md"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "attention_class": [
+              {
+                "key": "decision",
+                "value": 0,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": "deviation",
+                "value": 0,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": "acceptance",
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": "coverage",
+                "value": 0,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": "suspicion",
+                "value": 0,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "native_state": [
+              {
+                "key": {
+                  "attribute": "checked",
+                  "value": "false"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "tag": [
+              {
+                "key": {
+                  "key": "attention_class",
+                  "value": "acceptance"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": {
+                  "key": "family",
+                  "value": "fam"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": {
+                  "key": "kind",
+                  "value": "gate"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": {
+                  "key": "location_kind",
+                  "value": "repository"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              },
+              {
+                "key": {
+                  "key": "native_state",
+                  "value": "checked=false"
+                },
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ],
+            "location_kind": [
+              {
+                "key": "repository",
+                "value": 2,
+                "eligible": 2,
+                "confidence": "measured"
+              }
+            ]
+          },
+          "page": {
+            "limit": 1,
+            "next_cursor": null
+          }
+        },
+        "coverage": {
+          "overall_complete": true,
+          "reason_code": null,
+          "reason_codes": [],
+          "attention_scope_complete": true,
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            }
+          ],
+          "diagnostics": {
+            "state_provenance_missing": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "suspicion_resolution": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "duplicate_definitions": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unresolved_document_ids": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "invalid_location_records": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unsafe_object_locators": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            }
+          },
+          "location_projection": {
+            "active_documents_missing_id": 2
+          },
+          "suspicion_provider": {
+            "schema_version": 2,
+            "available": true,
+            "coverage_complete": true,
+            "reason_code": null,
+            "finding_count": 0,
+            "metrics": {
+              "median_clear_latency_seconds": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "open_count": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "re_suspect_rate": {
+                "confidence": "vacuous",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              }
+            },
+            "coverage": {
+              "clearing_ambiguity_count": 0,
+              "eligible_change_events": 0,
+              "eligible_dependency_edges": 0,
+              "history_gap_count": 0,
+              "identity_collision_count": 0,
+              "invalid_clearing_count": 0,
+              "pair_generation_ambiguity_count": 0,
+              "resolved_change_events": 0,
+              "resolved_dependency_edges": 0,
+              "unlogged_dependency_removal_count": 0,
+              "unlogged_object_change_count": 0
+            }
+          },
+          "object_projection_diagnostics": {
+            "available": true,
+            "schema_version": 3,
+            "manifest_sha256": "a2006c07a399024410a75e11d8cb6da18f507c34639009b6040f333748ceeab2",
+            "total_records": 0,
+            "reason_codes": [],
+            "source_coverage": {
+              "f18": {
+                "eligible_documents": 0,
+                "identified_documents": 0,
+                "missing_document_ids": 0,
+                "invalid_document_lifecycle": 0
+              },
+              "f19": {
+                "emitted_definitions": 0,
+                "unique_definition_ids": 0,
+                "duplicate_definition_ids": 0,
+                "malformed_handles": 0,
+                "status_counts": {
+                  "open": 0,
+                  "pending_ratification": 0,
+                  "resolved": 0,
+                  "unknown": 0
+                }
+              },
+              "f20": {
+                "diagnostic_records": 0
+              }
+            },
+            "code_buckets": [
+              {
+                "code": "document_id_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "invalid_document_lifecycle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "open_question_definition_duplicate",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "malformed_open_question_handle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_missing_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_index_without_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_unsupported_status",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_status_disagreement",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_source_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_target_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "change_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "touches_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "retirement_supersedes_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              }
+            ]
+          },
+          "object_projection_diagnostics_available": true
+        }
+      }
+    },
+    {
+      "name": "filter_mismatch",
+      "request": {
+        "capability": "C11",
+        "family": [
+          "other"
+        ],
+        "cursor": "eyJmaWx0ZXJfZGlnZXN0IjoiMjMxZWM2OTgyNzZhZjE1ZTRjNDdjYTI2NzkxZDY5MTQ1MTYwMGQxYTY4Nzk4ZWJkZTlhYWM3NDMyN2VmNWVlMCIsImluZGV4X2NvbW1pdCI6ImFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJsYXN0IjpbImZhbSIsIkRPQy0xIiwiR0FURS1BTFBIQSIsImRvY3MvdG9kby9mYW0vU1BFQy5tZCIsMTBdLCJwcm92aWRlcl9pZGVudGl0eSI6ImZkYjhiMTdjOTYxYTgwMDQ1OGU0ZjY5MTkyMzkyNTUzMzRiNmVmMjZlMTVmNTY1ZDExYjc0OGUxODZlYzBkMjciLCJ2IjoyfQ.PG9o2GZQt9BTxHboH0azTuDORNN6_OhzWPTCp7OdEmk"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {},
+        "coverage": {
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            }
+          ]
+        },
+        "error": {
+          "code": "cursor_snapshot_mismatch",
+          "message": "Cursor does not belong to this snapshot and filter set.",
+          "details": {}
+        }
+      }
+    },
+    {
+      "name": "forged_cursor",
+      "request": {
+        "capability": "C11",
+        "cursor": "bad.signature"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {},
+        "coverage": {
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            }
+          ]
+        },
+        "error": {
+          "code": "invalid_cursor",
+          "message": "Cursor is malformed or failed integrity verification.",
+          "details": {}
+        }
+      }
+    },
+    {
+      "name": "invalid_limit",
+      "request": {
+        "capability": "C11",
+        "limit": 0
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {},
+        "coverage": {},
+        "error": {
+          "code": "invalid_filter",
+          "message": "Invalid work-item filter.",
+          "details": {
+            "field": "limit"
+          }
+        }
+      }
+    },
+    {
+      "name": "missing_suspicion",
+      "request": {
+        "capability": "C11",
+        "attention_class": [
+          "suspicion"
+        ]
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {},
+        "coverage": {
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": false,
+              "coverage_complete": false,
+              "reason_code": "suspicion_provider_unavailable"
+            }
+          ],
+          "suspicion_provider": {
+            "schema_version": 2,
+            "available": false,
+            "coverage_complete": false,
+            "reason_code": "suspicion_provider_unavailable",
+            "finding_count": 0,
+            "metrics": {
+              "open_count": {
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": null
+              },
+              "median_clear_latency_seconds": {
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": null
+              },
+              "re_suspect_rate": {
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": null
+              }
+            },
+            "coverage": {
+              "eligible_change_events": 0,
+              "resolved_change_events": 0,
+              "eligible_dependency_edges": 0,
+              "resolved_dependency_edges": 0,
+              "invalid_clearing_count": 0,
+              "clearing_ambiguity_count": 0,
+              "unlogged_object_change_count": 0,
+              "unlogged_dependency_removal_count": 0,
+              "history_gap_count": 0,
+              "identity_collision_count": 0,
+              "pair_generation_ambiguity_count": 0
+            }
+          },
+          "object_projection_diagnostics": {
+            "available": true,
+            "schema_version": 3,
+            "manifest_sha256": "a2006c07a399024410a75e11d8cb6da18f507c34639009b6040f333748ceeab2",
+            "total_records": 0,
+            "reason_codes": [],
+            "source_coverage": {
+              "f18": {
+                "eligible_documents": 0,
+                "identified_documents": 0,
+                "missing_document_ids": 0,
+                "invalid_document_lifecycle": 0
+              },
+              "f19": {
+                "emitted_definitions": 0,
+                "unique_definition_ids": 0,
+                "duplicate_definition_ids": 0,
+                "malformed_handles": 0,
+                "status_counts": {
+                  "open": 0,
+                  "pending_ratification": 0,
+                  "resolved": 0,
+                  "unknown": 0
+                }
+              },
+              "f20": {
+                "diagnostic_records": 0
+              }
+            },
+            "code_buckets": [
+              {
+                "code": "document_id_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "invalid_document_lifecycle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "open_question_definition_duplicate",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "malformed_open_question_handle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_missing_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_index_without_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_unsupported_status",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_status_disagreement",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_source_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_target_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "change_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "touches_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "retirement_supersedes_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              }
+            ]
+          },
+          "object_projection_diagnostics_available": true
+        },
+        "error": {
+          "code": "capability_unavailable",
+          "message": "A requested attention class is unavailable.",
+          "details": {
+            "attention_classes": [
+              "suspicion"
+            ],
+            "reason_codes": {
+              "suspicion": "suspicion_provider_unavailable"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "partial_suspicion",
+      "request": {
+        "capability": "C11",
+        "attention_class": [
+          "suspicion"
+        ]
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {
+          "items": [],
+          "total": {
+            "value": null,
+            "eligible": 0,
+            "confidence": "uncomputable",
+            "observed_value": 0
+          },
+          "facets": {
+            "family": [],
+            "document": [],
+            "attention_class": [
+              {
+                "key": "decision",
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              },
+              {
+                "key": "deviation",
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              },
+              {
+                "key": "acceptance",
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              },
+              {
+                "key": "coverage",
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              },
+              {
+                "key": "suspicion",
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              }
+            ],
+            "native_state": [],
+            "tag": [],
+            "location_kind": []
+          },
+          "page": {
+            "limit": 50,
+            "next_cursor": null
+          }
+        },
+        "coverage": {
+          "overall_complete": false,
+          "reason_code": "suspicion_inputs_incomplete",
+          "reason_codes": [
+            "suspicion_inputs_incomplete"
+          ],
+          "attention_scope_complete": false,
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": true,
+              "coverage_complete": false,
+              "reason_code": "suspicion_inputs_incomplete"
+            }
+          ],
+          "diagnostics": {
+            "state_provenance_missing": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "suspicion_resolution": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "duplicate_definitions": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unresolved_document_ids": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "invalid_location_records": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unsafe_object_locators": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            }
+          },
+          "location_projection": {
+            "active_documents_missing_id": 2
+          },
+          "suspicion_provider": {
+            "schema_version": 2,
+            "available": true,
+            "coverage_complete": false,
+            "reason_code": "suspicion_inputs_incomplete",
+            "finding_count": 0,
+            "metrics": {
+              "median_clear_latency_seconds": {
+                "confidence": "uncomputable",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "open_count": {
+                "confidence": "uncomputable",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "re_suspect_rate": {
+                "confidence": "uncomputable",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              }
+            },
+            "coverage": {
+              "clearing_ambiguity_count": 0,
+              "eligible_change_events": 0,
+              "eligible_dependency_edges": 0,
+              "history_gap_count": 1,
+              "identity_collision_count": 0,
+              "invalid_clearing_count": 0,
+              "pair_generation_ambiguity_count": 0,
+              "resolved_change_events": 0,
+              "resolved_dependency_edges": 0,
+              "unlogged_dependency_removal_count": 0,
+              "unlogged_object_change_count": 0
+            }
+          },
+          "object_projection_diagnostics": {
+            "available": true,
+            "schema_version": 3,
+            "manifest_sha256": "a2006c07a399024410a75e11d8cb6da18f507c34639009b6040f333748ceeab2",
+            "total_records": 0,
+            "reason_codes": [],
+            "source_coverage": {
+              "f18": {
+                "eligible_documents": 0,
+                "identified_documents": 0,
+                "missing_document_ids": 0,
+                "invalid_document_lifecycle": 0
+              },
+              "f19": {
+                "emitted_definitions": 0,
+                "unique_definition_ids": 0,
+                "duplicate_definition_ids": 0,
+                "malformed_handles": 0,
+                "status_counts": {
+                  "open": 0,
+                  "pending_ratification": 0,
+                  "resolved": 0,
+                  "unknown": 0
+                }
+              },
+              "f20": {
+                "diagnostic_records": 0
+              }
+            },
+            "code_buckets": [
+              {
+                "code": "document_id_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "invalid_document_lifecycle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "open_question_definition_duplicate",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "malformed_open_question_handle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_missing_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_index_without_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_unsupported_status",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_status_disagreement",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_source_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_target_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "change_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "touches_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "retirement_supersedes_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              }
+            ]
+          },
+          "object_projection_diagnostics_available": true
+        }
+      }
+    },
+    {
+      "name": "invalid_suspicion",
+      "request": {
+        "capability": "C11",
+        "attention_class": [
+          "suspicion"
+        ]
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {},
+        "coverage": {
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": false,
+              "coverage_complete": false,
+              "reason_code": "suspicion_provider_invalid"
+            }
+          ],
+          "suspicion_provider": {
+            "schema_version": 2,
+            "available": false,
+            "coverage_complete": false,
+            "reason_code": "suspicion_provider_invalid",
+            "finding_count": 0,
+            "metrics": {
+              "open_count": {
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": null
+              },
+              "median_clear_latency_seconds": {
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": null
+              },
+              "re_suspect_rate": {
+                "value": null,
+                "eligible": 0,
+                "confidence": "uncomputable",
+                "observed_value": null
+              }
+            },
+            "coverage": {
+              "eligible_change_events": 0,
+              "resolved_change_events": 0,
+              "eligible_dependency_edges": 0,
+              "resolved_dependency_edges": 0,
+              "invalid_clearing_count": 0,
+              "clearing_ambiguity_count": 0,
+              "unlogged_object_change_count": 0,
+              "unlogged_dependency_removal_count": 0,
+              "history_gap_count": 0,
+              "identity_collision_count": 0,
+              "pair_generation_ambiguity_count": 0
+            }
+          },
+          "object_projection_diagnostics": {
+            "available": true,
+            "schema_version": 3,
+            "manifest_sha256": "a2006c07a399024410a75e11d8cb6da18f507c34639009b6040f333748ceeab2",
+            "total_records": 0,
+            "reason_codes": [],
+            "source_coverage": {
+              "f18": {
+                "eligible_documents": 0,
+                "identified_documents": 0,
+                "missing_document_ids": 0,
+                "invalid_document_lifecycle": 0
+              },
+              "f19": {
+                "emitted_definitions": 0,
+                "unique_definition_ids": 0,
+                "duplicate_definition_ids": 0,
+                "malformed_handles": 0,
+                "status_counts": {
+                  "open": 0,
+                  "pending_ratification": 0,
+                  "resolved": 0,
+                  "unknown": 0
+                }
+              },
+              "f20": {
+                "diagnostic_records": 0
+              }
+            },
+            "code_buckets": [
+              {
+                "code": "document_id_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "invalid_document_lifecycle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "open_question_definition_duplicate",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "malformed_open_question_handle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_missing_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_index_without_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_unsupported_status",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_status_disagreement",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_source_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_target_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "change_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "touches_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "retirement_supersedes_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              }
+            ]
+          },
+          "object_projection_diagnostics_available": true
+        },
+        "error": {
+          "code": "capability_unavailable",
+          "message": "A requested attention class is unavailable.",
+          "details": {
+            "attention_classes": [
+              "suspicion"
+            ],
+            "reason_codes": {
+              "suspicion": "suspicion_provider_invalid"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "behind",
+      "request": {
+        "capability": "C11"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "behind",
+        "data": {
+          "items": [
+            {
+              "object": {
+                "id": "GATE-ALPHA",
+                "kind": "gate",
+                "family": "fam",
+                "text": "Statement",
+                "locator": {
+                  "document": "docs/todo/fam/SPEC.md",
+                  "line": 10
+                },
+                "document_id": "DOC-1"
+              },
+              "attention_classes": [
+                "acceptance"
+              ],
+              "native_states": [
+                {
+                  "attribute": "checked",
+                  "value": false,
+                  "provenance": "declared"
+                }
+              ],
+              "attention_evidence": [
+                {
+                  "attention_class": "acceptance",
+                  "native_state": {
+                    "attribute": "checked",
+                    "value": false,
+                    "provenance": "declared"
+                  }
+                }
+              ],
+              "suspicion_evidence": [],
+              "tags": [
+                {
+                  "key": "family",
+                  "value": "fam",
+                  "label": "family:fam",
+                  "source_attribute": "family",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "kind",
+                  "value": "gate",
+                  "label": "kind:gate",
+                  "source_attribute": "kind",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "attention_class",
+                  "value": "acceptance",
+                  "label": "attention:acceptance",
+                  "source_attribute": "attention_classes",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "native_state",
+                  "value": "checked=false",
+                  "label": "state:checked=false",
+                  "source_attribute": "checked",
+                  "provenance": "declared"
+                },
+                {
+                  "key": "location_kind",
+                  "value": "repository",
+                  "label": "location:repository",
+                  "source_attribute": "location_kind",
+                  "provenance": "inferred"
+                }
+              ],
+              "location_kinds": [
+                "repository"
+              ]
+            },
+            {
+              "object": {
+                "id": "GATE-BETA",
+                "kind": "gate",
+                "family": "fam",
+                "text": "Statement",
+                "locator": {
+                  "document": "docs/todo/fam/SPEC.md",
+                  "line": 20
+                },
+                "document_id": "DOC-1"
+              },
+              "attention_classes": [
+                "acceptance"
+              ],
+              "native_states": [
+                {
+                  "attribute": "checked",
+                  "value": false,
+                  "provenance": "declared"
+                }
+              ],
+              "attention_evidence": [
+                {
+                  "attention_class": "acceptance",
+                  "native_state": {
+                    "attribute": "checked",
+                    "value": false,
+                    "provenance": "declared"
+                  }
+                }
+              ],
+              "suspicion_evidence": [],
+              "tags": [
+                {
+                  "key": "family",
+                  "value": "fam",
+                  "label": "family:fam",
+                  "source_attribute": "family",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "kind",
+                  "value": "gate",
+                  "label": "kind:gate",
+                  "source_attribute": "kind",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "attention_class",
+                  "value": "acceptance",
+                  "label": "attention:acceptance",
+                  "source_attribute": "attention_classes",
+                  "provenance": "inferred"
+                },
+                {
+                  "key": "native_state",
+                  "value": "checked=false",
+                  "label": "state:checked=false",
+                  "source_attribute": "checked",
+                  "provenance": "declared"
+                },
+                {
+                  "key": "location_kind",
+                  "value": "repository",
+                  "label": "location:repository",
+                  "source_attribute": "location_kind",
+                  "provenance": "inferred"
+                }
+              ],
+              "location_kinds": [
+                "repository"
+              ]
+            }
+          ],
+          "total": {
+            "value": null,
+            "eligible": 2,
+            "confidence": "uncomputable",
+            "observed_value": 2
+          },
+          "facets": {
+            "family": [
+              {
+                "key": "fam",
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              }
+            ],
+            "document": [
+              {
+                "key": {
+                  "family": "fam",
+                  "document_id": "DOC-1",
+                  "document": "docs/todo/fam/SPEC.md"
+                },
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              }
+            ],
+            "attention_class": [
+              {
+                "key": "decision",
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              },
+              {
+                "key": "deviation",
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              },
+              {
+                "key": "acceptance",
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              },
+              {
+                "key": "coverage",
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              },
+              {
+                "key": "suspicion",
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 0
+              }
+            ],
+            "native_state": [
+              {
+                "key": {
+                  "attribute": "checked",
+                  "value": "false"
+                },
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              }
+            ],
+            "tag": [
+              {
+                "key": {
+                  "key": "attention_class",
+                  "value": "acceptance"
+                },
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              },
+              {
+                "key": {
+                  "key": "family",
+                  "value": "fam"
+                },
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              },
+              {
+                "key": {
+                  "key": "kind",
+                  "value": "gate"
+                },
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              },
+              {
+                "key": {
+                  "key": "location_kind",
+                  "value": "repository"
+                },
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              },
+              {
+                "key": {
+                  "key": "native_state",
+                  "value": "checked=false"
+                },
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              }
+            ],
+            "location_kind": [
+              {
+                "key": "repository",
+                "value": null,
+                "eligible": 2,
+                "confidence": "uncomputable",
+                "observed_value": 2
+              }
+            ]
+          },
+          "page": {
+            "limit": 50,
+            "next_cursor": null
+          }
+        },
+        "coverage": {
+          "overall_complete": false,
+          "reason_code": "suspicion_inputs_incomplete",
+          "reason_codes": [
+            "suspicion_inputs_incomplete"
+          ],
+          "attention_scope_complete": false,
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": true,
+              "coverage_complete": false,
+              "reason_code": "suspicion_inputs_incomplete"
+            }
+          ],
+          "diagnostics": {
+            "state_provenance_missing": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "suspicion_resolution": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "duplicate_definitions": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unresolved_document_ids": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "invalid_location_records": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            },
+            "unsafe_object_locators": {
+              "count": 0,
+              "locators": [],
+              "truncated": 0
+            }
+          },
+          "location_projection": {
+            "active_documents_missing_id": 2
+          },
+          "suspicion_provider": {
+            "schema_version": 2,
+            "available": true,
+            "coverage_complete": false,
+            "reason_code": "suspicion_inputs_incomplete",
+            "finding_count": 0,
+            "metrics": {
+              "median_clear_latency_seconds": {
+                "confidence": "uncomputable",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "open_count": {
+                "confidence": "uncomputable",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              },
+              "re_suspect_rate": {
+                "confidence": "uncomputable",
+                "eligible": 0,
+                "observed_value": null,
+                "value": null
+              }
+            },
+            "coverage": {
+              "clearing_ambiguity_count": 0,
+              "eligible_change_events": 0,
+              "eligible_dependency_edges": 0,
+              "history_gap_count": 1,
+              "identity_collision_count": 0,
+              "invalid_clearing_count": 0,
+              "pair_generation_ambiguity_count": 0,
+              "resolved_change_events": 0,
+              "resolved_dependency_edges": 0,
+              "unlogged_dependency_removal_count": 0,
+              "unlogged_object_change_count": 0
+            }
+          },
+          "object_projection_diagnostics": {
+            "available": true,
+            "schema_version": 3,
+            "manifest_sha256": "a2006c07a399024410a75e11d8cb6da18f507c34639009b6040f333748ceeab2",
+            "total_records": 0,
+            "reason_codes": [],
+            "source_coverage": {
+              "f18": {
+                "eligible_documents": 0,
+                "identified_documents": 0,
+                "missing_document_ids": 0,
+                "invalid_document_lifecycle": 0
+              },
+              "f19": {
+                "emitted_definitions": 0,
+                "unique_definition_ids": 0,
+                "duplicate_definition_ids": 0,
+                "malformed_handles": 0,
+                "status_counts": {
+                  "open": 0,
+                  "pending_ratification": 0,
+                  "resolved": 0,
+                  "unknown": 0
+                }
+              },
+              "f20": {
+                "diagnostic_records": 0
+              }
+            },
+            "code_buckets": [
+              {
+                "code": "document_id_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "invalid_document_lifecycle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "open_question_definition_duplicate",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "malformed_open_question_handle",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_missing_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_index_without_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_index_row",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_duplicate_body",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_unsupported_status",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "errata_status_disagreement",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_source_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_target_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "dependency_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "change_kind_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "touches_unresolved",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              },
+              {
+                "code": "retirement_supersedes_missing",
+                "record_count": 0,
+                "locator_count": 0,
+                "locators_complete": true,
+                "locators": []
+              }
+            ]
+          },
+          "object_projection_diagnostics_available": true
+        }
+      }
+    },
+    {
+      "name": "location_history_unavailable",
+      "request": {
+        "capability": "C12",
+        "requested_id": "GATE-ALPHA"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {
+          "requested_id": "GATE-ALPHA",
+          "resolution": {
+            "kind": "object",
+            "document_id": "DOC-1",
+            "object_locator": {
+              "document": "docs/todo/fam/SPEC.md",
+              "line": 10
+            }
+          },
+          "document": {
+            "lifecycle_state": {
+              "attribute": "lifecycle_state",
+              "value": "ratified",
+              "provenance": "inferred"
+            }
+          },
+          "locations": [
+            {
+              "location_kind": "repository",
+              "target": {
+                "path": "docs/todo/fam/SPEC.md"
+              },
+              "baseline": null,
+              "integrity": null,
+              "retired_at": null,
+              "attr_provenance": {
+                "baseline": "inferred",
+                "integrity": "inferred",
+                "location_kind": "inferred",
+                "retired_at": "inferred",
+                "target": "inferred"
+              }
+            }
+          ],
+          "history": []
+        },
+        "coverage": {
+          "resolution_complete": true,
+          "history_complete": false,
+          "lifecycle_complete": true,
+          "reason_code": "location_history_provider_unavailable",
+          "location_projection": {
+            "active_documents_missing_id": 2
+          },
+          "location_history_provider": {
+            "schema_version": 1,
+            "available": false,
+            "history_complete": false,
+            "reason_code": "location_history_provider_unavailable",
+            "coverage": {
+              "eligible_logical_locations": 0,
+              "resolved_logical_locations": 0,
+              "history_record_count": 0,
+              "history_gap_count": 0,
+              "frontier_commit": null,
+              "bootstrap_manifest_sha256": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "location_history_available",
+      "request": {
+        "capability": "C12",
+        "requested_id": "DOC-1"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {
+          "requested_id": "DOC-1",
+          "resolution": {
+            "kind": "document",
+            "document_id": "DOC-1",
+            "object_locator": null
+          },
+          "document": {
+            "lifecycle_state": {
+              "attribute": "lifecycle_state",
+              "value": "ratified",
+              "provenance": "inferred"
+            }
+          },
+          "locations": [
+            {
+              "location_kind": "repository",
+              "target": {
+                "path": "docs/todo/fam/SPEC.md"
+              },
+              "baseline": null,
+              "integrity": null,
+              "retired_at": null,
+              "attr_provenance": {
+                "baseline": "inferred",
+                "integrity": "inferred",
+                "location_kind": "inferred",
+                "retired_at": "inferred",
+                "target": "inferred"
+              }
+            }
+          ],
+          "history": [
+            {
+              "location_kind": "repository",
+              "target": {
+                "path": "docs/todo/fam/OLD.md"
+              },
+              "baseline": null,
+              "integrity": null,
+              "recorded_at": "dddddddddddddddddddddddddddddddddddddddd",
+              "retired_at": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+              "attr_provenance": {
+                "baseline": "inferred",
+                "integrity": "inferred",
+                "location_kind": "inferred",
+                "recorded_at": "inferred",
+                "retired_at": "inferred",
+                "target": "inferred"
+              }
+            }
+          ]
+        },
+        "coverage": {
+          "resolution_complete": true,
+          "history_complete": true,
+          "lifecycle_complete": true,
+          "reason_code": null,
+          "location_projection": {
+            "active_documents_missing_id": 2
+          },
+          "location_history_provider": {
+            "schema_version": 1,
+            "available": true,
+            "history_complete": true,
+            "reason_code": null,
+            "coverage": {
+              "bootstrap_manifest_sha256": null,
+              "eligible_logical_locations": 1,
+              "frontier_commit": "ffffffffffffffffffffffffffffffffffffffff",
+              "history_gap_count": 0,
+              "history_record_count": 1,
+              "resolved_logical_locations": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "object_missing",
+      "request": {
+        "capability": "C12",
+        "requested_id": "MISSING"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {},
+        "coverage": {
+          "resolution_complete": false,
+          "reason_code": "object_not_found"
+        },
+        "error": {
+          "code": "object_not_found",
+          "message": "No object definition matches the requested identifier.",
+          "details": {}
+        }
+      }
+    },
+    {
+      "name": "object_ambiguous",
+      "request": {
+        "capability": "C12",
+        "requested_id": "GATE-ALPHA"
+      },
+      "result": {
+        "index_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {},
+        "coverage": {
+          "resolution_complete": false,
+          "reason_code": "ambiguous_object"
+        },
+        "error": {
+          "code": "ambiguous_object",
+          "message": "Object identity is ambiguous.",
+          "details": {
+            "candidate_count": 2,
+            "candidates": [
+              {
+                "kind": "gate",
+                "locator": {
+                  "document": "docs/todo/fam/SPEC.md",
+                  "line": 10
+                }
+              },
+              {
+                "kind": "gate",
+                "locator": {
+                  "document": "docs/todo/fam/SPEC.md",
+                  "line": 30
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "publication_mismatch",
+      "request": {
+        "capability": "C11",
+        "cursor": "eyJmaWx0ZXJfZGlnZXN0IjoiMjMxZWM2OTgyNzZhZjE1ZTRjNDdjYTI2NzkxZDY5MTQ1MTYwMGQxYTY4Nzk4ZWJkZTlhYWM3NDMyN2VmNWVlMCIsImluZGV4X2NvbW1pdCI6ImFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJsYXN0IjpbImZhbSIsIkRPQy0xIiwiR0FURS1BTFBIQSIsImRvY3MvdG9kby9mYW0vU1BFQy5tZCIsMTBdLCJwcm92aWRlcl9pZGVudGl0eSI6ImZkYjhiMTdjOTYxYTgwMDQ1OGU0ZjY5MTkyMzkyNTUzMzRiNmVmMjZlMTVmNTY1ZDExYjc0OGUxODZlYzBkMjciLCJ2IjoyfQ.PG9o2GZQt9BTxHboH0azTuDORNN6_OhzWPTCp7OdEmk"
+      },
+      "result": {
+        "index_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "tracked_branch": "main",
+        "staleness_state": "current",
+        "data": {},
+        "coverage": {
+          "attention_class_availability": [
+            {
+              "attention_class": "decision",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "deviation",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "acceptance",
+              "available": true,
+              "coverage_complete": false,
+              "reason_code": "gate_state_provenance_incomplete"
+            },
+            {
+              "attention_class": "coverage",
+              "available": true,
+              "coverage_complete": true,
+              "reason_code": null
+            },
+            {
+              "attention_class": "suspicion",
+              "available": true,
+              "coverage_complete": false,
+              "reason_code": "suspicion_inputs_incomplete"
+            }
+          ]
+        },
+        "error": {
+          "code": "cursor_snapshot_mismatch",
+          "message": "Cursor does not belong to this snapshot and filter set.",
+          "details": {}
+        }
+      }
+    }
+  ]
+}

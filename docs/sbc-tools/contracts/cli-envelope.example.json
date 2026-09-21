@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "command": "scan",
+  "mode": "working-tree",
+  "status": "ok",
+  "exit_code": 0,
+  "selection": {
+    "repository_id": "fixture",
+    "source_commit": null,
+    "projection_commit": null,
+    "corpus_sha256": "63ed67d2cb1f6b5ac357a2c901caf780ac256df1c260afb8ff57af9007e28cb5",
+    "authority_manifest_sha256": "b55acb046b69968f776bcd4f0a54280ea67da6a8ef493eb98a5b2ed3e694b75b",
+    "snapshot_id": "f0665bbe84e0766e61d80ec68029a03d87c500611ea7a237fbf2668947a17169",
+    "dependencies": []
+  },
+  "findings": [],
+  "error": null,
+  "result": {
+    "publication": "published",
+    "comparison": "not_applicable",
+    "files": [
+      {
+        "path": "diagnostics/_manifest.json",
+        "sha256": "23ea70073498f9e53c74d5e3b090197d4724d52393aa69a2f1e8ad41e45aff7f"
+      },
+      {
+        "path": "diagnostics/vectors.json",
+        "sha256": "9e75f5a4acf239d9e08d0efa07d07ea2640a77e78a8aad665112f1e2d6316838"
+      },
+      {
+        "path": "index/_manifest.json",
+        "sha256": "a2907470483e24f78adcf151e786fd7208659cb9dd4bd449ec369d753f913012"
+      },
+      {
+        "path": "index/vectors.json",
+        "sha256": "60a20dbc4baa046c19c632ec89495089242112e09dbb25374bcf6cda0e0c7674"
+      },
+      {
+        "path": "locations/_manifest.json",
+        "sha256": "526a47ad10cde6789bf8f20365ad32756010da12366ad0634552e307f4ff1ff9"
+      },
+      {
+        "path": "locations/vectors.json",
+        "sha256": "a02e4b31f23affa948c32a188a703da26be49921fb541c337e016b0840fcf423"
+      }
+    ]
+  }
+}

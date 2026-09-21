@@ -1,0 +1,61 @@
+{
+  "date": "2026-09-21",
+  "status": "pass",
+  "scope": "Owner-approved repository consolidation; no runtime gate closure or release tag",
+  "core_tests": 84,
+  "git_provenance_tests": 94,
+  "local_markdown_links": "pass",
+  "tooling_history_parent": "4e6b07a2be058e2d90f6fcde0146c32da178cfc3",
+  "installed_distribution": {
+    "wheel": "sbc_tools-0.1.0.dev22-py3-none-any.whl",
+    "sha256": "952ad8170e96b648101bce9c254573d87aeb6c79c449ff03378335624180c99e",
+    "version": "sbc-tools 0.1.0.dev22",
+    "runtime_packages": [
+      {
+        "name": "dulwich",
+        "version": "1.2.15"
+      },
+      {
+        "name": "pip",
+        "version": "26.1.2"
+      },
+      {
+        "name": "sbc-tools",
+        "version": "0.1.0.dev22"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "urllib3",
+        "version": "2.8.0"
+      }
+    ],
+    "build_wheels": {
+      "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+      "wheel-0.48.0-py3-none-any.whl": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+    },
+    "provider_wheels": {
+      "dulwich-1.2.15-py3-none-any.whl": "5c863992962bab0fc5f75be132399a16f670f2a9283faf9aaeb953fd8891db83",
+      "urllib3-2.8.0-py3-none-any.whl": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+      "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+    },
+    "checks": [
+      "pure wheel and console metadata",
+      "offline installation and pip check",
+      "installed import origin",
+      "process/network audit negative controls",
+      "actual console launcher help/version/invocation error",
+      "console scan/commit/check",
+      "module and launcher envelope parity",
+      "wrong authority pin rejection"
+    ],
+    "scope": "Local disposable environment; fixture approvals only; no release or gate closure"
+  },
+  "limitations": [
+    "External SIDX authority access remains release work",
+    "Parent workspace changes and old checkout pointer are not published by this SBC push"
+  ]
+}

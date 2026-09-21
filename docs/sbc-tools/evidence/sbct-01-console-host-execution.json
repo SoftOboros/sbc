@@ -1,0 +1,44 @@
+{
+  "kind": "Approved explicit console host implementation",
+  "date": "2026-09-21",
+  "tooling_commit": "a76ff9dbc513635e06c450640b93edd041c7ab68",
+  "owner_decision": "explicit --host PATH, with no implicit discovery or approval inference. APPROVED",
+  "specification": "SBCT-01 0.8.0 approved amendment",
+  "python": "3.14.6",
+  "checks": {
+    "isolated_core_tests": 84,
+    "isolated_git_provenance_tests": 94,
+    "result": "pass",
+    "console_binding_tests": 8,
+    "coverage": [
+      "Default-console scan/commit/check",
+      "Snapshot identity preserved after relocating checkout",
+      "Exact config hash and schema negative controls",
+      "Duplicate JSON keys and nonfinite values reject",
+      "Mismatched config path not read",
+      "Injected loader conflict rejected before binding read",
+      "Loaded registration unchanged by subsequent binding edit",
+      "Wrong authority pin reports invalid_authority without output",
+      "Reparse binding metadata rejected before read"
+    ],
+    "projection_json_parsed": 138,
+    "generated_deletions": 0,
+    "scoped_diff_check": "pass",
+    "index_emit": "pass",
+    "index_check": "exit 1; current workspace diagnostic-baseline differences remain, no baseline update or waiver"
+  },
+  "limitations": [
+    "Synthetic fixture approvals; no actual consumer baseline approved by these tests",
+    "Working-tree mode and runtime gates remain open",
+    "Installed-wheel console-script launch not exercised; console main and module entry are covered by existing tests/smokes",
+    "Parent documentation/projections uncommitted; unrelated work preserved"
+  ],
+  "sha256": {
+    "src/sbc_tools/host.py": "2596d1ad1e798f1fa1625d96903055020ce4719521cab5d3c680339bad9aa41e",
+    "src/sbc_tools/cli.py": "e47aa3a8cd08d8e0a55a87d77167963325991be002e16ef0650bc4eb93528f9f",
+    "src/sbc_tools/cli_results.py": "d5dc66532b2878b4391cacd1d8c83c98c4e665ae425abda9c5d8c3470f7c0b79",
+    "src/sbc_tools/provenance.py": "7738a9bc859940db2ae2aa50aa11f5230b7fac312afa4bb4815770b3f20cda8e",
+    "tests_git/test_console_host.py": "a64cabe2bf7f1de34653367ec372628420fd42559cefa60286d953127e4b00c2"
+  },
+  "publication": "Local tooling commit only; no remote push or release tag"
+}

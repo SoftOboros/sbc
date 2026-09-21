@@ -1,0 +1,42 @@
+{
+  "kind": "Bounded pure corpus citation and object/diagnostic projection extraction",
+  "date": "2026-09-21",
+  "tooling_commit": "8288f27fe9b0310b8a186ff7cc5a9c038b00612a",
+  "python": "3.14.6",
+  "source_blobs": {
+    "scan.py": "551c0ab7d70f82ad9e6fdfd99ef57a1ff78aeabb",
+    "locations.py": "31217a012c99785cd0bda3cae3a3d9feb3cf33d5"
+  },
+  "checks": {
+    "core_tests": 54,
+    "core_result": "pass under -I -S",
+    "original_wire_cases": 5,
+    "pinned_reference_cases": 7,
+    "reference_result": "Exact object and diagnostic bytes; includes cross-family and historical definitions",
+    "pure_build_audit": "File, process and network events rejected after imports and reference preparation",
+    "standalone_layout": "pass with exact invocation-local locator membership",
+    "extraction_reproduction": "pass",
+    "diff_check": "pass"
+  },
+  "mechanical_boundaries": [
+    "Ordered explicit source text replaces filesystem traversal and rereads",
+    "Supplied prefixes replace registry loading",
+    "Exact admitted document membership replaces consumer-specific global directory list; context threaded through builder helpers"
+  ],
+  "limitations": [
+    "Source selection, order and family assignment remain host responsibilities",
+    "Location and archive generation not extracted",
+    "No complete validated snapshot, publication, scan CLI or admission-to-producer wiring",
+    "Runtime gates unchanged",
+    "Git/provenance tests not rerun for this pure producer-only change"
+  ],
+  "sha256": {
+    "src/sbc_tools/_producer_parser.py": "aa6204f42ec2bfa0605641886a85dc4aecc2618a69fd3d4ccdb706cea2d005b3",
+    "src/sbc_tools/documents.py": "c9517a87ecdfff42f86405909500a5d0f3070fb49dc4bd1d6c27dd326e620a8a",
+    "src/sbc_tools/projections.py": "19edf1da1e64c5a8b1fd627c425d35b33d1d7a0de874cf6f6504c4d60502652f",
+    "tools/extract_document_parser.py": "962d2c77ef1648f7d4874f910b044f1dcc10a71c2e3ebb038b9a678f7da6f560",
+    "tools/check_projection_extraction.py": "eb0ab93cee5704e043a8eb06021a89b21232b702fa8a3261a8be8ac56f8b4585",
+    "tests/test_projections.py": "87f01476c94a4d8858fe969495fa3da70bab89e710f757dde3a8cb245b92ecd0"
+  },
+  "publication": "Local tooling commit only; no remote or release tag"
+}

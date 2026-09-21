@@ -1,0 +1,37 @@
+{
+  "kind": "bounded mounted corpus and committed provenance integration",
+  "date": "2026-09-20",
+  "tooling_commit": "cf405e7adfae241ea94e4b85d913bb604ffeb1bc",
+  "python": "3.14.6",
+  "checks": {
+    "core_tests": 46,
+    "core_result": "pass under -I -S",
+    "git_provenance_tests": 55,
+    "git_provenance_result": "pass with audited pure wheels and process/network audit blocking",
+    "diff_check": "pass"
+  },
+  "covered": [
+    "Nested immediate-parent pins and owning repository-relative records",
+    "Pinned child history independent of dirty checkout or changed HEAD",
+    "Excluded children not opened and required evidence cannot be hidden",
+    "Missing required inputs and ancestor registrations rejected",
+    "Child source corpus through bundle validation and SQLite publication",
+    "Changed parent pin to changed child content invalidates old snapshot identity",
+    "Missing child objects reject validation",
+    "Single-repository inventory delegates to mounted implementation"
+  ],
+  "limitations": [
+    "Synthetic approval fixtures, not production-history acceptance",
+    "Production profile must register complete evidence inputs",
+    "Producer regeneration and clean-scan admission wiring remain open",
+    "Shared query engine and transport parity remain open",
+    "Runtime gates unchanged"
+  ],
+  "sha256": {
+    "src/sbc_tools/corpus.py": "c099186093611ede226543b75e9dc8c3efa27b493f86c1ba0f5740041c9efe17",
+    "src/sbc_tools/provenance.py": "73920f65d4a30a729d878a2ada6eca30c84c31f028305fe107c12e47c6318d37",
+    "tests_git/test_mounted_corpus.py": "d8e618e5efce153270437ec7f6e8d4eeac05dcaf0f5e6212adedd311cb31a25e",
+    "tests_git/test_provenance_inputs.py": "6f0b8d86d5a2f6e9a9bfb4a155846565a5fdf55c8761e7e17d22e52cf7972010"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

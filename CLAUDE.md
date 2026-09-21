@@ -9,7 +9,9 @@ Normative home for the Spec-Before-Code planning discipline.  This repo distribu
 - The `ErrataStatus` enum, ERRATA boundary rules, and `ERRATA.md` file template (ADDENDUM-B).
 - The errata log for the `sbc` family itself (`docs/SBC-ERRATA.md`).
 
-There is no executable code in this repository.  All deliverables are normative documents.
+Supporting code lives in `tools/`, governed by `docs/sbc-tools/`. The owner
+approved one repository and adoption submodule on 2026-09-21. Read the SBCT
+family before tooling work; production integrations remain downstream.
 
 ## Structure
 

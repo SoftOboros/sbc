@@ -1,0 +1,27 @@
+{
+  "kind": "Draft console host-binding contract review packet",
+  "date": "2026-09-21",
+  "status": "DRAFT; no approval, ratification or runtime gate change",
+  "checks": {
+    "schema_and_example": "valid Draft 2020-12",
+    "structural_negative_cases": 6,
+    "index_emit": "pass",
+    "projection_json_parsed": 138,
+    "generated_deletions": 0,
+    "unmerged_paths": 0,
+    "scoped_diff_check": "pass",
+    "proposal_projection_diagnostics": 0,
+    "index_check": "exit 1; current workspace diagnostic-baseline differences remain; no waiver or baseline update"
+  },
+  "sha256": {
+    "docs/todo/sbc-tools/SBCT-01-CONSOLE-HOST-PROPOSAL.md": "ae15913bac33924c383682c6cc25bde65620b326d7893b2452303ee5b8633471",
+    "docs/todo/sbc-tools/contracts/console-host.schema.json": "89ed1efdf91e1eff27f2bc37cc20bbe9d92c55df6287a39af24bfa402f1c05d1",
+    "docs/todo/sbc-tools/contracts/console-host.example.json": "c3516a0745868f3e17639bd88e629f5a97d7ff15ec42f7f86001fc1afe64a246"
+  },
+  "scope": [
+    "Explicit --host option proposed, not implemented",
+    "Ratified repository TOML unchanged",
+    "No new approval mechanism or implicit discovery",
+    "Parent documentation and generated projections left uncommitted; unrelated changes preserved"
+  ]
+}

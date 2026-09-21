@@ -1,0 +1,35 @@
+{
+  "kind": "bounded recursive checkout evidence; not full provenance or release acceptance",
+  "date": "2026-09-20",
+  "tooling_commit": "0bf734cfdc0eefe1c41ebb8921b8b7fa6c9f0cf0",
+  "python": "3.14.6",
+  "checks": {
+    "core_tests": 46,
+    "core_result": "pass under -I -S",
+    "git_provenance_tests": 41,
+    "git_provenance_result": "pass with audited pure wheels and process/network audit blocking",
+    "diff_check": "pass"
+  },
+  "covered": [
+    "Clean nested root/child/leaf checkout",
+    "Dirty leaf propagation through both parents",
+    "Child checkout revision mismatch rejection",
+    "Child untracked file rejection",
+    "Identical history at a different physical checkout rejected",
+    "Excluded children not opened or assumed clean",
+    "Immutable observation mapping"
+  ],
+  "limitations": [
+    "Conservative byte-exact observation constraints retained",
+    "Excluded or unselected gitlinks prevent whole-repository clean acceptance",
+    "No filesystem transaction or complete concurrent-change proof",
+    "Full BundleValidator provenance integration pending",
+    "Runtime gates remain open"
+  ],
+  "sha256": {
+    "src/sbc_tools/git_reader.py": "33a49a83cfddb5eee13b19023d9594b43ed3075530d756ff3aad166810654a10",
+    "src/sbc_tools/mounts.py": "893653f989082b93094791c3718c99a99affc4ebabe1527f76d6fed760b3a59d",
+    "tests_git/test_checkout_tree.py": "262a2d2d1ee4343356ed7ba79b4253082d025146e92d9d92102a8eea1587e03b"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

@@ -1,0 +1,41 @@
+{
+  "kind": "bounded pure document parser extraction, not complete producer",
+  "date": "2026-09-20",
+  "tooling_commit": "7694df8e7fb4d91cb78d0fb8bcea37a4adaa09d4",
+  "python": "3.14.6",
+  "source_blobs": {
+    "scan.py": "551c0ab7d70f82ad9e6fdfd99ef57a1ff78aeabb",
+    "locations.py": "31217a012c99785cd0bda3cae3a3d9feb3cf33d5"
+  },
+  "checks": {
+    "core_tests": 50,
+    "core_result": "pass under -I -S",
+    "document_reference_cases": 6,
+    "reference_result": "Full document/object/citation outputs match pinned source",
+    "pure_parser_audit": "Six cases parsed with open/process/socket audit events rejected",
+    "extraction_reproduction": "pass",
+    "reference_reproduction": "pass",
+    "diff_check": "pass"
+  },
+  "mechanical_boundaries": [
+    "Document bytes replace filesystem reads",
+    "Explicit family replaces repository-specific routing",
+    "Explicit registered-prefix set replaces registry file lookup"
+  ],
+  "limitations": [
+    "Context selection must be validated by producer orchestration",
+    "Full-corpus traversal, family policy, locations/archive generation and projection builder extraction remain open",
+    "No runnable scan CLI or complete producer claim",
+    "Runtime gates unchanged"
+  ],
+  "sha256": {
+    "src/sbc_tools/documents.py": "7a627af6f2535aa3cbfc4368a16be62b2d0e63baa8963b0e18515e4df48c1d45",
+    "src/sbc_tools/_producer_parser.py": "e1c767492d4ce17989dec9d5dcb398834cb4774a846d62ceb88089124c3ed5ee",
+    "src/sbc_tools/_producer_locations.py": "c1c8e6c6d518fb87e6f70dea2c1509b1c4ccfdc105909791155b7279aa7085eb",
+    "tools/extract_document_parser.py": "72ced4ee2c7504cb08ba4dc4e66d688a40fdd26771687f9cb57a3e62e69ef15f",
+    "tools/reproduce_document_vectors.py": "dc3b2e2631fc10e1541848c7e083ba14e87ee16ff1f188119b8e3d6ec16bf85e",
+    "tests/test_documents.py": "0db64acdd285477ccf795e09b71140a09531baea2b87aab014948e2b71a936ee",
+    "tests/fixtures/document-parser-vectors.json": "a2a10afdb2f3c833bfcc4213672dc2fa9cb2a4d964bd8354a0f731e7e3e29a65"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

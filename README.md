@@ -21,11 +21,24 @@ The first release goal for the supporting tools is a working, limited indexing
 and dashboard set that can be used in an independent repository. The shared
 core and public interfaces should support maximum reuse by downstream hosts,
 while internal production policy, identity integrations, and deployment
-configuration remain in those hosts. Supporting tooling is planned for a
-separate repository; this repository remains the home of the SBC discipline.
+configuration remain in those hosts. Supporting tooling lives in `tools/`, with its governing documents in
+[`docs/sbc-tools/`](docs/sbc-tools/README.md). One submodule supplies the discipline
+and optional tooling.
 
 The guiding documents are available now. Their publication does not claim that
 the indexing or dashboard implementation is complete.
+
+## Supporting tools
+
+The [Python package](tools/README.md) implements offline committed-source indexing,
+validation, immutable publication and an explicit-host CLI. Queries and the
+dashboard remain incomplete. See the [consolidation record](docs/sbc-tools/REPOSITORY-CONSOLIDATION.md).
+
+Add this repository once with `git submodule add https://github.com/SoftOboros/sbc.git path/to/sbc`.
+Tool installation is optional: `python -m pip install ./path/to/sbc/tools`.
+Git-provider dependencies require the separately audited pure-Python wheels
+described in the package README. Repository operations require explicit
+`--config PATH --host PATH`; adoption never supplies approval pins implicitly.
 
 ## What it is
 

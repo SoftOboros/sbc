@@ -1,0 +1,21 @@
+{
+  "kind": "schema/reference validation only",
+  "checks": [
+    "authority-manifest: positive example",
+    "authority-manifest: reject unknown-key",
+    "authority-manifest: reject bad-version",
+    "reject missing-role",
+    "reject duplicate-role",
+    "reject unlicensed",
+    "reject missing-patch",
+    "cli-envelope: positive example",
+    "cli-envelope: reject unknown-key",
+    "cli-envelope: reject bad-version",
+    "reject success-with-error-exit",
+    "reject committed-without-commit",
+    "reject check-publishes"
+  ],
+  "passed": 13,
+  "golden_cases_hash_checked": 5,
+  "phase_ratification": false
+}

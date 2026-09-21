@@ -1,0 +1,34 @@
+{
+  "kind": "bounded clean-source admission wiring, not producer execution",
+  "date": "2026-09-20",
+  "tooling_commit": "4effcd94111025c77907759d3c682f76e9243073",
+  "python": "3.14.6",
+  "checks": {
+    "core_tests": 46,
+    "core_result": "pass under -I -S",
+    "git_provenance_tests": 62,
+    "git_provenance_result": "pass with audited pure wheels and process/network audit blocking",
+    "diff_check": "pass"
+  },
+  "covered": [
+    "Configured branch selection and immutable admission result",
+    "Clean single-repository and registered-child admission",
+    "Dirty root and child rejection",
+    "Wrong checkout revision and changed profile rejection",
+    "Injected worktree edit during source verification rejected",
+    "Admission performs no source/output writes",
+    "Retained integrity validation remains independent of admission"
+  ],
+  "limitations": [
+    "Bounded observation only; no filesystem lock, authorization or lease",
+    "Conservative byte-exact checkout limitations retained",
+    "Synthetic approval fixtures",
+    "Producer regeneration and CLI execution remain open",
+    "Runtime gates unchanged"
+  ],
+  "sha256": {
+    "src/sbc_tools/provenance.py": "adde6629b95d5f4d8e85419ce5adadc7c2486ffd66caeb9388186c9626d5b19d",
+    "tests_git/test_admission.py": "6c4c500775ce72a4e811bc14cd6138a6adc1cea2859c6b0a2f920b7de9d35602"
+  },
+  "publication": "Local tooling commit only; no remote or tag"
+}

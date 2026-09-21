@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "executed_structural_checks",
+  "contract_schema_sha256": "40f34f8cc5c43f7b900eda5741bcd883556b3bba11e0bcf36d9e2cc89658b27a",
+  "checks": [
+    {
+      "name": "publication_a",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "publication_b",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "access",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "selection",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "cursor_claims",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "request",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "same-content-distinct-publication-digests",
+      "result": "pass",
+      "scope": "digest arithmetic only"
+    },
+    {
+      "name": "caller_provider",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "caller_access",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "caller_profile",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "invalid_limit",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "wrong_capability",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "unsupported_commit_width",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "unresolved_document_cursor",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "invalid_sort_line",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_no_snapshot",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_empty_vacuous",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_first_page",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_second_page",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_filter_mismatch",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_forged_cursor",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_invalid_limit",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_missing_suspicion",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_partial_suspicion",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_invalid_suspicion",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_behind",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_location_history_unavailable",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_location_history_available",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_object_missing",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_object_ambiguous",
+      "result": "pass",
+      "scope": "structural"
+    },
+    {
+      "name": "reference_publication_mismatch",
+      "result": "pass",
+      "scope": "structural"
+    }
+  ],
+  "interface_syntax": "pass",
+  "limitations": [
+    "No portable query implementation executed",
+    "No authorization, cursor, cache or atomicity runtime proof",
+    "Nested inherited semantics require owning validators, not schema alone"
+  ]
+}

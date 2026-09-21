@@ -1,0 +1,54 @@
+{
+  "kind": "bounded implementation evidence; no runtime gate closure",
+  "date": "2026-09-20",
+  "tooling_commit": "d13ba4a2be0bedbf39b3eb577297f072dbbd5f70",
+  "python": "3.14.6",
+  "source_commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+  "correction": {
+    "supersedes": "Prior producer/ingest incompatibility diagnosis in sbct-02-validation-execution.json and commit 892438e; historical execution evidence retained unchanged",
+    "finding": "Historical golden serialization used the general pretty renderer for diagnostics. Exact pinned producer diagnostic emitters produce canonical bytes accepted by ingestion.",
+    "witness": "Five fixture payload sets emitted with pinned producer functions; all original diagnostic descriptor hashes already match, without rewriting hashes.",
+    "scope": "Emission over historical payloads, not full producer rescan"
+  },
+  "checks": {
+    "core_tests": 36,
+    "core_result": "pass",
+    "provider_tests": 8,
+    "provider_result": "pass",
+    "provider_isolation": "Python -I -S, hash-verified universal wheel zipimport; process and network audit events rejected",
+    "wire_reproduction": "pass",
+    "diff_check": "pass",
+    "documentation_index": {
+      "emit_exit": 0,
+      "check_exit": 1,
+      "failure": "Existing diagnostic baseline differences remain; no waiver applied",
+      "projection_json_parsed": 138,
+      "generated_deletions": 0
+    }
+  },
+  "covered": [
+    "Exact SHA-1 commit/tree/blob type and hash checks",
+    "Working-tree independence",
+    "Symlinks and gitlinks not followed",
+    "Complete projection subtree membership and byte comparison",
+    "Missing and corrupt object rejection",
+    "Pinned pure-wheel hashes; no dependency installation"
+  ],
+  "pending": [
+    "Full authority-manifest verification",
+    "Authoritative corpus completeness and digest",
+    "BundleValidator provenance composition",
+    "Packed/shallow and child repository matrix",
+    "Shared queries and transport parity",
+    "GATE-201 through GATE-205 remain open"
+  ],
+  "publication": "Local tooling commit only; no remote or tag",
+  "sha256": {
+    "src/sbc_tools/git_reader.py": "9883e0ecaa87b16024b28243ab855fb0247ca96aa000413010266e7fcdfac928",
+    "requirements-git.txt": "d60847d5ed445059a007173ece943879e57c0486352443c0ea69e07d7624dee3",
+    "tests_git/test_git_reader.py": "7c3a698e2a0c6782cd304bf6f94e7eafd9ba031f0782d2e112cb2df1b0572d6d",
+    "tools/check_git_provider.py": "89c7f7e54fe1034cce5b5181ad954b2297f42c9ea67709eb8b21c290eaab872d",
+    "tools/reproduce_wire_vectors.py": "37aef1d5338a5b642a61048d43fb8b480d6f50282832407d65fbe0f8491129b7",
+    "tests/fixtures/projection-wire-vectors.json": "78794a7d883892c103e71465927502b58531baa7a0f1a095014997fb47d2317c"
+  }
+}

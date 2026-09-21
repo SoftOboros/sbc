@@ -1,0 +1,25 @@
+{
+  "configuration": "schema_version = 1\nrepository_id = \"fixture\"\nrepository_root = \".\"\nsource_roots = [\"docs/todo\"]\nexclude = []\nregistry_paths = [\"docs/spec-index/PREFIX-REGISTRY.md\"]\noutput_root = \".sbc/index\"\ntracked_ref = \"HEAD\"\nmode = \"working-tree\"\ncapabilities = [\"scan\", \"check\"]\nauthority_manifest = \"authority.json\"\nsubmodules = []\n",
+  "records": [
+    {
+      "repository_id": "fixture",
+      "path": "authority.json",
+      "sha256": "b55acb046b69968f776bcd4f0a54280ea67da6a8ef493eb98a5b2ed3e694b75b"
+    },
+    {
+      "repository_id": "fixture",
+      "path": "docs/spec-index/PREFIX-REGISTRY.md",
+      "sha256": "a9106a0f9205ae27877d38ec7bb9763e6d0f020a9ebc1a6da79409f3084e569a"
+    },
+    {
+      "repository_id": "fixture",
+      "path": "docs/todo/vectors/VECT-00.md",
+      "sha256": "a9036639cfa855eb43d65797e6d2610f6156a666bd643cd0a0ca17d4c7dba821"
+    },
+    {
+      "repository_id": "fixture",
+      "path": "sbc-tools.toml",
+      "sha256": "9842401ef53e5178af4498151f2ba59bf094c5f867377922264975493388c9a7"
+    }
+  ]
+}

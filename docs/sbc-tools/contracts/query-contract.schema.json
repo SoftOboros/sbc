@@ -1,0 +1,1070 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sbc-tools:query-contract:1",
+  "title": "Proposed SBCT-02 query frames; inherited nested semantic validation also required",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/request"
+    },
+    {
+      "$ref": "#/$defs/result"
+    }
+  ],
+  "$defs": {
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "snapshot_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "projection_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "tracked_branch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "authority_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "publication_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "repository_id",
+        "snapshot_id",
+        "source_commit",
+        "projection_commit",
+        "tracked_branch",
+        "authority_manifest_sha256",
+        "publication_id"
+      ]
+    },
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "principal_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "repository_grants": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "uniqueItems": true
+        },
+        "capability_grants": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "C11",
+              "C12"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "authorization_revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "issued_at": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expires_at": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "principal_id",
+        "repository_grants",
+        "capability_grants",
+        "authorization_revision",
+        "issued_at",
+        "expires_at"
+      ]
+    },
+    "providerVersions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "staleness": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "history": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "suspicion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "staleness",
+        "history",
+        "suspicion"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "identity_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "context_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence_manifest_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "head_observation_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "bootstrap_manifest_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "algorithm_versions": {
+          "$ref": "#/$defs/providerVersions"
+        },
+        "suspicion_envelope_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "history_envelope_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inherited_provider_identity": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "availability": {
+          "enum": [
+            "validated",
+            "unavailable"
+          ]
+        },
+        "fresh_until": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observation_state": {
+          "enum": [
+            "fresh",
+            "unavailable",
+            "stale",
+            "invalid"
+          ]
+        }
+      },
+      "required": [
+        "identity_sha256",
+        "profile_sha256",
+        "context_sha256",
+        "evidence_manifest_sha256",
+        "head_observation_sha256",
+        "bootstrap_manifest_sha256",
+        "algorithm_versions",
+        "suspicion_envelope_sha256",
+        "history_envelope_sha256",
+        "inherited_provider_identity",
+        "availability",
+        "fresh_until",
+        "observation_state"
+      ]
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "publication": {
+          "$ref": "#/$defs/publication"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "capability_profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "publication",
+        "generation",
+        "evidence",
+        "capability_profile_sha256"
+      ]
+    },
+    "selector": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "current"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "publication"
+            },
+            "publication_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "kind",
+            "publication_id"
+          ]
+        }
+      ]
+    },
+    "nativeStateFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "attribute": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "attribute",
+        "value"
+      ]
+    },
+    "tagFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "search": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "family": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attention_class": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "decision",
+              "deviation",
+              "acceptance",
+              "coverage",
+              "suspicion"
+            ]
+          }
+        },
+        "native_state": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nativeStateFilter"
+          }
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tagFilter"
+          }
+        },
+        "location_kind": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "repository",
+              "archive",
+              "memalpha",
+              "pointer"
+            ]
+          }
+        }
+      },
+      "required": []
+    },
+    "request": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "repository_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "selector": {
+              "$ref": "#/$defs/selector"
+            },
+            "capability": {
+              "const": "C11"
+            },
+            "filters": {
+              "$ref": "#/$defs/filters"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            },
+            "cursor": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 8192
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "version",
+            "repository_id",
+            "selector",
+            "capability"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "repository_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "selector": {
+              "$ref": "#/$defs/selector"
+            },
+            "capability": {
+              "const": "C12"
+            },
+            "requested_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          },
+          "required": [
+            "version",
+            "repository_id",
+            "selector",
+            "capability",
+            "requested_id"
+          ]
+        }
+      ]
+    },
+    "cursor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "repository_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "snapshot_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "publication_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "projection_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "capability_profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_identity_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "inherited_provider_identity": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "access_context_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "capability": {
+          "const": "C11"
+        },
+        "filter_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "last": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "prefixItems": [
+            {
+              "type": "string"
+            },
+            {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer",
+              "minimum": 1
+            }
+          ],
+          "items": false
+        },
+        "issued_at": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expires_at": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "version",
+        "repository_id",
+        "snapshot_id",
+        "publication_id",
+        "projection_commit",
+        "capability_profile_sha256",
+        "evidence_identity_sha256",
+        "inherited_provider_identity",
+        "access_context_sha256",
+        "capability",
+        "filter_digest",
+        "limit",
+        "last",
+        "issued_at",
+        "expires_at"
+      ]
+    },
+    "semanticError": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "invalid_filter",
+            "invalid_cursor",
+            "cursor_snapshot_mismatch",
+            "snapshot_unavailable",
+            "capability_unavailable",
+            "object_not_found",
+            "ambiguous_object"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "details"
+      ]
+    },
+    "c11Data": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "total": {
+          "type": "object"
+        },
+        "facets": {
+          "type": "object"
+        },
+        "page": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "next_cursor": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "limit",
+            "next_cursor"
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "total",
+        "facets",
+        "page"
+      ]
+    },
+    "c12Data": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requested_id": {
+          "type": "string"
+        },
+        "resolution": {
+          "type": "object"
+        },
+        "document": {
+          "type": "object"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "requested_id",
+        "resolution",
+        "document",
+        "locations",
+        "history"
+      ]
+    },
+    "c11Semantic": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "index_commit": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{40}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tracked_branch": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "staleness_state": {
+              "enum": [
+                "current",
+                "behind",
+                "ahead",
+                "unknown"
+              ]
+            },
+            "data": {
+              "$ref": "#/$defs/c11Data"
+            },
+            "coverage": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "index_commit",
+            "tracked_branch",
+            "staleness_state",
+            "data",
+            "coverage"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "index_commit": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{40}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tracked_branch": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "staleness_state": {
+              "enum": [
+                "current",
+                "behind",
+                "ahead",
+                "unknown"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {},
+              "required": []
+            },
+            "coverage": {
+              "type": "object"
+            },
+            "error": {
+              "$ref": "#/$defs/semanticError"
+            }
+          },
+          "required": [
+            "index_commit",
+            "tracked_branch",
+            "staleness_state",
+            "data",
+            "coverage",
+            "error"
+          ]
+        }
+      ]
+    },
+    "c12Semantic": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "index_commit": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{40}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tracked_branch": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "staleness_state": {
+              "enum": [
+                "current",
+                "behind",
+                "ahead",
+                "unknown"
+              ]
+            },
+            "data": {
+              "$ref": "#/$defs/c12Data"
+            },
+            "coverage": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "index_commit",
+            "tracked_branch",
+            "staleness_state",
+            "data",
+            "coverage"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "index_commit": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{40}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tracked_branch": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "staleness_state": {
+              "enum": [
+                "current",
+                "behind",
+                "ahead",
+                "unknown"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {},
+              "required": []
+            },
+            "coverage": {
+              "type": "object"
+            },
+            "error": {
+              "$ref": "#/$defs/semanticError"
+            }
+          },
+          "required": [
+            "index_commit",
+            "tracked_branch",
+            "staleness_state",
+            "data",
+            "coverage",
+            "error"
+          ]
+        }
+      ]
+    },
+    "boundaryError": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "access_denied",
+            "invalid_request",
+            "unsupported_profile",
+            "unsupported_capability",
+            "publication_required",
+            "selection_conflict",
+            "idempotency_conflict",
+            "selection_unavailable",
+            "invalid_bundle",
+            "evidence_mismatch",
+            "store_unavailable",
+            "signer_unavailable"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable"
+      ]
+    },
+    "result": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "kind": {
+              "const": "boundary_error"
+            },
+            "error": {
+              "$ref": "#/$defs/boundaryError"
+            }
+          },
+          "required": [
+            "version",
+            "kind",
+            "error"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "kind": {
+              "const": "semantic"
+            },
+            "capability": {
+              "const": "C11"
+            },
+            "selection": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/selection"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "semantic": {
+              "$ref": "#/$defs/c11Semantic"
+            }
+          },
+          "required": [
+            "version",
+            "kind",
+            "capability",
+            "selection",
+            "semantic"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "kind": {
+              "const": "semantic"
+            },
+            "capability": {
+              "const": "C12"
+            },
+            "selection": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/selection"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "semantic": {
+              "$ref": "#/$defs/c12Semantic"
+            }
+          },
+          "required": [
+            "version",
+            "kind",
+            "capability",
+            "selection",
+            "semantic"
+          ]
+        }
+      ]
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "publication_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "repository_id",
+        "publication_id",
+        "generation"
+      ]
+    }
+  }
+}

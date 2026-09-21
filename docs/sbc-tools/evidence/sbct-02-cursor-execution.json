@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-20",
+  "authority": "SBCT-CONTRACT-02 revision 0.1.1; GATE-206 approved by Ira Abbott",
+  "slice": "HMAC cursor codec only",
+  "python": "3.14.6",
+  "tests": 13,
+  "runs": [
+    {
+      "mode": "unittest with local source path",
+      "passed": 13
+    },
+    {
+      "mode": "python -I -S, site packages disabled",
+      "passed": 13
+    }
+  ],
+  "source_sha256": {
+    "sbc-tools/src/sbc_tools/cursors.py": "94c02aa56aff736f73ebce232cfa8a705114d77d7c2565250c56ff6a34cb5e06",
+    "sbc-tools/tests/test_cursors.py": "eff9da548f584234d9f53233b249943010e1d5e96df5782f1f8019a842149a5a"
+  },
+  "limitations": [
+    "No QueryService/store/cache integration",
+    "No end-to-end authorization or revocation proof",
+    "No REST/MCP parity",
+    "No complete GATE-204 or GATE-205 acceptance",
+    "Only the installed Python version was executed"
+  ],
+  "runtime_gates_completed": [],
+  "local_commit": "f504611"
+}

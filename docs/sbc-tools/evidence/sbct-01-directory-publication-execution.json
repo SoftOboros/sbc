@@ -1,0 +1,37 @@
+{
+  "kind": "Bounded atomic complete-bundle directory publication",
+  "date": "2026-09-21",
+  "tooling_commit": "65821c4294d10a8d5f5c1de4604b1da259c850ea",
+  "python": "3.14.6",
+  "checks": {
+    "isolated_core_tests": 84,
+    "publication_tests": 9,
+    "result": "pass on local Windows filesystem",
+    "diff_check": "pass",
+    "coverage": [
+      "Immutable pinned view survives subsequent publication",
+      "Invalid candidate creates no new files",
+      "Failed pointer replacement preserves prior selection",
+      "Interrupted candidate write preserves prior selection",
+      "Tampered and unlisted retained members rejected",
+      "Pointer traversal rejected",
+      "Old or new complete selection visible at switch boundary",
+      "Mandatory semantic validator",
+      "Staged byte corruption rejected before selection"
+    ]
+  },
+  "limitations": [
+    "Directory ownership must be trusted; no OS sandbox or malicious-concurrent-writer isolation",
+    "No power-loss durability or cross-platform runtime claim",
+    "Concurrent publishers use last-switch-wins; no generation CAS",
+    "Failed staging residue retained; no garbage collection",
+    "Not yet wired to CLI scan or committed reference layout",
+    "Git/provenance tests not rerun for this independent storage primitive",
+    "Runtime gates remain open"
+  ],
+  "sha256": {
+    "src/sbc_tools/directory_store.py": "9bedce12ca64a1034b83f77eed11e9abe0c9d4c6b17fc8a214e1452fe5bc19d6",
+    "tests/test_directory_store.py": "cb632524331621142aac7d805515cd582c05ab80f3648bc78d4d147bf37cfdbe"
+  },
+  "publication": "Local tooling commit only; no remote push or release tag"
+}

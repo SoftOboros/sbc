@@ -1,0 +1,33 @@
+{
+  "kind": "Explicit host registration loader and scoped reader ownership",
+  "date": "2026-09-21",
+  "tooling_commit": "36337498825f76d4780a7cd9e71bb8272e72cfd8",
+  "python": "3.14.6",
+  "checks": {
+    "isolated_core_tests": 84,
+    "isolated_git_provenance_tests": 86,
+    "host_loader_tests": 6,
+    "result": "pass",
+    "diff_check": "pass",
+    "coverage": [
+      "Registered scan/commit/check preserves snapshot identity",
+      "Unregistered path rejected before reading or opening Git",
+      "Changed configuration rejected before Git open",
+      "Mutable input mappings copied; duplicate registrations reject",
+      "Partial repository open failure closes already-open reader",
+      "Verifier construction failure closes all readers"
+    ]
+  },
+  "limitations": [
+    "Registration is explicit trusted application input, not an approval grant",
+    "Default standalone registration channel still requires an explicit contract",
+    "No TOML extension, environment-variable protocol or content-selected Python plugin introduced",
+    "Fixture authority/profile approvals are synthetic",
+    "Working-tree mode and runtime acceptance remain open"
+  ],
+  "sha256": {
+    "src/sbc_tools/host.py": "316da1c4c59be0b5e0706b97f28b4a3f8bb92ea8cef2cc3314a07e3a9e24aa12",
+    "tests_git/test_host.py": "dd9274d9026d1ad7618759cda7728330304730f30d632aca28e55ea21119d75c"
+  },
+  "publication": "Local tooling commit only; no remote push or release tag"
+}

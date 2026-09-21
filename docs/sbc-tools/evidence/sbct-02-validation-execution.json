@@ -1,0 +1,59 @@
+{
+  "kind": "bounded implementation execution; not runtime gate closure",
+  "date": "2026-09-20",
+  "tooling_commit": "892438ed6716dd6e64f31280715077d57253fb96",
+  "authority": "SBCT-CONTRACT-02 revision 0.1.1; GATE-206 owner approved",
+  "source_commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+  "source_ingest_git_blob": "d77b462102367d143a4d1d204df3df7dd586d193",
+  "extracted_helper_count": 46,
+  "python_version": "3.14.6",
+  "checks": {
+    "unit_tests": 36,
+    "unit_result": "pass",
+    "isolated_no_site_tests": 36,
+    "isolated_result": "pass",
+    "forbidden_imports_observed": [],
+    "extraction_reproduction": "pass",
+    "git_diff_check": "pass",
+    "documentation_index": {
+      "emit_exit": 0,
+      "check_exit": 1,
+      "failure": "diagnostic baseline differences remain; no baseline waiver applied",
+      "generated_projection_json_parsed": 138,
+      "generated_deletions": 0
+    }
+  },
+  "fixture_witness": {
+    "historical_vectors": 5,
+    "original_diagnostic_format": "all five rejected as noncanonical",
+    "adapted_diagnostic_format": "all five accepted; compact JSON and family byte hashes only",
+    "pinned_original_ingest_comparison": "identical ten outcomes; only Django imports and ORM transaction body omitted in reference execution",
+    "original_vectors_modified": false
+  },
+  "covered": [
+    "projection triple validation",
+    "profile and content identity checks",
+    "required trusted provenance dependency",
+    "immutable copied inputs",
+    "per-instance corpus roots",
+    "corrupt bundle rejection",
+    "SQLite publication and view integration"
+  ],
+  "limitations": [
+    "Synthetic provenance verifier only; committed Git bytes and authoritative corpus verification not implemented",
+    "Producer/ingest diagnostic wire-format mismatch must be reconciled before end-to-end indexing acceptance",
+    "Only local Python 3.14.6 tested; no platform/version matrix",
+    "Shared query engine, Django parity, reset, dashboard and OAuth not implemented",
+    "GATE-201 through GATE-205 remain open",
+    "Separate tooling repository has no remote; local commit only"
+  ],
+  "sha256": {
+    "src/sbc_tools/_sidx_validation.py": "eec2160708cc05e49e6244c7a287e247192379e622c6a5abe7a46de63049acdf",
+    "src/sbc_tools/validation.py": "857ad203cb4d61a149a1ea33d5204818d2d372486804608dd58b3b881099ea97",
+    "src/sbc_tools/identity.py": "00a0f4fab22801940614b87de6886561847945bfb99567370ad43777e89dcf90",
+    "src/sbc_tools/store.py": "f8a63f2a13fb3f73aca04f0ad5fdf713f37783932005d912e1b32308e696cab0",
+    "tests/test_validation.py": "8bd67fd173c6ae1b2debf4c014b77ea6acdf67098c416426bbc6395504d7ed4b",
+    "tests/fixtures/projection-vectors.json": "8322e469b79cda74dc3daf75fc10ce4d4ac5cc27133883a6c802dba364a0fddc",
+    "tools/extract_validation.py": "50098af99f9f29dba77e742b03629f8ebc46d1300610ab52f061d385e058d1ec"
+  }
+}

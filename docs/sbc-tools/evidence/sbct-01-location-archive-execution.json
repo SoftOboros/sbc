@@ -1,0 +1,52 @@
+{
+  "kind": "Bounded pure location and archive projection extraction",
+  "date": "2026-09-21",
+  "tooling_commit": "e8432b4e938a3b3242f26dff4095800c54520510",
+  "python": "3.14.6",
+  "source_blobs": {
+    "scan.py": "551c0ab7d70f82ad9e6fdfd99ef57a1ff78aeabb",
+    "locations.py": "31217a012c99785cd0bda3cae3a3d9feb3cf33d5"
+  },
+  "checks": {
+    "core_tests": 59,
+    "core_result": "pass under -I -S",
+    "original_full_wire_vectors": 5,
+    "pinned_full_triple_reference_cases": 9,
+    "reference_result": "Exact object, location and diagnostic bytes plus matching location diagnostics",
+    "pure_build_audit": "All nine builds with file, process and network events rejected after reference preparation and imports",
+    "archive_negative_controls": [
+      "invalid ZIP",
+      "unsafe member path",
+      "duplicate member",
+      "member count",
+      "member size",
+      "total uncompressed size",
+      "compression ratio",
+      "missing explicit family",
+      "declared member hash mismatch"
+    ],
+    "extraction_reproduction": "pass",
+    "diff_check": "pass"
+  },
+  "mechanical_boundaries": [
+    "Supplied text replaces declaration filesystem reads",
+    "Supplied ZIP bytes replace archive traversal and file reads",
+    "Archive families explicitly keyed by archive path and member path",
+    "Pinned location merge and archive limit semantics retained"
+  ],
+  "limitations": [
+    "Source selection/order and complete inventory remain host responsibilities",
+    "Generated files have not been wired to admission and bundle validation",
+    "No runnable scan CLI or publication claim",
+    "Runtime gates remain open",
+    "Git/provenance tests not rerun for pure producer-only changes"
+  ],
+  "sha256": {
+    "src/sbc_tools/_producer_locations.py": "b44fe002d6ad1794452992147dcbab87874ad6ce13cd868bcae43aed1cfdbcb9",
+    "src/sbc_tools/projections.py": "33e49848c54a5f1e54a0c8241419f4e5eb93e5481b2cd24d527e2e16a3608a3f",
+    "tools/extract_document_parser.py": "b59b92ac13bb7a94b5a00cbbc9653c20e3dd33bd858c9621ad92fac9759c5201",
+    "tools/check_projection_extraction.py": "700cf6a6bb642eec6bf5d56921bfc5a788d6004c2c835438f323962cd5ce4ebe",
+    "tests/test_locations.py": "77ec173fa24cee6e0fa2f44a7fcd884d008ff13dfa41e9e9fe7143b80c881a00"
+  },
+  "publication": "Local prerelease commit only; no remote or release tag"
+}

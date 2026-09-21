@@ -1,0 +1,45 @@
+{
+  "kind": "bounded authority and corpus input evidence; not full provenance or gate closure",
+  "date": "2026-09-20",
+  "tooling_commit": "606eb6a5f6fb4bcba214d63b522a909b1e9205f2",
+  "python": "3.14.6",
+  "checks": {
+    "core_tests": 36,
+    "core_result": "pass",
+    "git_provenance_tests": 18,
+    "git_provenance_result": "pass",
+    "isolation": "Git/provenance tests use -I -S, hash-verified universal wheels, process and network calls blocked",
+    "diff_check": "pass",
+    "documentation_index": {
+      "emit_exit": 0,
+      "check_exit": 1,
+      "failure": "Diagnostic baseline differences remain; no waiver applied",
+      "projection_json_parsed": 138,
+      "generated_deletions": 0
+    }
+  },
+  "covered": [
+    "Closed authority roles and trusted manifest digest",
+    "Exact committed authority blob and SHA-256 identities",
+    "Patch byte integrity only",
+    "Duplicate JSON keys, roles and unsafe paths rejected",
+    "Canonical authority input ordering",
+    "Complete enumeration within explicitly configured source roots",
+    "Required input absence and exclusion conflicts rejected",
+    "Deterministic corpus content digest independent of dirty working tree"
+  ],
+  "limitations": [
+    "Authority fixture is synthetic, not owner approval evidence",
+    "Patch application and resulting support-file identities pending",
+    "Configuration completeness and registered child mounts pending",
+    "Intermediate input result deliberately does not satisfy VerifiedProvenance",
+    "Full BundleValidator provenance composition pending",
+    "Shared queries, transport parity and runtime gates remain open"
+  ],
+  "sha256": {
+    "src/sbc_tools/authority.py": "37891208c2bce40ab8751051411b0f36234db25262c55b6f0bbb865e9ad5c687",
+    "src/sbc_tools/corpus.py": "5d853400862d27101a18d47d88e4bb3b4f910b5dbe92ae31f80eeec02211c9d1",
+    "tests_git/test_provenance_inputs.py": "8c980fc63cd8c3ef8edce537452de012853962efd00f6c398d5e20479c6ea9eb"
+  },
+  "publication": "Local tooling commit only; no remote or release tag"
+}
