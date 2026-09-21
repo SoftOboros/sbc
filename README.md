@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 50 core tests and 62 Git/provenance tests; these are bounded
+There are now 54 core tests and 62 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -218,6 +218,20 @@ It returns document, object and citation records, not complete projections.
 `tools/extract_document_parser.py` reproduces the dependency closure from two
 verified source blobs. Six document cases match complete pinned-parser outputs,
 including a superseded historical-definition case. An isolated probe parsed all
-six with file, process and network audit events rejected. Full-corpus traversal,
-family assignment, location/archive generation and projection building remain
-to be extracted before the portable scan path is runnable.
+six with file, process and network audit events rejected.
+
+`sbc_tools.projections.build_document_projections` accepts an ordered collection
+of `(path, family, bytes)` sources and explicit registered prefixes. It resolves
+corpus-wide citations and emits the pinned object and diagnostic wire bytes.
+Diagnostic locators must belong to the exact supplied document set, replacing
+the reference consumer's hardcoded source directories. Duplicate paths reject;
+no mutable global corpus context is used.
+
+The five original wire cases match byte for byte. Run
+`tools/check_projection_extraction.py C:/path/to/pinned/scripts/specidx` under
+`python -I -S` for seven reference comparisons, including cross-family citations
+and historical definitions, with file/process/network access blocked during
+pure builds. An additional standalone-layout probe passes. These outputs are
+partial projection members, not a validated snapshot or publication candidate.
+Source selection/order, family assignment, location/archive generation and
+admitted-source wiring remain before the portable scan path is runnable.

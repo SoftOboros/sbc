@@ -6,6 +6,8 @@ import collections
 import copy
 import dataclasses
 import datetime
+import hashlib
+import json
 import pathlib
 import re
 import unicodedata
@@ -39,6 +41,7 @@ RE_STABLE_NONGOAL = re.compile(f'^`(?P<handle>{_NONGOAL_HANDLE})` — \\*\\*(?P<
 RE_LEGACY_NONGOAL = re.compile('^\\*\\*(?P<title>[^*]+)\\*\\*\\.?\\s*(?P<body>.*)$')
 RE_MALFORMED_NONGOAL = re.compile('^(?:`(?i:NONGOAL)-[^`]*`|(?i:NONGOAL)-\\S+).*?\\*\\*(?P<title>[^*]+)\\*\\*\\.?\\s*(?P<body>.*)$')
 _SECTION_HANDLE = 'SECTION-(?:00[1-9]|0[1-9][0-9]|[1-9][0-9]{2})'
+RE_SECTION_HANDLE = re.compile(_SECTION_HANDLE, re.ASCII)
 RE_STABLE_SECTION_HEADING = re.compile(f'^§(?P<ordinal>[0-9]+(?:\\.[0-9]+)*) `(?P<handle>{_SECTION_HANDLE})` — (?P<title>\\S.*)$', re.ASCII)
 RE_HEADER_ATTR = re.compile('^\\*\\*([A-Za-z][A-Za-z ]{2,30}):\\*\\*\\s*(.*)$')
 RE_HEADING = re.compile('^(#{1,4})\\s+(.*)$')
@@ -1012,7 +1015,51 @@ def _append_known_mentions(lines: list[str], doc: Document, projected: list[_Pro
                 continue
             citations.append(Citation(obj_id=canonical, doc=doc.path, line=line_number, family=doc.family, is_definition=is_definition))
             existing.add(key)
+
+def scan(sources, registered_prefixes) -> dict:
+    docs = []
+    objects = []
+    citations = []
+    texts = {}
+    registered_prefixes = sorted(registered_prefixes)
+    for relative_path, family, text in sources:
+        d, o, c = parse_document(text, relative_path, family, registered_prefixes)
+        docs.append(d)
+        objects.extend(o)
+        citations.extend(c)
+        texts[relative_path] = text
+    projected = _projected_definitions({'objects': objects})
+    eligible = [definition for definition in projected if _definition_is_edge_eligible(definition, set(registered_prefixes))]
+    global_tokens = {definition.payload['obj_id']: definition.payload['obj_id'] for definition in eligible if definition.payload['kind'] in {'document', 'errata', 'term', 'gate', 'nongoal', 'amendment', 'rationale'}}
+    family_aliases: dict[str, dict[str, str]] = collections.defaultdict(dict)
+    for definition in eligible:
+        payload = definition.payload
+        if payload['kind'] in {'errata', 'term', 'gate', 'nongoal'}:
+            family_aliases[payload['family']][payload['obj_id'].split(':', 1)[1]] = payload['obj_id']
+    pattern_cache: dict[str, tuple[dict[str, str], re.Pattern | None]] = {}
+    documents_by_path = {document.path: document for document in docs}
+    for path, document in documents_by_path.items():
+        lines = texts[path].splitlines()
+        cached = pattern_cache.get(document.family)
+        if cached is None:
+            document_tokens = {**global_tokens, **family_aliases[document.family]}
+            alternatives = '|'.join((re.escape(token) for token in sorted(document_tokens, key=lambda item: (-len(item), item))))
+            document_pattern = re.compile(f'{_ID_TOKEN_LEFT}(?:{alternatives}){_ID_TOKEN_RIGHT}', re.ASCII) if alternatives else None
+            cached = (document_tokens, document_pattern)
+            pattern_cache[document.family] = cached
+        document_tokens, document_pattern = cached
+        _append_known_mentions(lines, document, eligible, citations, eligible_kinds={'document', 'errata', 'term', 'gate', 'nongoal', 'amendment', 'rationale'}, token_map=document_tokens, token_pattern=document_pattern)
+    return {'docs': docs, 'objects': objects, 'citations': citations, 'registered_prefixes': registered_prefixes}
 RE_STATUS_WORD = re.compile('\\*\\*([^*]{0,40}?(?:Ratified|Amended|DRAFT|Draft|Drafted|Execution|Superseded)[^*]{0,40}?)\\*\\*')
+INDEX_SCHEMA_VERSION = 3
+DIAGNOSTIC_SCHEMA_VERSION = 3
+SEMANTIC_FINGERPRINT_VERSION = 1
+SEMANTIC_FINGERPRINT_EXTRACTOR = {'base_fields': ['kind', 'text'], 'excluded_kinds': ['amendment', 'rationale'], 'per_kind': {'authority_row': [], 'document': ['lifecycle_state'], 'enum_value': [], 'errata': [], 'gate': ['checked'], 'invariant': ['title'], 'nongoal': [], 'open_question': ['resolution'], 'term': ['term', 'relationship']}, 'semantic_attrs_common': ['normative', 'status'], 'version': 1}
+SEMANTIC_FINGERPRINT_EXTRACTOR_SHA256 = 'eadb11f7d275ed90b1455de18d2c9cae00297881e107542e564ca37a23a01a12'
+DIAGNOSTIC_CODES = ('document_id_missing', 'invalid_document_lifecycle', 'open_question_definition_duplicate', 'malformed_open_question_handle', 'errata_missing_index_row', 'errata_index_without_body', 'errata_duplicate_index_row', 'errata_duplicate_body', 'errata_unsupported_status', 'errata_status_disagreement', 'dependency_source_unresolved', 'dependency_target_unresolved', 'dependency_kind_unresolved', 'change_kind_unresolved', 'touches_unresolved', 'retirement_supersedes_missing')
+DECLARED_EDGE_TYPES = {'cites', 'refines', 'verifies', 'evidences', 'amends', 'supersedes', 'blocks', 'motivates', 'same-as', 'homonym-of'}
+RETIRED_DEPENDENCY_TYPES = {'cites', 'refines', 'verifies', 'evidences', 'blocks', 'same-as'}
+TOUCHES_REQUIRED_CHANGE_KINDS = {'clarification', 'semantic', 'scope', 'retirement'}
 _CANONICAL_INVARIANT = re.compile('INV-([A-Z]{2,8})-([1-9][0-9]*)')
 _GLOBAL_DOCUMENT = re.compile('[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+')
 _GLOBAL_PCDN = re.compile('PCDN-(?:[A-Z0-9]+-)+[0-9]{3}')
@@ -1026,6 +1073,12 @@ _GLOBAL_SECTION = re.compile(f'({_FAMILY_KEY}):({_SECTION_HANDLE})')
 _REVISION = '(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)'
 _GLOBAL_AMENDMENT = re.compile(f'(.+)#amendment:({_REVISION})')
 _GLOBAL_RATIONALE = re.compile(f'(.+)#amendment:({_REVISION})#rationale')
+MAX_DIAGNOSTIC_RECORDS = 100000
+MAX_DIAGNOSTIC_LOCATORS = 10000
+MAX_DIAGNOSTIC_DOCUMENT_BYTES = 1024
+MAX_DIAGNOSTIC_MANIFEST_BYTES = 1 * 1024 * 1024
+MAX_DIAGNOSTIC_FAMILY_BYTES = 16 * 1024 * 1024
+MAX_DIAGNOSTIC_TOTAL_BYTES = 64 * 1024 * 1024
 
 class ProjectionError(RuntimeError):
     """A schema-v3 projection cannot be represented without guessing."""
@@ -1034,6 +1087,52 @@ class ProjectionError(RuntimeError):
 class _ProjectedDefinition:
     source: SpecObject
     payload: dict
+
+@dataclasses.dataclass(frozen=True)
+class ProjectionExpectations:
+    """Private, in-memory expectations derived from one parsed candidate pass."""
+    registered_prefixes: frozenset[str]
+    object_sha256: str
+    location_sha256: str | None
+    diagnostic_sha256: str
+    location_descriptors: tuple[tuple[str, int, int, str], ...] | None
+    diagnostic_descriptors: tuple[tuple[str, str, int, str], ...]
+    diagnostic_record_keys: tuple[str, ...]
+
+def _validate_canonical_json(value) -> None:
+    if value is None or type(value) in {bool, int}:
+        return
+    if isinstance(value, str):
+        if unicodedata.normalize('NFC', value) != value:
+            raise ProjectionError('canonical JSON contains a non-NFC string')
+        if any((unicodedata.category(char) == 'Cs' for char in value)):
+            raise ProjectionError('canonical JSON contains a lone surrogate')
+        return
+    if isinstance(value, list):
+        for member in value:
+            _validate_canonical_json(member)
+        return
+    if isinstance(value, dict):
+        for key, member in value.items():
+            if not isinstance(key, str):
+                raise ProjectionError('canonical JSON member name is not a string')
+            _validate_canonical_json(key)
+            _validate_canonical_json(member)
+        return
+    raise ProjectionError('canonical JSON contains an unsupported value type')
+
+def _canonical_json_bytes(value) -> bytes:
+    """Return the C6 canonical bytes for the closed JSON types used here."""
+    _validate_canonical_json(value)
+    return json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(',', ':'), sort_keys=True).encode('utf-8')
+
+def _validate_fingerprint_descriptor() -> None:
+    actual = hashlib.sha256(_canonical_json_bytes(SEMANTIC_FINGERPRINT_EXTRACTOR)).hexdigest()
+    if actual != SEMANTIC_FINGERPRINT_EXTRACTOR_SHA256:
+        raise ProjectionError('semantic fingerprint extractor identity mismatch')
+
+def _diagnostic_render(payload: dict) -> str:
+    return _canonical_json_bytes(payload).decode('utf-8') + '\n'
 
 def _canonical_reference(value: str | None) -> str | None:
     if value is None:
@@ -1142,3 +1241,437 @@ def _projected_definitions(data: dict) -> list[_ProjectedDefinition]:
                 payload['obj_id'] = amendment_id if obj.kind == 'amendment' else f'{amendment_id}#rationale'
         projected.append(_ProjectedDefinition(obj, payload))
     return projected
+
+def _definition_locator(definition: _ProjectedDefinition) -> dict:
+    return {'document': definition.payload['doc'], 'line': definition.payload['line']}
+
+def _safe_locator(document: str, line: int, *, admitted_documents) -> dict:
+    if not isinstance(document, str) or not isinstance(line, int) or isinstance(line, bool) or (not 1 <= line <= 2 ** 31 - 1) or (len(document.encode('utf-8')) > MAX_DIAGNOSTIC_DOCUMENT_BYTES) or ('\\' in document) or (locations._unsafe_kind(document) is not None):
+        raise ProjectionError('diagnostic locator is outside the closed safety grammar')
+    path = pathlib.PurePosixPath(document)
+    if path.is_absolute() or any((part == '..' for part in path.parts)):
+        raise ProjectionError('diagnostic locator is outside the closed safety grammar')
+    if document not in admitted_documents:
+        raise ProjectionError('diagnostic locator is outside the scanned corpus')
+    return {'document': document, 'line': line}
+
+def _dedupe_locators(locators: list[dict]) -> list[dict]:
+    unique = {(loc['document'], loc['line']) for loc in locators}
+    if len(unique) > MAX_DIAGNOSTIC_LOCATORS:
+        raise ProjectionError('diagnostic locator count limit exceeded')
+    return [{'document': document, 'line': line} for document, line in sorted(unique)]
+
+def _diagnostic_record(*, code: str, family: str, subject_token: str | None, locators: list[dict], facts: dict) -> dict:
+    if code not in DIAGNOSTIC_CODES:
+        raise ProjectionError('unregistered diagnostic code')
+    safe_locators = _dedupe_locators(locators)
+    if not safe_locators:
+        raise ProjectionError('diagnostic record has no safe locator')
+    body = {'code': code, 'family': family, 'subject_token': subject_token, 'locators': safe_locators, 'facts': facts, 'provenance': 'inferred'}
+    record_key = hashlib.sha256(_canonical_json_bytes(body)).hexdigest()
+    return {'record_key': record_key, **body}
+
+def _edge_candidate_key(locator: dict, target_token: str | None) -> str:
+    return hashlib.sha256(_canonical_json_bytes({'locator': locator, 'target_token': target_token})).hexdigest()
+
+def canonical_edge_key(edge: dict) -> str:
+    preimage = {'edge_type': edge['edge_type'], 'kind_provenance': edge['kind_provenance'], 'locator': edge['locator'], 'source_object_id': edge['source']['object_id'], 'target_object_id': edge['target']['object_id']}
+    return hashlib.sha256(_canonical_json_bytes(preimage)).hexdigest()
+
+def _projection_maps(projected: list[_ProjectedDefinition]) -> tuple[dict, dict, dict]:
+    by_id: dict[str, list[_ProjectedDefinition]] = collections.defaultdict(list)
+    by_doc: dict[str, list[_ProjectedDefinition]] = collections.defaultdict(list)
+    by_doc_line: dict[tuple[str, int], list[_ProjectedDefinition]] = collections.defaultdict(list)
+    for definition in projected:
+        by_id[definition.payload['obj_id']].append(definition)
+        by_doc[definition.payload['doc']].append(definition)
+        by_doc_line[definition.payload['doc'], definition.payload['line']].append(definition)
+    return (by_id, by_doc, by_doc_line)
+
+def _resolve_endpoint(token: str | None, *, by_id: dict[str, list[_ProjectedDefinition]], registered_prefixes: set[str], local_section_family: str | None=None) -> tuple[str, str | None, list[_ProjectedDefinition]]:
+    if token in {None, ''}:
+        return ('missing', None, [])
+    if not isinstance(token, str) or not _common_global_id_valid(token):
+        return ('invalid', None, [])
+    if local_section_family is not None and RE_SECTION_HANDLE.fullmatch(token):
+        token = f'{local_section_family}:{token}'
+    candidate_ids: list[str] = []
+    if _syntactic_global_id(token, registered_prefixes):
+        candidate_ids.append(token)
+    alias = _canonical_reference(token)
+    if alias != token and _CANONICAL_INVARIANT.fullmatch(alias or '') and _syntactic_global_id(alias, registered_prefixes):
+        candidate_ids.append(alias)
+    if not candidate_ids:
+        return ('invalid', None, [])
+    definitions = [definition for candidate_id in candidate_ids for definition in by_id.get(candidate_id, [])]
+    resolved_ids = {definition.payload['obj_id'] for definition in definitions}
+    if len(resolved_ids) == 1:
+        canonical = next(iter(resolved_ids))
+    elif token in candidate_ids:
+        canonical = token
+    else:
+        canonical = alias
+    if not definitions:
+        return ('missing', canonical, [])
+    if len(definitions) > 1:
+        return ('ambiguous', canonical, definitions)
+    if not _definition_is_edge_eligible(definitions[0], registered_prefixes):
+        return ('invalid', canonical, definitions)
+    return ('resolved', canonical, definitions)
+
+def _wire_endpoint(definition: _ProjectedDefinition) -> dict:
+    return {'family': definition.payload['family'], 'object_id': definition.payload['obj_id'], 'definition': _definition_locator(definition)}
+
+def _validate_retired_dependencies(projected: list[_ProjectedDefinition], *, by_id: dict[str, list[_ProjectedDefinition]], registered_prefixes: set[str]) -> None:
+    """Attach only exact, representable retirement members to amendment rows."""
+    for definition in projected:
+        if definition.payload['kind'] != 'amendment':
+            continue
+        meta = definition.source.producer_meta
+        authored_touches = definition.payload['attrs'].get('touches')
+        if isinstance(authored_touches, list):
+            normalized_touches = []
+            for member in authored_touches:
+                status, canonical, _definitions = _resolve_endpoint(member, by_id=by_id, registered_prefixes=registered_prefixes, local_section_family=definition.payload['family'])
+                normalized_touches.append(canonical if status != 'invalid' and canonical is not None else member)
+            definition.payload['attrs']['touches'] = normalized_touches
+        field_counts = meta.get('field_counts', {})
+        if field_counts.get('touches', 0) > 1:
+            raise ProjectionError(f"duplicate Touches field at {definition.payload['doc']}:{definition.payload['line']}")
+        invalid_lines = meta.get('invalid_retired_dependency_lines', [])
+        if invalid_lines:
+            raise ProjectionError(f"invalid Retires-Dependency field at {definition.payload['doc']}:{invalid_lines[0]}")
+        fields = meta.get('retired_dependency_fields', [])
+        if not fields:
+            continue
+        if not _definition_is_edge_eligible(definition, registered_prefixes):
+            raise ProjectionError(f"Retires-Dependency belongs to an edge-ineligible amendment at {definition.payload['doc']}:{definition.payload['line']}")
+        change_kind = definition.payload['attrs'].get('change_kind')
+        if change_kind not in {'semantic', 'scope', 'retirement'}:
+            raise ProjectionError(f"Retires-Dependency has an ineligible ChangeKind at {definition.payload['doc']}:{definition.payload['line']}")
+        touch_values = set(definition.payload['attrs'].get('touches') or [])
+        members = set()
+        for field in fields:
+            upstream = field['upstream']
+            dependent = field['dependent']
+            edge_type = field['edge_type']
+            if not _syntactic_global_id(upstream, registered_prefixes) or not _syntactic_global_id(dependent, registered_prefixes) or edge_type not in RETIRED_DEPENDENCY_TYPES:
+                raise ProjectionError(f"invalid Retires-Dependency field at {definition.payload['doc']}:{field['line']}")
+            if edge_type == 'same-as' and upstream >= dependent:
+                raise ProjectionError(f"noncanonical same-as retirement at {definition.payload['doc']}:{field['line']}")
+            endpoint_resolutions = {}
+            for endpoint in (upstream, dependent):
+                status, canonical, endpoint_definitions = _resolve_endpoint(endpoint, by_id=by_id, registered_prefixes=registered_prefixes)
+                invariant_alias = _canonical_reference(endpoint)
+                exact_document_resolution = status == 'resolved' and len(endpoint_definitions) == 1 and (endpoint_definitions[0].payload['obj_id'] == endpoint) and (endpoint_definitions[0].payload['kind'] == 'document')
+                if status in {'invalid', 'ambiguous'} or canonical != endpoint or (invariant_alias != endpoint and (not exact_document_resolution)):
+                    raise ProjectionError(f"unresolved Retires-Dependency endpoint at {definition.payload['doc']}:{field['line']}")
+                endpoint_resolutions[endpoint] = status
+            required_touches = {upstream, dependent} if edge_type == 'same-as' else {dependent}
+            if not required_touches <= touch_values:
+                raise ProjectionError(f"Retires-Dependency lacks Touches authority at {definition.payload['doc']}:{field['line']}")
+            if endpoint_resolutions[upstream] != 'resolved':
+                raise ProjectionError(f"unresolved Retires-Dependency authority at {definition.payload['doc']}:{field['line']}")
+            dependent_status = endpoint_resolutions[dependent]
+            parent_resolved_retirement = change_kind == 'retirement' and dependent_status == 'missing'
+            if dependent_status != 'resolved' and (not parent_resolved_retirement):
+                raise ProjectionError(f"unresolved Retires-Dependency authority at {definition.payload['doc']}:{field['line']}")
+            members.add((upstream, dependent, edge_type))
+        serialized = [{'upstream_object_id': upstream, 'dependent_object_id': dependent, 'edge_type': edge_type} for upstream, dependent, edge_type in sorted(members)]
+        attrs = definition.payload['attrs']
+        attrs['retired_dependencies'] = serialized
+        provenance = copy.deepcopy(attrs.get('attr_provenance') or {})
+        provenance['retired_dependencies'] = 'declared'
+        attrs['attr_provenance'] = provenance
+
+def _build_edges_and_c6_diagnostics(data: dict, projected: list[_ProjectedDefinition], *, by_id: dict[str, list[_ProjectedDefinition]], by_doc: dict[str, list[_ProjectedDefinition]], by_doc_line: dict[tuple[str, int], list[_ProjectedDefinition]], registered_prefixes: set[str], admitted_documents) -> tuple[dict[str, list[dict]], list[dict]]:
+    edges_by_family: dict[str, dict[str, dict]] = collections.defaultdict(dict)
+    diagnostic_records: list[dict] = []
+    declared_edges: list[dict] = []
+
+    def definition_locators(definitions: list[_ProjectedDefinition]) -> list[dict]:
+        return [_safe_locator(item.payload['doc'], item.payload['line'], admitted_documents=admitted_documents) for item in definitions]
+
+    def add_diagnostic(*, code: str, family: str, subject_token: str | None, locators: list[dict], facts: dict) -> None:
+        diagnostic_records.append(_diagnostic_record(code=code, family=family, subject_token=subject_token, locators=locators, facts=facts))
+
+    def add_edge(*, edge_type: str, source_definition: _ProjectedDefinition, target_definition: _ProjectedDefinition, locator: dict, family: str, kind_provenance: str) -> None:
+        source = _wire_endpoint(source_definition)
+        target = _wire_endpoint(target_definition)
+        if source['object_id'] == target['object_id']:
+            return
+        if edge_type == 'same-as' and source['object_id'] > target['object_id']:
+            source, target = (target, source)
+        edge = {'edge_type': edge_type, 'source': source, 'target': target, 'locator': locator, 'kind_provenance': kind_provenance}
+        key = canonical_edge_key(edge)
+        previous = edges_by_family[family].get(key)
+        if previous is not None and previous != edge:
+            raise ProjectionError('canonical edge-key collision')
+        edges_by_family[family][key] = edge
+        if kind_provenance == 'declared':
+            declared_edges.append(edge)
+
+    def process_direct_candidate(*, source_token: str | None, target_token: str | None, edge_type_tokens: tuple[str, ...], locator: dict, family: str, kind_provenance: str, declared: bool, source_definition: _ProjectedDefinition | None=None, source_reason: str | None=None, source_reason_definitions: list[_ProjectedDefinition] | None=None) -> None:
+        target_status, target_canonical, target_definitions = _resolve_endpoint(target_token, by_id=by_id, registered_prefixes=registered_prefixes)
+        safe_target = target_canonical if _syntactic_global_id(target_canonical, registered_prefixes) else None
+        candidate_key = _edge_candidate_key(locator, safe_target)
+        if source_reason is not None:
+            source_status = 'ownership'
+            source_canonical = None
+            source_definitions = source_reason_definitions or []
+            facts = {'edge_candidate_key': candidate_key, 'reason': source_reason}
+            if source_reason in {'ambiguous_definition_line', 'ambiguous_document'}:
+                facts['definition_count'] = len(source_definitions)
+            add_diagnostic(code='dependency_source_unresolved', family=family, subject_token=None, locators=[locator, *definition_locators(source_definitions)], facts=facts)
+        else:
+            effective_source = source_definition.payload['obj_id'] if source_definition is not None else source_token
+            source_status, source_canonical, source_definitions = _resolve_endpoint(effective_source, by_id=by_id, registered_prefixes=registered_prefixes)
+            if source_status != 'resolved':
+                reason = 'global_identity_ambiguous' if source_status == 'ambiguous' else source_status
+                facts = {'edge_candidate_key': candidate_key, 'reason': reason}
+                if source_status == 'ambiguous':
+                    facts['definition_count'] = len(source_definitions)
+                add_diagnostic(code='dependency_source_unresolved', family=family, subject_token=source_canonical if _syntactic_global_id(source_canonical, registered_prefixes) else None, locators=[locator, *definition_locators(source_definitions)] if source_status == 'ambiguous' else [locator], facts=facts)
+        if target_status != 'resolved':
+            reason = 'ambiguous' if target_status == 'ambiguous' else target_status
+            facts = {'edge_candidate_key': candidate_key, 'reason': reason}
+            if target_status == 'ambiguous':
+                facts['definition_count'] = len(target_definitions)
+            add_diagnostic(code='dependency_target_unresolved', family=family, subject_token=target_canonical if _syntactic_global_id(target_canonical, registered_prefixes) else None, locators=[locator, *definition_locators(target_definitions)] if target_status == 'ambiguous' else [locator], facts=facts)
+        kind_reason = None
+        edge_type = None
+        if len(edge_type_tokens) == 0:
+            kind_reason = 'missing'
+        elif len(edge_type_tokens) > 1:
+            kind_reason = 'ambiguous'
+        else:
+            edge_type = edge_type_tokens[0]
+            if edge_type not in DECLARED_EDGE_TYPES or edge_type in {'defines', 'verifies'}:
+                kind_reason = 'unsupported'
+        if kind_provenance == 'inferred' and edge_type in {'defines', 'cites', 'amends', 'motivates'}:
+            kind_reason = None
+        if kind_reason is not None:
+            add_diagnostic(code='dependency_kind_unresolved', family=family, subject_token=source_canonical if _syntactic_global_id(source_canonical, registered_prefixes) else None, locators=[locator], facts={'edge_candidate_key': candidate_key, 'reason': kind_reason})
+        if source_status == 'resolved' and target_status == 'resolved' and (kind_reason is None) and (edge_type is not None):
+            add_edge(edge_type=edge_type, source_definition=source_definitions[0], target_definition=target_definitions[0], locator=locator, family=family, kind_provenance=kind_provenance)
+    for citation in data.get('citations', []):
+        target = _canonical_reference(citation.obj_id)
+        if not citation.declared and isinstance(target, str) and target.startswith('INV-') and (target.split('-', 2)[1] in EXAMPLE_PREFIXES) and (not by_id.get(citation.obj_id)):
+            continue
+        locator = _safe_locator(citation.doc, citation.line, admitted_documents=admitted_documents)
+        if citation.declared:
+            process_direct_candidate(source_token=citation.source_token, target_token=citation.obj_id, edge_type_tokens=citation.edge_type_tokens, locator=locator, family=citation.family, kind_provenance='declared', declared=True)
+            continue
+        edge_type = 'defines' if citation.is_definition else 'cites'
+        source_definition = None
+        source_reason = None
+        source_reason_definitions = None
+        if citation.is_definition:
+            documents = [item for item in by_doc.get(citation.doc, []) if item.payload['kind'] == 'document']
+            if not documents:
+                source_reason = 'missing_document'
+            elif len(documents) > 1:
+                source_reason = 'ambiguous_document'
+                source_reason_definitions = documents
+            else:
+                source_definition = documents[0]
+        else:
+            line_definitions = by_doc_line.get((citation.doc, citation.line), [])
+            if len(line_definitions) > 1:
+                source_reason = 'ambiguous_definition_line'
+                source_reason_definitions = line_definitions
+            elif len(line_definitions) == 1:
+                source_definition = line_definitions[0]
+            else:
+                documents = [item for item in by_doc.get(citation.doc, []) if item.payload['kind'] == 'document']
+                if not documents:
+                    source_reason = 'missing_document'
+                elif len(documents) > 1:
+                    source_reason = 'ambiguous_document'
+                    source_reason_definitions = documents
+                else:
+                    source_definition = documents[0]
+        process_direct_candidate(source_token=None, target_token=citation.obj_id, edge_type_tokens=(edge_type,), locator=locator, family=citation.family, kind_provenance='inferred', declared=False, source_definition=source_definition, source_reason=source_reason, source_reason_definitions=source_reason_definitions)
+    rationale_by_amendment: dict[tuple[str, str | None], list[_ProjectedDefinition]] = collections.defaultdict(list)
+    for definition in projected:
+        if definition.payload['kind'] == 'rationale':
+            rationale_by_amendment[definition.payload['doc'], definition.source.producer_meta.get('amendment_revision')].append(definition)
+    resolved_retirement_touches: list[tuple[_ProjectedDefinition, str, dict]] = []
+    for amendment in projected:
+        if amendment.payload['kind'] != 'amendment':
+            continue
+        amendment_is_eligible = _definition_is_edge_eligible(amendment, registered_prefixes)
+        amendment_is_unique = amendment_is_eligible and len(by_id[amendment.payload['obj_id']]) == 1
+        meta = amendment.source.producer_meta
+        change_kind = amendment.payload['attrs'].get('change_kind')
+        definition_locator = _safe_locator(amendment.payload['doc'], amendment.payload['line'], admitted_documents=admitted_documents)
+        field_lines = meta.get('field_lines', {})
+        if amendment_is_unique and (not change_kind):
+            add_diagnostic(code='change_kind_unresolved', family=amendment.payload['family'], subject_token=amendment.payload['obj_id'], locators=[definition_locator], facts={'reason': 'missing'})
+        elif amendment_is_unique and change_kind not in CHANGE_KIND:
+            add_diagnostic(code='change_kind_unresolved', family=amendment.payload['family'], subject_token=amendment.payload['obj_id'], locators=[_safe_locator(amendment.payload['doc'], field_lines.get('change_kind', amendment.payload['line']), admitted_documents=admitted_documents)], facts={'reason': 'unsupported'})
+        members = meta.get('touches_members', [])
+        nonempty = [member for member in members if member is not None]
+        if amendment_is_unique and change_kind in TOUCHES_REQUIRED_CHANGE_KINDS and (not nonempty):
+            add_diagnostic(code='touches_unresolved', family=amendment.payload['family'], subject_token=amendment.payload['obj_id'], locators=[definition_locator], facts={'reason': 'missing', 'touch_ordinal': 0, 'target_token': None})
+        touches_line = meta.get('touches_line', amendment.payload['line'])
+        touches_locator = _safe_locator(amendment.payload['doc'], touches_line, admitted_documents=admitted_documents)
+        valid_targets: dict[str, _ProjectedDefinition] = {}
+        if nonempty:
+            for ordinal, member in enumerate(members, start=1):
+                if member is None:
+                    if not amendment_is_unique:
+                        continue
+                    add_diagnostic(code='touches_unresolved', family=amendment.payload['family'], subject_token=amendment.payload['obj_id'], locators=[touches_locator], facts={'reason': 'unknown', 'touch_ordinal': ordinal, 'target_token': None})
+                    continue
+                status, canonical, definitions = _resolve_endpoint(member, by_id=by_id, registered_prefixes=registered_prefixes, local_section_family=amendment.payload['family'])
+                if status == 'resolved':
+                    valid_targets[canonical] = definitions[0]
+                    if change_kind == 'retirement' and amendment_is_unique:
+                        resolved_retirement_touches.append((amendment, canonical, touches_locator))
+                    continue
+                if status == 'missing' and change_kind == 'retirement' and (canonical is not None):
+                    continue
+                reason = 'ambiguous' if status == 'ambiguous' else 'unknown'
+                facts = {'reason': reason, 'touch_ordinal': ordinal, 'target_token': canonical if _syntactic_global_id(canonical, registered_prefixes) else None}
+                locators = [touches_locator]
+                if status == 'ambiguous':
+                    facts['definition_count'] = len(definitions)
+                    locators.extend(definition_locators(definitions))
+                if amendment_is_unique:
+                    add_diagnostic(code='touches_unresolved', family=amendment.payload['family'], subject_token=amendment.payload['obj_id'], locators=locators, facts=facts)
+        for canonical, target_definition in sorted(valid_targets.items()):
+            process_direct_candidate(source_token=amendment.payload['obj_id'], target_token=canonical, edge_type_tokens=('amends',), locator=touches_locator, family=amendment.payload['family'], kind_provenance='inferred', declared=False, source_definition=amendment)
+            rationale_key = (amendment.payload['doc'], amendment.source.attrs.get('rev'))
+            for rationale in rationale_by_amendment.get(rationale_key, []):
+                process_direct_candidate(source_token=rationale.payload['obj_id'], target_token=canonical, edge_type_tokens=('motivates',), locator=touches_locator, family=rationale.payload['family'], kind_provenance='inferred', declared=False, source_definition=rationale)
+    for amendment, retired_id, touches_locator in resolved_retirement_touches:
+        candidates = [edge for edge in declared_edges if edge['edge_type'] == 'supersedes' and edge['target']['object_id'] == retired_id]
+        successors = {edge['source']['object_id'] for edge in candidates}
+        if len(successors) == 1:
+            continue
+        reason = 'missing' if not successors else 'ambiguous'
+        facts = {'retired_object_id': retired_id, 'reason': reason, 'successor_count': len(successors)}
+        add_diagnostic(code='retirement_supersedes_missing', family=amendment.payload['family'], subject_token=amendment.payload['obj_id'], locators=[touches_locator, *[edge['locator'] for edge in candidates]], facts=facts)
+    return ({family: sorted(keyed.values(), key=lambda edge: (edge['source']['object_id'], edge['target']['object_id'], edge['edge_type'], edge['locator']['document'], edge['locator']['line'], edge['kind_provenance'])) for family, keyed in edges_by_family.items()}, diagnostic_records)
+
+def _build_base_diagnostics(data: dict, projected: list[_ProjectedDefinition], *, admitted_documents) -> list[dict]:
+    records: list[dict] = []
+
+    def add(code: str, family: str, subject: str | None, locators: list[dict], facts: dict) -> None:
+        records.append(_diagnostic_record(code=code, family=family, subject_token=subject, locators=locators, facts=facts))
+    for doc in data.get('docs', []):
+        document_id = doc.header.get('document id', '').strip()
+        if not document_id:
+            add('document_id_missing', doc.family, None, [_safe_locator(doc.path, 1, admitted_documents=admitted_documents)], {})
+        for diagnostic in doc.diagnostics:
+            code = diagnostic.get('kind')
+            if code == 'invalid_document_lifecycle':
+                subject = document_id if _document_id_valid(document_id) else None
+                add(code, doc.family, subject, [_safe_locator(doc.path, diagnostic.get('line') or doc.header_lines.get('status') or 1, admitted_documents=admitted_documents)], {})
+            elif code == 'malformed_open_question_handle':
+                facts = {}
+                observed = diagnostic.get('handle')
+                if isinstance(observed, str) and re.fullmatch('(?:PCDN|EOQ)-[A-Z0-9][A-Z0-9-]{0,95}', observed, re.ASCII):
+                    facts['observed_token'] = observed
+                add(code, doc.family, None, [_safe_locator(doc.path, diagnostic['line'], admitted_documents=admitted_documents)], facts)
+            elif code in {'errata_missing_index_row', 'errata_index_without_body', 'errata_duplicate_index_row', 'errata_duplicate_body', 'errata_unsupported_status', 'errata_status_disagreement'}:
+                subject = f"{doc.family}:{diagnostic['errata_id']}"
+                lines = diagnostic.get('lines') or [diagnostic.get('line')]
+                locators = [_safe_locator(doc.path, line, admitted_documents=admitted_documents) for line in lines if line]
+                facts = {}
+                if code in {'errata_duplicate_index_row', 'errata_duplicate_body'}:
+                    facts['occurrence_count'] = len(lines)
+                elif code == 'errata_unsupported_status':
+                    facts['source'] = diagnostic['source']
+                elif code == 'errata_status_disagreement':
+                    facts = {'index_status': diagnostic['index_status'], 'body_status': diagnostic['body_status']}
+                add(code, doc.family, subject, locators, facts)
+    questions: dict[str, list[_ProjectedDefinition]] = collections.defaultdict(list)
+    for definition in projected:
+        if definition.payload['kind'] == 'open_question':
+            questions[definition.payload['obj_id']].append(definition)
+    for object_id, definitions in sorted(questions.items()):
+        if len(definitions) < 2:
+            continue
+        add('open_question_definition_duplicate', definitions[0].payload['family'], object_id, [_safe_locator(item.payload['doc'], item.payload['line'], admitted_documents=admitted_documents) for item in definitions], {'definition_count': len(definitions)})
+    return records
+
+def _record_sort_key(record: dict) -> tuple:
+    return (record['code'], record['subject_token'] is None, record['subject_token'] or '', tuple(((loc['document'], loc['line']) for loc in record['locators'])), record['record_key'])
+
+def _diagnostic_coverage(data: dict, projected: list[_ProjectedDefinition], records: list[dict]) -> dict:
+    docs: list[Document] = data.get('docs', [])
+    questions = [item for item in projected if item.payload['kind'] == 'open_question']
+    question_ids = collections.Counter((item.payload['obj_id'] for item in questions))
+    status_counts = {name: 0 for name in ('open', 'pending_ratification', 'resolved', 'unknown')}
+    for item in questions:
+        status = item.payload.get('attrs', {}).get('status')
+        status_counts[status if status in status_counts else 'unknown'] += 1
+    code_counts = collections.Counter((record['code'] for record in records))
+    return {'f18': {'eligible_documents': len(docs), 'identified_documents': sum((bool(doc.header.get('document id', '').strip()) for doc in docs)), 'missing_document_ids': sum((not bool(doc.header.get('document id', '').strip()) for doc in docs)), 'invalid_document_lifecycle': code_counts['invalid_document_lifecycle']}, 'f19': {'emitted_definitions': len(questions), 'unique_definition_ids': len(question_ids), 'duplicate_definition_ids': sum((count > 1 for count in question_ids.values())), 'malformed_handles': code_counts['malformed_open_question_handle'], 'status_counts': status_counts}, 'f20': {'diagnostic_records': sum((code_counts[code] for code in DIAGNOSTIC_CODES[4:10]))}}
+
+def _build_projection_bundle(data: dict, *, admitted_documents) -> tuple[dict, dict, ProjectionExpectations]:
+    _validate_fingerprint_descriptor()
+    for doc in data.get('docs', []):
+        if doc.producer_errors:
+            first = min(doc.producer_errors, key=lambda error: (error.get('line', 1), 0 if error.get('kind') == 'invalid_project_event_record' else 1))
+            labels = {'invalid_spec_edge_field': 'Spec Edge field', 'invalid_project_event_record': 'project-event record', 'invalid_retired_dependency_context': 'Retires-Dependency field'}
+            label = labels.get(first.get('kind'), 'producer input')
+            raise ProjectionError(f"invalid {label} at {doc.path}:{first.get('line', 1)}")
+    registered_prefixes = set(data.get('registered_prefixes', []))
+    projected = _projected_definitions(data)
+    by_id, by_doc, by_doc_line = _projection_maps(projected)
+    _validate_retired_dependencies(projected, by_id=by_id, registered_prefixes=registered_prefixes)
+    edges_by_family, c6_records = _build_edges_and_c6_diagnostics(data, projected, by_id=by_id, by_doc=by_doc, by_doc_line=by_doc_line, registered_prefixes=registered_prefixes, admitted_documents=admitted_documents)
+    diagnostic_records = [*_build_base_diagnostics(data, projected, admitted_documents=admitted_documents), *c6_records]
+    if len(diagnostic_records) > MAX_DIAGNOSTIC_RECORDS:
+        raise ProjectionError('diagnostic record count limit exceeded')
+    per_family: dict[str, list[dict]] = collections.defaultdict(list)
+    for definition in projected:
+        per_family[definition.payload['family']].append(definition.payload)
+    object_families = sorted(set(per_family) | set(edges_by_family))
+    object_index: dict[str, dict] = {}
+    for family in object_families:
+        objects = sorted(per_family.get(family, []), key=lambda obj: (obj['doc'], obj['line'], obj['kind'], obj['obj_id']))
+        edges = edges_by_family.get(family, [])
+        object_index[family] = {'schema_version': INDEX_SCHEMA_VERSION, 'family': family, 'object_count': len(objects), 'edge_count': len(edges), 'kind_counts': dict(sorted(collections.Counter((obj['kind'] for obj in objects)).items())), 'objects': objects, 'edges': edges}
+    object_index['_manifest'] = {'schema_version': INDEX_SCHEMA_VERSION, 'families': object_families, 'family_counts': {family: len(per_family.get(family, [])) for family in object_families}, 'total_objects': sum((len(values) for values in per_family.values())), 'total_edges': sum((len(values) for values in edges_by_family.values())), 'semantic_fingerprint_version': SEMANTIC_FINGERPRINT_VERSION, 'semantic_fingerprint_extractor_sha256': SEMANTIC_FINGERPRINT_EXTRACTOR_SHA256}
+    scanned_families = {doc.family for doc in data.get('docs', [])} | set(per_family) | set(edges_by_family) | {record['family'] for record in diagnostic_records}
+    records_by_family: dict[str, dict[str, dict]] = collections.defaultdict(dict)
+    for record in diagnostic_records:
+        previous = records_by_family[record['family']].get(record['record_key'])
+        if previous is not None and previous != record:
+            raise ProjectionError('diagnostic record-key collision')
+        records_by_family[record['family']][record['record_key']] = record
+    diagnostic_index: dict[str, dict] = {}
+    descriptors = []
+    final_records: list[dict] = []
+    total_family_bytes = 0
+    for family in sorted(scanned_families):
+        records = sorted(records_by_family.get(family, {}).values(), key=_record_sort_key)
+        final_records.extend(records)
+        wrapper = {'schema_version': DIAGNOSTIC_SCHEMA_VERSION, 'family': family, 'record_count': len(records), 'records': records}
+        family_bytes = _diagnostic_render(wrapper).encode('utf-8')
+        if len(family_bytes) > MAX_DIAGNOSTIC_FAMILY_BYTES:
+            raise ProjectionError('diagnostic family-file size limit exceeded')
+        total_family_bytes += len(family_bytes)
+        diagnostic_index[family] = wrapper
+        descriptors.append({'family': family, 'filename': f'{family}.json', 'record_count': len(records), 'sha256': hashlib.sha256(family_bytes).hexdigest()})
+    code_counts = collections.Counter((record['code'] for record in final_records))
+    manifest = {'schema_version': DIAGNOSTIC_SCHEMA_VERSION, 'families': descriptors, 'total_records': len(final_records), 'code_counts': {code: code_counts[code] for code in DIAGNOSTIC_CODES}, 'coverage': _diagnostic_coverage(data, projected, final_records)}
+    manifest_bytes = _diagnostic_render(manifest).encode('utf-8')
+    if len(manifest_bytes) > MAX_DIAGNOSTIC_MANIFEST_BYTES:
+        raise ProjectionError('diagnostic manifest size limit exceeded')
+    if total_family_bytes + len(manifest_bytes) > MAX_DIAGNOSTIC_TOTAL_BYTES:
+        raise ProjectionError('diagnostic projection size limit exceeded')
+    diagnostic_index['_manifest'] = manifest
+    expectations = ProjectionExpectations(registered_prefixes=frozenset(registered_prefixes), object_sha256=hashlib.sha256(_canonical_json_bytes(object_index)).hexdigest(), location_sha256=None, diagnostic_sha256=hashlib.sha256(_canonical_json_bytes(diagnostic_index)).hexdigest(), location_descriptors=None, diagnostic_descriptors=tuple(((descriptor['family'], descriptor['filename'], descriptor['record_count'], descriptor['sha256']) for descriptor in descriptors)), diagnostic_record_keys=tuple((record['record_key'] for family in sorted((name for name in diagnostic_index if name != '_manifest')) for record in diagnostic_index[family]['records'])))
+    return (object_index, diagnostic_index, expectations)
+
+def build_projection_bundle_with_expectations(data: dict, *, admitted_documents) -> tuple[dict, dict, ProjectionExpectations]:
+    """Build one triple's wire views and private pre-publication expectations."""
+    return _build_projection_bundle(data, admitted_documents=admitted_documents)
+
+def _render(payload: dict) -> str:
+    return json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True) + '\n'

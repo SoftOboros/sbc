@@ -51,8 +51,52 @@ raw_lines = text.splitlines()
     historical.body = [n for n in historical.body if not (
         isinstance(n,ast.Assign) and isinstance(n.value,ast.Call)
         and isinstance(n.value.func,ast.Name) and n.value.func.id == "_registered_invariant_prefixes")]
+    scan = next(n for n in trees["scan"].body if isinstance(n,ast.FunctionDef) and n.name == "scan")
+    scan.args = ast.parse("def scan(sources, registered_prefixes): pass").body[0].args
+    # Preserve the corpus-wide resolution pass after replacing traversal and reads.
+    start = next(i for i,n in enumerate(scan.body) if isinstance(n,ast.Assign)
+                 and any(isinstance(t,ast.Name) and t.id == "projected" for t in n.targets))
+    scan.body = ast.parse('''
+docs = []
+objects = []
+citations = []
+texts = {}
+registered_prefixes = sorted(registered_prefixes)
+for relative_path, family, text in sources:
+    d, o, c = parse_document(text, relative_path, family, registered_prefixes)
+    docs.append(d)
+    objects.extend(o)
+    citations.extend(c)
+    texts[relative_path] = text
+''').body + scan.body[start:]
+    resolution = next(n for n in scan.body if isinstance(n,ast.For)
+                      and isinstance(n.target,ast.Tuple) and isinstance(n.body[0],ast.Try))
+    assert isinstance(resolution.body[0],ast.Try)
+    resolution.body[0:1] = ast.parse("lines = texts[path].splitlines()").body
+    # Locator admission uses this invocation's exact source membership, not a
+    # consumer-specific global directory list. Thread context through callers.
+    locator = next(n for n in trees["scan"].body if isinstance(n,ast.FunctionDef) and n.name == "_safe_locator")
+    membership = next(n for n in locator.body if isinstance(n,ast.If)
+                      and any(isinstance(c,ast.Name) and c.id == "SCAN_DIRS" for c in ast.walk(n)))
+    membership.test = ast.parse("document not in admitted_documents",mode="eval").body
+    contextual = {"_safe_locator"}
+    functions = [n for n in trees["scan"].body if isinstance(n,ast.FunctionDef)]
+    while True:
+        callers = {n.name for n in functions if any(isinstance(c,ast.Call)
+                   and isinstance(c.func,ast.Name) and c.func.id in contextual for c in ast.walk(n))}
+        if callers <= contextual:
+            break
+        contextual |= callers
+    for function in functions:
+        if function.name not in contextual:
+            continue
+        function.args.kwonlyargs.append(ast.arg(arg="admitted_documents"))
+        function.args.kw_defaults.append(None)
+        for call in ast.walk(function):
+            if isinstance(call,ast.Call) and isinstance(call.func,ast.Name) and call.func.id in contextual:
+                call.keywords.append(ast.keyword(arg="admitted_documents", value=ast.Name(id="admitted_documents",ctx=ast.Load())))
     lookup = {module:{name:node for node in tree.body for name in bindings(node)} for module,tree in trees.items()}
-    needed = {"scan":{"parse_document"},"locations":set()}
+    needed = {"scan":{"parse_document", "scan", "build_projection_bundle_with_expectations", "_render", "_diagnostic_render"},"locations":set()}
     visited = {"scan":set(),"locations":set()}
     while any(needed[m]-visited[m] for m in needed):
         for module in needed:

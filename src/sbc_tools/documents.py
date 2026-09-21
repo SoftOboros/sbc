@@ -11,6 +11,11 @@ def parse_document(data, *, path, family, registered_prefixes):
     does not infer family policy, authorize a source, scan siblings or emit a
     complete corpus projection. Invalid UTF-8 follows the pinned replacement rule.
     """
+    prefixes = _validate_context(data, path, family, registered_prefixes)
+    return _parse_document(data.decode("utf-8",errors="replace"),path,family,prefixes)
+
+
+def _validate_context(data, path, family, registered_prefixes):
     copy_files({path:data})
     copy_files({family:b""})
     if "/" in family:
@@ -21,4 +26,4 @@ def parse_document(data, *, path, family, registered_prefixes):
     if any(not isinstance(p,str) or not re.fullmatch(r"[A-Z]{2,8}",p)
            or p in EXAMPLE_PREFIXES or p == "PHASE" for p in prefixes):
         raise ValueError("Invalid registered invariant prefix")
-    return _parse_document(data.decode("utf-8",errors="replace"),path,family,prefixes)
+    return prefixes
