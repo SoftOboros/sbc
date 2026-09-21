@@ -5,6 +5,7 @@ pins. Verification reads immutable objects, so retained publications do not
 depend on today's checkout. This is not a clean-scan admission or authorization
 decision; checkout observations remain a separate prerequisite at production.
 """
+from dataclasses import dataclass
 import hashlib
 import json
 import re
@@ -15,7 +16,18 @@ from .configuration import validate_configuration
 from .corpus import CorpusInput, corpus_digest, inventory_mounted_corpus
 from .identity import copy_files, copy_publication
 from .patches import verify_support_patch
+from .mounts import observe_checkout_tree
 from .validation import BundleValidator, VerifiedProvenance
+
+
+@dataclass(frozen=True)
+class AdmittedSource:
+    """Bounded scan-start observation; not authorization, a lease or publication."""
+    repository_id: str
+    source_commit: str
+    profile_sha256: str
+    provenance: VerifiedProvenance
+    checkout: object
 
 
 class CommittedProvenanceVerifier:
@@ -83,6 +95,33 @@ class CommittedProvenanceVerifier:
                 or publication["authority_manifest_sha256"] != self._authority_sha):
             raise ValueError("Publication does not match trusted host context")
         source = publication["source_commit"]
+        proof = self._verify_source(source)
+        self._reader.verify_files(publication["projection_commit"],self._config["output_root"],files)
+        return proof
+
+    def admit_source(self):
+        """Observe clean checkout and verified inputs before producer execution.
+
+        Selection comes only from trusted configuration. No publication or output
+        writes occur. Retained-publication verify intentionally does not call this.
+        """
+        source = self._reader.resolve_commit(self._config["tracked_ref"])
+        def observe():
+            return observe_checkout_tree(root_repository_id=self._repository_id,
+                root_commit=source, mounts=self._config["submodules"],
+                source_roots=tuple(sorted(set((*self._config["source_roots"],*self._required)))),
+                readers=self._sources,exclude=self._config["exclude"])
+        before = observe()
+        if not before.clean:
+            raise ValueError("Source checkout is not byte-exact clean at its configured pin")
+        proof = self._verify_source(source)
+        after = observe()
+        if (not after.clean or before.pins != after.pins
+                or self._reader.resolve_commit(self._config["tracked_ref"]) != source):
+            raise ValueError("Source selection or checkout changed during admission")
+        return AdmittedSource(self._repository_id,source,self._profile_sha,proof,after)
+
+    def _verify_source(self, source):
         reader = self._reader
         if reader.read_blob(source,self._config_path) != self._config_bytes:
             raise ValueError("Committed configuration differs from trusted configuration")
@@ -109,5 +148,4 @@ class CommittedProvenanceVerifier:
                 if key in combined and combined[key] != record:
                     raise ValueError("Conflicting corpus identity across authority revisions")
                 combined[key] = record
-        reader.verify_files(publication["projection_commit"],self._config["output_root"],files)
         return VerifiedProvenance(corpus_digest(combined.values()), authority.manifest_sha256)

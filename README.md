@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 46 core tests and 55 Git/provenance tests; these are bounded
+There are now 46 core tests and 62 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -174,10 +174,18 @@ Nested children use the immediate parent's committed gitlink. Exclusions do not
 hide required evidence, and missing history fails without current-HEAD fallback.
 Single-repository inventory delegates to the same implementation. Required
 evidence paths are host-supplied; a production profile must register its complete
-evidence inventory. Producer regeneration and clean-scan admission wiring remain
-unfinished.
+evidence inventory. Producer regeneration remains unfinished.
 
 Retained verification reads exact source/projection commits and does not depend
 on current HEAD or dirty working files. This proves committed integrity, not that
 a new scan ran from a clean checkout. Use the separate checkout observations for
 that admission decision; no runtime gate or access authorization is implied.
+
+`CommittedProvenanceVerifier.admit_source()` now resolves the configured branch,
+checks the pinned root and included child checkouts, verifies committed source
+provenance, and repeats checkout/branch checks before returning an immutable
+AdmittedSource. Dirty checkouts, changed profile evidence or an observed edit
+during verification reject admission. This operation neither generates files nor
+publishes a snapshot. Its result is a bounded scan-start observation, not a lock,
+authorization grant or renewable lease; producer execution must read the pinned
+committed bytes. Retained verification deliberately does not perform admission.
