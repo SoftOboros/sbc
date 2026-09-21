@@ -1,0 +1,923 @@
+{
+  "source_commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+  "cases": [
+    {
+      "case": "stable",
+      "path": "docs/todo/vectors/VECT-00.md",
+      "text": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** DRAFT\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [ ] `GATE-001` \u2014 A selection MUST retain input identity.\n",
+      "family": "vectors",
+      "registered_prefixes": [
+        "VECT"
+      ],
+      "expected": [
+        {
+          "path": "docs/todo/vectors/VECT-00.md",
+          "family": "vectors",
+          "header": {
+            "document id": "VECT-00",
+            "status": "DRAFT"
+          },
+          "header_lines": {
+            "document id": 3,
+            "status": 4
+          },
+          "title": "Vector concepts",
+          "diagnostics": [],
+          "sections": [
+            3,
+            9,
+            11,
+            12
+          ],
+          "changelog_shape": "none",
+          "changelog_entries": 0,
+          "project_event_entries": 0,
+          "is_concepts": false,
+          "producer_errors": []
+        },
+        [
+          {
+            "obj_id": "VECT-00",
+            "kind": "document",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "text": "Vector concepts",
+            "attrs": {
+              "lifecycle_state": "draft",
+              "attr_provenance": {
+                "lifecycle_state": "inferred"
+              }
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "kind": "term",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 10,
+            "text": "One immutable input set.",
+            "attrs": {
+              "relationship": "Owned here.",
+              "term": "Selection"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "kind": "invariant",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 16,
+            "text": "Input identity MUST remain explicit.",
+            "attrs": {
+              "title": "",
+              "def_shape": "table",
+              "verified_by": "fixture",
+              "has_verification": true,
+              "attr_provenance": {
+                "has_verification": "inferred"
+              },
+              "normative_keywords": [
+                "MUST"
+              ],
+              "doc_status": "DRAFT"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "kind": "nongoal",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 20,
+            "text": "Network access. This fixture MUST NOT fetch data.",
+            "attrs": {},
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:GATE-001",
+            "kind": "gate",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 24,
+            "text": "A selection MUST retain input identity.",
+            "attrs": {
+              "checked": false,
+              "attr_provenance": {
+                "checked": "declared"
+              },
+              "cited_ids": []
+            },
+            "producer_meta": {}
+          }
+        ],
+        [
+          {
+            "obj_id": "VECT-00",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 16,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 10,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 20,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:GATE-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 24,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          }
+        ]
+      ]
+    },
+    {
+      "case": "checked",
+      "path": "docs/todo/vectors/VECT-00.md",
+      "text": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** DRAFT\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [x] `GATE-001` \u2014 A selection MUST retain input identity.\n",
+      "family": "vectors",
+      "registered_prefixes": [
+        "VECT"
+      ],
+      "expected": [
+        {
+          "path": "docs/todo/vectors/VECT-00.md",
+          "family": "vectors",
+          "header": {
+            "document id": "VECT-00",
+            "status": "DRAFT"
+          },
+          "header_lines": {
+            "document id": 3,
+            "status": 4
+          },
+          "title": "Vector concepts",
+          "diagnostics": [],
+          "sections": [
+            3,
+            9,
+            11,
+            12
+          ],
+          "changelog_shape": "none",
+          "changelog_entries": 0,
+          "project_event_entries": 0,
+          "is_concepts": false,
+          "producer_errors": []
+        },
+        [
+          {
+            "obj_id": "VECT-00",
+            "kind": "document",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "text": "Vector concepts",
+            "attrs": {
+              "lifecycle_state": "draft",
+              "attr_provenance": {
+                "lifecycle_state": "inferred"
+              }
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "kind": "term",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 10,
+            "text": "One immutable input set.",
+            "attrs": {
+              "relationship": "Owned here.",
+              "term": "Selection"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "kind": "invariant",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 16,
+            "text": "Input identity MUST remain explicit.",
+            "attrs": {
+              "title": "",
+              "def_shape": "table",
+              "verified_by": "fixture",
+              "has_verification": true,
+              "attr_provenance": {
+                "has_verification": "inferred"
+              },
+              "normative_keywords": [
+                "MUST"
+              ],
+              "doc_status": "DRAFT"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "kind": "nongoal",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 20,
+            "text": "Network access. This fixture MUST NOT fetch data.",
+            "attrs": {},
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:GATE-001",
+            "kind": "gate",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 24,
+            "text": "A selection MUST retain input identity.",
+            "attrs": {
+              "checked": true,
+              "attr_provenance": {
+                "checked": "declared"
+              },
+              "cited_ids": []
+            },
+            "producer_meta": {}
+          }
+        ],
+        [
+          {
+            "obj_id": "VECT-00",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 16,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 10,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 20,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:GATE-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 24,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          }
+        ]
+      ]
+    },
+    {
+      "case": "malformed_gate",
+      "path": "docs/todo/vectors/VECT-00.md",
+      "text": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** DRAFT\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [ ] `GATE-001` - A selection MUST retain input identity.\n",
+      "family": "vectors",
+      "registered_prefixes": [
+        "VECT"
+      ],
+      "expected": [
+        {
+          "path": "docs/todo/vectors/VECT-00.md",
+          "family": "vectors",
+          "header": {
+            "document id": "VECT-00",
+            "status": "DRAFT"
+          },
+          "header_lines": {
+            "document id": 3,
+            "status": 4
+          },
+          "title": "Vector concepts",
+          "diagnostics": [],
+          "sections": [
+            3,
+            9,
+            11,
+            12
+          ],
+          "changelog_shape": "none",
+          "changelog_entries": 0,
+          "project_event_entries": 0,
+          "is_concepts": false,
+          "producer_errors": []
+        },
+        [
+          {
+            "obj_id": "VECT-00",
+            "kind": "document",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "text": "Vector concepts",
+            "attrs": {
+              "lifecycle_state": "draft",
+              "attr_provenance": {
+                "lifecycle_state": "inferred"
+              }
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "kind": "term",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 10,
+            "text": "One immutable input set.",
+            "attrs": {
+              "relationship": "Owned here.",
+              "term": "Selection"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "kind": "invariant",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 16,
+            "text": "Input identity MUST remain explicit.",
+            "attrs": {
+              "title": "",
+              "def_shape": "table",
+              "verified_by": "fixture",
+              "has_verification": true,
+              "attr_provenance": {
+                "has_verification": "inferred"
+              },
+              "normative_keywords": [
+                "MUST"
+              ],
+              "doc_status": "DRAFT"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "kind": "nongoal",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 20,
+            "text": "Network access. This fixture MUST NOT fetch data.",
+            "attrs": {},
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "docs/todo/vectors/VECT-00.md:gate:24",
+            "kind": "gate",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 24,
+            "text": "`GATE-001` - A selection MUST retain input identity.",
+            "attrs": {
+              "checked": false,
+              "attr_provenance": {
+                "checked": "declared"
+              },
+              "cited_ids": []
+            },
+            "producer_meta": {}
+          }
+        ],
+        [
+          {
+            "obj_id": "VECT-00",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 16,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 10,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 20,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "docs/todo/vectors/VECT-00.md:gate:24",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 24,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          }
+        ]
+      ]
+    },
+    {
+      "case": "duplicate_invariant",
+      "path": "docs/todo/vectors/VECT-00.md",
+      "text": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** DRAFT\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [ ] `GATE-001` \u2014 A selection MUST retain input identity.\n",
+      "family": "vectors",
+      "registered_prefixes": [
+        "VECT"
+      ],
+      "expected": [
+        {
+          "path": "docs/todo/vectors/VECT-00.md",
+          "family": "vectors",
+          "header": {
+            "document id": "VECT-00",
+            "status": "DRAFT"
+          },
+          "header_lines": {
+            "document id": 3,
+            "status": 4
+          },
+          "title": "Vector concepts",
+          "diagnostics": [],
+          "sections": [
+            3,
+            9,
+            11,
+            12
+          ],
+          "changelog_shape": "none",
+          "changelog_entries": 0,
+          "project_event_entries": 0,
+          "is_concepts": false,
+          "producer_errors": []
+        },
+        [
+          {
+            "obj_id": "VECT-00",
+            "kind": "document",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "text": "Vector concepts",
+            "attrs": {
+              "lifecycle_state": "draft",
+              "attr_provenance": {
+                "lifecycle_state": "inferred"
+              }
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "kind": "term",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 10,
+            "text": "One immutable input set.",
+            "attrs": {
+              "relationship": "Owned here.",
+              "term": "Selection"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "kind": "invariant",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 16,
+            "text": "Input identity MUST remain explicit.",
+            "attrs": {
+              "title": "",
+              "def_shape": "table",
+              "verified_by": "fixture",
+              "has_verification": true,
+              "attr_provenance": {
+                "has_verification": "inferred"
+              },
+              "normative_keywords": [
+                "MUST"
+              ],
+              "doc_status": "DRAFT"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "kind": "nongoal",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 20,
+            "text": "Network access. This fixture MUST NOT fetch data.",
+            "attrs": {},
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:GATE-001",
+            "kind": "gate",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 24,
+            "text": "A selection MUST retain input identity.",
+            "attrs": {
+              "checked": false,
+              "attr_provenance": {
+                "checked": "declared"
+              },
+              "cited_ids": []
+            },
+            "producer_meta": {}
+          }
+        ],
+        [
+          {
+            "obj_id": "VECT-00",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 16,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 10,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 20,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:GATE-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 24,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          }
+        ]
+      ]
+    },
+    {
+      "case": "duplicate_invariant",
+      "path": "docs/todo/vectors/VECT-01.md",
+      "text": "# Duplicate fixture\n\n**Document ID:** VECT-01\n\n## \u00a79 Invariants\n\n| ID | Requirement |\n|---|---|\n| **INV-VECT-1** | Conflicting requirement. |\n",
+      "family": "vectors",
+      "registered_prefixes": [
+        "VECT"
+      ],
+      "expected": [
+        {
+          "path": "docs/todo/vectors/VECT-01.md",
+          "family": "vectors",
+          "header": {
+            "document id": "VECT-01"
+          },
+          "header_lines": {
+            "document id": 3
+          },
+          "title": "Duplicate fixture",
+          "diagnostics": [],
+          "sections": [
+            9
+          ],
+          "changelog_shape": "none",
+          "changelog_entries": 0,
+          "project_event_entries": 0,
+          "is_concepts": false,
+          "producer_errors": []
+        },
+        [
+          {
+            "obj_id": "VECT-01",
+            "kind": "document",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-01.md",
+            "line": 3,
+            "text": "Duplicate fixture",
+            "attrs": {
+              "lifecycle_state": "unknown",
+              "attr_provenance": {
+                "lifecycle_state": "inferred"
+              }
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "kind": "invariant",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-01.md",
+            "line": 9,
+            "text": "Conflicting requirement.",
+            "attrs": {
+              "title": "",
+              "def_shape": "table",
+              "verified_by": "",
+              "has_verification": false,
+              "attr_provenance": {
+                "has_verification": "inferred"
+              },
+              "normative_keywords": [],
+              "doc_status": ""
+            },
+            "producer_meta": {}
+          }
+        ],
+        [
+          {
+            "obj_id": "VECT-01",
+            "doc": "docs/todo/vectors/VECT-01.md",
+            "line": 3,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "INV-VECT-1",
+            "doc": "docs/todo/vectors/VECT-01.md",
+            "line": 9,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          }
+        ]
+      ]
+    },
+    {
+      "case": "historical_registered",
+      "path": "docs/todo/vectors/VECT-00.md",
+      "text": "# Vector concepts\n\n**Document ID:** VECT-00\n**Status:** SUPERSEDED\n**Document lifecycle state:** superseded\n**Historical definitions:** INV-VECT-1\n\n## \u00a73 Canonical Glossary\n\n| ID | Term | Definition | Relationship |\n|---|---|---|---|\n| `TERM-001` | **Selection** | One immutable input set. | Owned here. |\n\n## \u00a79 Invariants\n\n| ID | Requirement | Witness |\n|---|---|---|\n| **INV-VECT-1** | Input identity MUST remain explicit. | fixture |\n\n## \u00a711 Non-Goals\n\n1. `NONGOAL-001` \u2014 **Network access.** This fixture MUST NOT fetch data.\n\n## \u00a712 Acceptance\n\n- [ ] `GATE-001` \u2014 A selection MUST retain input identity.\n",
+      "family": "vectors",
+      "registered_prefixes": [
+        "VECT"
+      ],
+      "expected": [
+        {
+          "path": "docs/todo/vectors/VECT-00.md",
+          "family": "vectors",
+          "header": {
+            "document id": "VECT-00",
+            "status": "SUPERSEDED",
+            "document lifecycle state": "superseded",
+            "historical definitions": "INV-VECT-1"
+          },
+          "header_lines": {
+            "document id": 3,
+            "status": 4,
+            "document lifecycle state": 5,
+            "historical definitions": 6
+          },
+          "title": "Vector concepts",
+          "diagnostics": [],
+          "sections": [
+            3,
+            9,
+            11,
+            12
+          ],
+          "changelog_shape": "none",
+          "changelog_entries": 0,
+          "project_event_entries": 0,
+          "is_concepts": false,
+          "producer_errors": []
+        },
+        [
+          {
+            "obj_id": "VECT-00",
+            "kind": "document",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "text": "Vector concepts",
+            "attrs": {
+              "lifecycle_state": "superseded",
+              "attr_provenance": {
+                "lifecycle_state": "declared"
+              }
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "kind": "term",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 12,
+            "text": "One immutable input set.",
+            "attrs": {
+              "relationship": "Owned here.",
+              "term": "Selection"
+            },
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "kind": "nongoal",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 22,
+            "text": "Network access. This fixture MUST NOT fetch data.",
+            "attrs": {},
+            "producer_meta": {}
+          },
+          {
+            "obj_id": "vectors:GATE-001",
+            "kind": "gate",
+            "family": "vectors",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 26,
+            "text": "A selection MUST retain input identity.",
+            "attrs": {
+              "checked": false,
+              "attr_provenance": {
+                "checked": "declared"
+              },
+              "cited_ids": []
+            },
+            "producer_meta": {}
+          }
+        ],
+        [
+          {
+            "obj_id": "VECT-00",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 3,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:TERM-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 12,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:NONGOAL-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 22,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          },
+          {
+            "obj_id": "vectors:GATE-001",
+            "doc": "docs/todo/vectors/VECT-00.md",
+            "line": 26,
+            "family": "vectors",
+            "is_definition": true,
+            "source_token": null,
+            "edge_type_tokens": [],
+            "declared": false,
+            "recognized_edge_field": false
+          }
+        ]
+      ]
+    }
+  ]
+}

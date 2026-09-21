@@ -2,7 +2,7 @@
 
 This separate local repository begins the approved portable implementation.
 Its current implemented surface is the standard-library-only SBCT cursor
-codec, transactional SQLite publication store, extracted projection validators
+codec, transactional SQLite publication store, extracted document parser and projection validators
 and offline committed Git verification for registered source repositories.
 Indexing, query extraction, Django/MCP OAuth and dashboard
 integration are not yet implemented here.
@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 46 core tests and 62 Git/provenance tests; these are bounded
+There are now 50 core tests and 62 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -207,3 +207,17 @@ network calls. It writes only temporary fixture repositories and materialized
 inputs. This is a full-regeneration reference witness, not the extracted portable
 producer or the scan CLI. Archive coverage, configurable producer scopes and
 admitted-source-to-producer wiring remain extraction work.
+
+`sbc_tools.documents.parse_document` is the first runtime producer extraction.
+It consumes document bytes plus an explicit relative path, family and registered
+prefix set. Filesystem admission, family routing and registry loading remain
+outside this pure function. The pinned parsing/lifecycle/historical-definition
+rules are preserved; invalid UTF-8 follows the source's replacement behavior.
+It returns document, object and citation records, not complete projections.
+
+`tools/extract_document_parser.py` reproduces the dependency closure from two
+verified source blobs. Six document cases match complete pinned-parser outputs,
+including a superseded historical-definition case. An isolated probe parsed all
+six with file, process and network audit events rejected. Full-corpus traversal,
+family assignment, location/archive generation and projection building remain
+to be extracted before the portable scan path is runnable.
