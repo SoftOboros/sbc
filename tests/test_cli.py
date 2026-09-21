@@ -26,6 +26,7 @@ class CLITests(unittest.TestCase):
     def test_strict_arguments_and_conflicts_fail_before_loading(self):
         def forbidden(path): self.fail('Host loaded for invalid invocation')
         invalid = [[],['inspect'],['check'],['check','--conf','x'],
+                   ['check','--config','x','--host','h','--host','h'],
                    ['check','--config','x','--config','y'],
                    ['scan','check','--config','x'],['--version','check','--config','x'],
                    ['check','--config','x','--unknown'],
@@ -48,7 +49,7 @@ class CLITests(unittest.TestCase):
         for command in ('check','scan'):
             code,raw = self.call([command,'--config','unused.toml','--format=json'])
             self.assertEqual(2,code)
-            self.assertEqual('invalid_configuration',json.loads(raw)['error']['code'])
+            self.assertEqual('invalid_invocation',json.loads(raw)['error']['code'])
 
     def test_explicit_host_dispatch_and_cleanup(self):
         events = []

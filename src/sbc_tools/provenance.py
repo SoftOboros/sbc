@@ -53,6 +53,10 @@ class ScanPublicationError(ValueError):
         self.candidate, self.code = candidate, code
 
 
+class AuthorityValidationError(ValueError):
+    """Authority validation failed at its identified semantic boundary."""
+
+
 @dataclass(frozen=True)
 class CheckedProjection:
     """Candidate identity remains distinct from the committed reference."""
@@ -268,9 +272,15 @@ class CommittedProvenanceVerifier:
             raise ValueError("Committed profile bytes mismatch")
         raw = reader.read_blob(source,self._config["authority_manifest"])
         patch = reader.read_blob(source,self._patch_path)
-        authority = verify_authority_inputs(raw, approved_manifest_sha256=self._authority_sha,
-                                            patch_bytes=patch, readers=self._readers)
-        verify_support_patch(authority,patch,approved_result_sha256=self._support_sha)
+        from .git_reader import GitReadError
+        try:
+            authority = verify_authority_inputs(raw, approved_manifest_sha256=self._authority_sha,
+                                                patch_bytes=patch, readers=self._readers)
+            verify_support_patch(authority,patch,approved_result_sha256=self._support_sha)
+        except GitReadError:
+            raise
+        except ValueError:
+            raise AuthorityValidationError('Invalid authority inputs') from None
         inventory = inventory_mounted_corpus(repository_id=self._repository_id,
             commit=source, readers=self._sources, mounts=self._config["submodules"],
             source_roots=self._config["source_roots"],required_files=self._required,

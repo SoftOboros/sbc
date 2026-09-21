@@ -2,6 +2,10 @@
 from contextlib import ExitStack, contextmanager
 from dataclasses import dataclass, field
 import os
+import hashlib
+import json
+import re
+import stat
 from pathlib import Path
 from types import MappingProxyType
 
@@ -10,6 +14,96 @@ from .cli_results import CommandFailure
 from .git_reader import GitCommitReader
 from .identity import copy_files
 from .provenance import CommittedProvenanceVerifier
+
+
+def _regular_input(path):
+    info = path.lstat()
+    if (not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0) & 0x400
+            or path.resolve(strict=True) != path):
+        raise ValueError('Linked or nonregular host input')
+    return path.read_bytes()
+
+
+def load_console_host(host_path, config_path):
+    """Read one explicit data binding; never infer approvals or search for it."""
+    def unique(pairs):
+        result = {}
+        for key,value in pairs:
+            if key in result:
+                raise ValueError('Duplicate binding key')
+            result[key] = value
+        return result
+    def invalid_constant(value):
+        raise ValueError('Nonfinite binding value')
+    try:
+        path = Path(os.path.abspath(host_path))
+        value = json.loads(_regular_input(path),object_pairs_hook=unique,parse_constant=invalid_constant)
+        keys = set(HostRegistration.__dataclass_fields__) - {'config_bytes'} | {'schema_version','config_sha256'}
+        if not isinstance(value,dict) or set(value) != keys or type(value['schema_version']) is not int or value['schema_version'] != 1:
+            raise ValueError('Unsupported binding schema')
+        for name in ('repository_id','tracked_branch'):
+            if not isinstance(value[name],str) or not value[name]:
+                raise ValueError('Invalid binding identifier')
+        for name in ('config_path','profile_path','patch_path'):
+            copy_files({value[name]:b''})
+        for name in ('config_sha256','profile_sha256','approved_authority_sha256'):
+            if not isinstance(value[name],str) or not re.fullmatch('[0-9a-f]{64}',value[name]):
+                raise ValueError('Invalid binding digest')
+        support = value['approved_support_sha256']
+        if not isinstance(support,dict) or set(support) != {'AGENTS.md','CLAUDE.md','README.md'}:
+            raise ValueError('Invalid support pins')
+        if any(not isinstance(v,str) or not re.fullmatch('[0-9a-f]{64}',v) for v in support.values()):
+            raise ValueError('Invalid support digest')
+        for name in ('source_repositories','authority_repositories'):
+            if not isinstance(value[name],dict):
+                raise ValueError('Invalid repository map')
+            paths = {}
+            for key,location in value[name].items():
+                if not key or not isinstance(location,str) or not location or '://' in location or location.startswith('~'):
+                    raise ValueError('Invalid local repository path')
+                paths[key] = (path.parent/location).resolve(strict=True)
+            value[name] = paths
+        if value['repository_id'] not in value['source_repositories']:
+            raise ValueError('Root repository missing')
+        config = value['source_repositories'][value['repository_id']]/value['config_path']
+        if config != Path(os.path.abspath(config_path)):
+            raise ValueError('Configuration path mismatch')
+        raw_config = _regular_input(config)
+        if hashlib.sha256(raw_config).hexdigest() != value.pop('config_sha256'):
+            raise ValueError('Configuration digest mismatch')
+        families = value['document_families']
+        if not isinstance(families,dict):
+            raise ValueError('Invalid family map')
+        def family(name):
+            copy_files({name:b''})
+            if '/' in name:
+                raise ValueError('Invalid family')
+        for source,name in families.items():
+            copy_files({source:b''})
+            family(name)
+        rows = value['archive_families']
+        if not isinstance(rows,list):
+            raise ValueError('Invalid archive family list')
+        archives = {}
+        for row in rows:
+            if not isinstance(row,dict) or set(row) != {'archive','member','family'}:
+                raise ValueError('Invalid archive family')
+            copy_files({row['archive']:b'',row['member']:b''})
+            family(row['family'])
+            key = (row['archive'],row['member'])
+            if key in archives:
+                raise ValueError('Duplicate archive member')
+            archives[key] = row['family']
+        evidence = value['evidence_paths']
+        if not isinstance(evidence,list) or len(set(evidence)) != len(evidence):
+            raise ValueError('Invalid evidence paths')
+        for member in evidence:
+            copy_files({member:b''})
+        value.pop('schema_version')
+        value.update(config_bytes=raw_config,archive_families=archives)
+        return RegisteredHostLoader([HostRegistration(**value)])
+    except (ValueError,TypeError,KeyError):
+        raise CommandFailure('invalid_configuration') from None
 
 
 @dataclass(frozen=True)
@@ -80,9 +174,11 @@ class RegisteredHostLoader:
         registration = self._registrations.get(path)
         if registration is None:
             raise CommandFailure('invalid_configuration')
-        if path.resolve(strict=True) != path or not path.is_file():
-            raise CommandFailure('invalid_configuration')
-        if path.read_bytes() != registration.config_bytes:
+        try:
+            config_bytes = _regular_input(path)
+        except ValueError:
+            raise CommandFailure('invalid_configuration') from None
+        if config_bytes != registration.config_bytes:
             raise CommandFailure('invalid_configuration')
         with ExitStack() as stack:
             repositories = dict(registration.authority_repositories)

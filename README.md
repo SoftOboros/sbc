@@ -115,7 +115,7 @@ files. Missing inputs, overlapping roots and selected symlink/gitlink members
 fail. `corpus_digest` implements the approved sorted repository/path/hash
 identity. Configuration validation must still establish that required inputs
 and registered child mounts are complete before full provenance composition.
-There are now 84 core tests and 86 Git/provenance tests; these are bounded
+There are now 84 core tests and 94 Git/provenance tests; these are bounded
 implementation evidence, not end-to-end acceptance.
 
 `verify_support_patch` applies the approved support-only unified patch entirely
@@ -297,11 +297,13 @@ owns validation of that configuration, approval pins and reader cleanup. The
 verifier's configured command capability must be enabled. Neither TOML nor CLI
 arguments can select Python plugins or turn manifest hashes into approvals.
 
-The default entry point has no host loader and fails repository operations with
-`invalid_configuration`; it is not yet a standalone operational CLI. Default
-registration/approval discovery, working-tree execution and full CLI
-conformance remain open. JSON output is written as UTF-8 bytes, once, after host
-cleanup. Cleanup failure overrides completion while retaining available findings.
+The default console requires explicit `--host PATH` for repository operations.
+The binding loader checks the approved version-1 structure, reads no unregistered
+configuration, and verifies the exact configured digest before constructing the
+existing host. Missing host selection and simultaneous in-process/console loaders
+are invocation errors. No settings, approval pins or repositories are discovered.
+Working-tree execution and full runtime conformance remain open. JSON output is
+written once after host cleanup; cleanup failure retains available findings.
 
 `DirectoryProjectionStore` supplies the local complete-bundle publication
 primitive. A host provides an output directory and a semantic validator; explicit
@@ -356,5 +358,19 @@ raise SystemExit(main(load_host=RegisteredHostLoader(registrations)))
 
 This is an explicit in-process API, not a new settings file, environment-variable
 protocol or Python plugin selected by repository content. It does not establish
-that a supplied digest was approved. A default standalone registration channel
-still needs an explicit contract; the unconfigured console entry fails closed.
+that a supplied digest was approved. The approved default-console channel is explicit `--host PATH`; no selection
+means an invocation error. The binding file is JSON with repository mappings,
+config/profile/approval digests and explicit family assignments, converted to
+this same registration API. Relative repository directories are anchored to the
+binding file's directory. Duplicate keys, unsupported fields/versions, linked
+binding/config inputs, digest mismatches and conflicting selectors reject.
+
+```text
+sbc-tools scan --config /path/to/repository/sbc.toml --host /path/to/host.json
+sbc-tools check --config /path/to/repository/sbc.toml --host /path/to/host.json --format json
+```
+
+Owner approval of this mechanism does not approve a supplied binding or digest.
+Authority validation failures report `invalid_authority`; the loader never fills
+in or repairs approval pins. Console integration tests use synthetic authority
+fixtures and preserve snapshot identity after moving the checkout.

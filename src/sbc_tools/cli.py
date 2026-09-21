@@ -32,17 +32,19 @@ class Invocation:
     command: str
     config: str
     format: str
+    host: str | None = None
 
 
 def parse_invocation(argv):
     parser = _Parser(prog='sbc-tools', add_help=False, allow_abbrev=False)
     parser.add_argument('command', choices=('scan','check'))
     parser.add_argument('--config', required=True, action=_Once)
+    parser.add_argument('--host', action=_Once)
     parser.add_argument('--format', choices=('text','json'), default='text', action=_Once)
     result = parser.parse_args(argv)
-    if not result.config:
+    if not result.config or result.host == '':
         raise CommandFailure('invalid_invocation')
-    return Invocation(result.command,result.config,result.format)
+    return Invocation(result.command,result.config,result.format,result.host)
 
 
 @dataclass(frozen=True)
@@ -74,7 +76,7 @@ def main(argv=None, *, load_host=None, stdout=None):
     args = list(sys.argv[1:] if argv is None else argv)
     output = sys.stdout.buffer if stdout is None else stdout
     if args in (['--help'],['check','--help'],['scan','--help']):
-        output.write(b'Usage: sbc-tools {scan,check} --config PATH [--format text|json]\n'
+        output.write(b'Usage: sbc-tools {scan,check} --config PATH --host PATH [--format text|json]\n'
                      b'Options: --help, --version\n'
                      b'Prerelease: repository operations require an explicit trusted host.\n')
         return 0
@@ -91,8 +93,11 @@ def main(argv=None, *, load_host=None, stdout=None):
         return result
     try:
         invocation = parse_invocation(args)
-        if load_host is None:
-            raise CommandFailure('invalid_configuration')
+        if (load_host is None) == (invocation.host is None):
+            raise CommandFailure('invalid_invocation')
+        if invocation.host is not None:
+            from .host import load_console_host
+            load_host = load_console_host(invocation.host,invocation.config)
         with load_host(invocation.config) as host:
             if not isinstance(host,CommittedCheckHost):
                 raise CommandFailure('invalid_configuration')

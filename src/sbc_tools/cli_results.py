@@ -4,7 +4,7 @@ import json
 
 from .canonical import canonical_json
 from .git_reader import GitUnavailableError
-from .provenance import ReferenceUnavailableError, ScanPublicationError
+from .provenance import ReferenceUnavailableError, ScanPublicationError, AuthorityValidationError
 
 
 _ERRORS = {
@@ -109,6 +109,8 @@ def _execute(verifier, command, routing):
         return failure_envelope('evidence_unavailable',command=command,mode='committed',candidate=exc.candidate)
     except CommandFailure as exc:
         return failure_envelope(exc.code,command=command,mode='committed')
+    except AuthorityValidationError:
+        return failure_envelope('invalid_authority',command=command,mode='committed')
     except GitUnavailableError:
         return failure_envelope('evidence_unavailable',command=command,mode='committed')
     except OSError:
