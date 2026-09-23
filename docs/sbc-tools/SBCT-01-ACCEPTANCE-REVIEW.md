@@ -113,3 +113,22 @@ boundary; see [execution evidence](evidence/sbct-01-observation-comparison-execu
 This is a building block, not completed working-tree mode. Safe complete capture,
 authority verification, submodule observations, scan publication and CLI host
 integration remain required. The default console still rejects working-tree mode.
+
+
+## Working-tree capture component — 2026-09-23
+
+`capture_working_tree` accepts explicit validated working-tree configuration,
+captures source roots and required inputs, and includes authority/registry files.
+It rejects configured mounts and nested repositories in this single-repository
+slice. Linked components and special files reject before content reads. Open-file
+identity is compared with path metadata before reading, and handle metadata is
+checked afterward. Two captures must produce identical path/byte mappings.
+Windows path/handle change-time differences are handled without dropping identity,
+size or modification-time checks. Results contain immutable bytes and corpus
+records, with no committed identities or approval claim.
+
+Seven focused tests pass within 98 core tests. See
+[capture execution](evidence/sbct-01-working-tree-capture-execution.json).
+This is not an atomic snapshot or hostile-filesystem sandbox. Authority verification,
+producer composition, submodule observations, publication and CLI integration
+remain outstanding; working-tree console mode remains disabled.

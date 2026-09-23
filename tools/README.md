@@ -420,3 +420,10 @@ the semantic validator. The result always has working-tree mode and null source/
 projection commit IDs; it neither reads files nor establishes authority approval.
 Missing or invalid reference bundles remain unavailable. Working-tree capture,
 publication and CLI integration are not yet implemented.
+
+
+`working_tree.capture_working_tree` captures explicit single-repository source
+scopes and required inputs into immutable bytes. It rejects linked paths, nested
+repositories and configured mounts, and compares two reads to detect observed
+changes. It does not provide an atomic snapshot or approve captured authority
+inputs. Producer composition and working-tree CLI integration remain pending.
