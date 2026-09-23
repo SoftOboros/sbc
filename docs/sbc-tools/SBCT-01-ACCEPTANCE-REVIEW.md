@@ -148,3 +148,21 @@ rejection before producer invocation, configuration/profile/patch tampering, and
 refusal to supply committed proof. No projection is published by generation.
 See [execution evidence](evidence/sbct-01-working-generation-execution.json).
 CLI integration, observation publication and submodule observations remain open.
+
+
+## Single-repository observation CLI — 2026-09-23
+
+The explicit host loader now selects working-tree behavior only from registered
+configuration. It supports scan publication and comparison to a selected committed
+reference using the same validated reference reader and directory publication
+primitive as committed mode. Observation results retain null commit IDs. Missing
+references retain the observation selection/findings and return unavailable;
+failed pointer switches retain prior published selection. Capabilities remain
+explicit and authority-pin failures do not publish output.
+
+Five console integration tests cover these behaviors. Submodule observations are
+not implemented: configured mounts and nested repositories reject. Working-tree
+capture is a bounded two-pass observation, not atomic filesystem isolation.
+Historical pending-CLI statements above are superseded for this supported subset.
+See [CLI execution evidence](evidence/sbct-01-working-cli-execution.json).
+Runtime acceptance gates remain open for final witness reconciliation.

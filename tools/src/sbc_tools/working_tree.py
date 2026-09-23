@@ -151,3 +151,61 @@ def generate_working_tree(registration, *, authority_readers):
         document_families=registration.document_families,archive_families=registration.archive_families,
         validator=validator)
     return ObservedProjection(captured,authority.manifest_sha256,files,canonical_json(diagnostics))
+
+
+@dataclass(frozen=True)
+class WorkingTreeHost:
+    """Explicit single-source CLI host; observations never carry commit claims."""
+    registration: object
+    readers: object
+    configuration: object
+
+    def execute(self, invocation):
+        import json
+        from .cli_results import failure_envelope
+        from .git_reader import GitReadError, GitUnavailableError
+        from ._sidx_validation import IngestError
+        from .observations import check_observation
+        from .validation import BundleValidator
+        from .provenance import AuthorityValidationError, read_committed_projection
+        from .directory_store import DirectoryProjectionStore
+        value = self.configuration.values
+        result = None
+        def failure(code):
+            error = failure_envelope(code,command=invocation.command,mode='working-tree')
+            if result is not None:
+                error.update(selection=result['selection'],findings=result['findings'])
+            return error
+        if invocation.command not in value['capabilities']:
+            return failure('invalid_configuration')
+        try:
+            observed = generate_working_tree(self.registration,authority_readers=self.readers)
+            validator = BundleValidator(source_roots=value['source_roots'],
+                profile_sha256=self.registration.profile_sha256,provenance_verifier=_RejectCommittedProof())
+            args = dict(repository_id=observed.corpus.repository_id,corpus_records=observed.corpus.records,
+                authority_sha256=observed.authority_sha256,candidate_files=observed.files,
+                validator=validator,location_diagnostics=json.loads(observed.location_diagnostics))
+            result = check_observation(**args,reference_files=observed.files)
+            if invocation.command == 'check':
+                reader = self.readers[self.registration.repository_id]
+                try:
+                    commit = reader.resolve_commit(value['tracked_ref'])
+                    reference = read_committed_projection(reader,commit,value['output_root'],validator)
+                except (GitReadError,OSError,ValueError,IngestError):
+                    return failure('evidence_unavailable')
+                return check_observation(**args,reference_files=reference)
+            root = self.configuration.repository_root/value['output_root']
+            if any((root/name).exists() for name in ('index','locations','diagnostics')):
+                return failure('invalid_configuration')
+            DirectoryProjectionStore(root,validator,create=True).publish(observed.files)
+            result.update(command='scan')
+            result['result'].update(publication='published',comparison='not_applicable')
+            return result
+        except AuthorityValidationError:
+            return failure('invalid_authority')
+        except GitUnavailableError:
+            return failure('evidence_unavailable')
+        except OSError:
+            return failure('io_failure')
+        except Exception:
+            return failure('internal_failure')

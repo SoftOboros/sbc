@@ -434,3 +434,22 @@ authority/patch pins before using the shared projection builder. It returns
 validated observation files without publishing them or claiming committed
 provenance. It currently supports one source repository; CLI integration and
 submodule observations remain pending.
+
+
+### Working-tree CLI status (0.1.0.dev28)
+
+Explicit `mode = "working-tree"` configuration now supports single-repository
+`scan` and `check` through the same required `--host PATH` binding. Update the
+host's exact configuration digest when intentionally selecting this mode.
+Authority/profile/patch pins remain explicit and verified; no approval is inferred.
+
+Scan atomically publishes semantically validated observation bytes. Check compares
+against the configured Git reference without writing. Both return working-tree
+mode and null source/projection commit IDs, including when bytes equal a committed
+reference. Missing or corrupt reference projections remain unavailable. A failed
+publication retains the prior selection and available observation findings.
+Configured submodules and nested source repositories remain unsupported and reject.
+
+Earlier incremental implementation notes describe their respective development
+stages; this section supersedes their pending single-repository CLI statements.
+This local capability is not runtime gate closure or production acceptance.

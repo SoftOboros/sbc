@@ -185,6 +185,19 @@ class RegisteredHostLoader:
             repositories.update(registration.source_repositories)
             readers = {key:stack.enter_context(GitCommitReader(str(root)))
                        for key,root in sorted(repositories.items())}
+            from .configuration import validate_configuration
+            from .working_tree import WorkingTreeHost
+            try:
+                configured = validate_configuration(registration.config_bytes,
+                    config_directory=registration.configuration_file.parent,
+                    registered_repositories=registration.source_repositories)
+            except ValueError:
+                raise CommandFailure('invalid_configuration') from None
+            if configured.values['mode'] == 'working-tree':
+                if configured.values['submodules'] or len(registration.source_repositories) != 1:
+                    raise CommandFailure('invalid_configuration')
+                yield WorkingTreeHost(registration,MappingProxyType(readers),configured)
+                return
             try:
                 verifier = CommittedProvenanceVerifier(
                     repository_id=registration.repository_id,reader=readers[registration.repository_id],

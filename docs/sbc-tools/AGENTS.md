@@ -2,7 +2,7 @@
 
 **Document ID:** SBCT-AGENTS
 **Owner:** Ira Abbott
-**Current state:** 2026-09-22, informative implementation record.
+**Current state:** 2026-09-23, informative implementation record.
 
 | State | Value |
 |---|---|
@@ -11,9 +11,9 @@
 | Ratified artifacts | SBCT-00 0.4.2, SBCT-01 0.8.0, SBCT-02 0.6.2 |
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
-| Implemented | Committed-source indexing, validation, provenance, CLI, atomic directory publication, SQLite snapshots and cursor codec |
-| Latest execution | 98 core and 105 Git/provenance tests; prior 14 schema envelopes and installed-wheel proof |
-| Next work | SBCT-01 working-tree observations and acceptance reconciliation; then shared query/provider engine |
+| Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
+| Latest execution | 98 core and 110 Git/provenance tests; 15 schema envelopes; installed committed/working-tree console proof |
+| Next work | SBCT-01 acceptance reconciliation and submodule observation limits; then shared query/provider engine |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 

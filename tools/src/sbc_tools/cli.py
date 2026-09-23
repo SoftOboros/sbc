@@ -99,7 +99,8 @@ def main(argv=None, *, load_host=None, stdout=None):
             from .host import load_console_host
             load_host = load_console_host(invocation.host,invocation.config)
         with load_host(invocation.config) as host:
-            if not isinstance(host,CommittedCheckHost):
+            from .working_tree import WorkingTreeHost
+            if not isinstance(host,(CommittedCheckHost,WorkingTreeHost)):
                 raise CommandFailure('invalid_configuration')
             completed = host.execute(invocation)
         envelope = completed

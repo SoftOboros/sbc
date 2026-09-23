@@ -21,6 +21,10 @@ validator = jsonschema.Draft202012Validator(json.loads(raw))
 args, _ = observation_samples()
 envelopes = sample_envelopes() + [check_observation(**args),
     check_observation(**dict(args,reference_files=None))]
+observed_scan = check_observation(**args)
+observed_scan['command'] = 'scan'
+observed_scan['result'].update(publication='published',comparison='not_applicable')
+envelopes.append(observed_scan)
 for envelope in envelopes:
     validator.validate(envelope)
 print(json.dumps({'schema_sha256':hashlib.sha256(raw).hexdigest(),

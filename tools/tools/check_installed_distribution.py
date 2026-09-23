@@ -122,6 +122,18 @@ print('blocked')
             assert scan['selection']['snapshot_id'] == check['selection']['snapshot_id']
             module = json.loads(run([python_at(runtime),'-I','-m','sbc_tools','check',*args],runtime,1))
             assert module == check
+            working_config = fixture.config.replace(b'mode = "committed"',b'mode = "working-tree"')
+            fixture.registration.configuration_file.write_bytes(working_config)
+            fixture.binding['config_sha256'] = hashlib.sha256(working_config).hexdigest()
+            fixture.write()
+            observed_scan = json.loads(run([command,'scan',*args],runtime,1))
+            observed_check = json.loads(run([command,'check',*args],runtime,1))
+            for observed in (observed_scan,observed_check):
+                assert observed['mode'] == 'working-tree'
+                assert observed['selection']['source_commit'] is None
+                assert observed['selection']['projection_commit'] is None
+            assert observed_scan['result']['publication'] == 'published'
+            assert observed_check['result']['comparison'] == 'equal'
             fixture.binding['approved_authority_sha256'] = '0'*64
             fixture.write()
             rejected = json.loads(run([command,'scan',*args],runtime,2))
@@ -134,7 +146,7 @@ print('blocked')
                           'installed import origin','process/network audit negative controls',
                           'actual console launcher help/version/invocation error',
                           'console scan/commit/check','module and launcher envelope parity',
-                          'wrong authority pin rejection'],
+                          'wrong authority pin rejection','working-tree console scan/check with null commit IDs'],
                 'scope':'Local disposable environment; fixture approvals only; no release or gate closure'}
 
 

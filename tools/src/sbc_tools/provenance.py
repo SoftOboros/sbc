@@ -218,23 +218,7 @@ class CommittedProvenanceVerifier:
         return CheckedProjection(candidate,commit,changed)
 
     def _committed_projection(self, commit):
-        from .directory_store import read_selected_bundle
-        prefix = self._config['output_root'] + '/'
-        files = {}
-        for entry in self._reader.entries(commit):
-            if not entry.path.startswith(prefix):
-                continue
-            if entry.mode not in {0o100644,0o100755}:
-                raise ValueError('Reference contains unsupported entries')
-            files[entry.path[len(prefix):]] = self._reader.read_blob(commit,entry.path)
-        if 'current.json' in files:
-            if any(p.startswith(('index/','locations/','diagnostics/')) for p in files):
-                raise ValueError('Ambiguous flat and selected projection layouts')
-            try:
-                files = read_selected_bundle(files['current.json'],files.__getitem__,set(files))
-            except KeyError:
-                raise ValueError('Incomplete selected projection') from None
-        return self.bundle_validator().validate_files(files)
+        return read_committed_projection(self._reader,commit,self._config['output_root'],self.bundle_validator())
 
     def scan_source(self, *, document_families, archive_families):
         """Generate and publish at the configured output root; no Git commit."""
@@ -289,3 +273,23 @@ class CommittedProvenanceVerifier:
                     raise ValueError("Conflicting corpus identity across authority revisions")
                 combined[key] = record
         return VerifiedProvenance(corpus_digest(combined.values()), authority.manifest_sha256), inventory
+
+
+def read_committed_projection(reader, commit, output_root, validator):
+    from .directory_store import read_selected_bundle
+    prefix = output_root + '/'
+    files = {}
+    for entry in reader.entries(commit):
+        if not entry.path.startswith(prefix):
+            continue
+        if entry.mode not in {0o100644,0o100755}:
+            raise ValueError('Reference contains unsupported entries')
+        files[entry.path[len(prefix):]] = reader.read_blob(commit,entry.path)
+    if 'current.json' in files:
+        if any(p.startswith(('index/','locations/','diagnostics/')) for p in files):
+            raise ValueError('Ambiguous flat and selected projection layouts')
+        try:
+            files = read_selected_bundle(files['current.json'],files.__getitem__,set(files))
+        except KeyError:
+            raise ValueError('Incomplete selected projection') from None
+    return validator.validate_files(files)
