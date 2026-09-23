@@ -38,7 +38,8 @@
             "enum": [
               "available",
               "missing_checkout",
-              "unavailable_history"
+              "unavailable_history",
+              "blocked_by_ancestor"
             ]
           },
           "observed_head": {

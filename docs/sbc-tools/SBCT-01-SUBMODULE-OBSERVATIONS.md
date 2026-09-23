@@ -1,7 +1,7 @@
 # SBCT-01 submodule observation contract
 
 **Document ID:** SBCT-01-OBSERVATIONS
-**Revision:** 0.1.1
+**Revision:** 0.1.2
 **Status:** DRAFT wire contract; first-version boundaries and nested observation context accepted by the owner.
 **Date:** 2026-09-23
 
@@ -57,7 +57,10 @@ These are semantic checks in addition to JSON Schema; JSON Schema alone is insuf
 
 A participant's `observed_head` is contextual metadata, never a claim that captured
 bytes equal that commit. `checkout_state` reports whole-checkout clean/dirty status
-against that HEAD using the existing offline checkout rules. Captured corpus hashes
+against that HEAD using local repository files and index state, treating registered
+child mounts as boundaries. A child HEAD differing from its local parent gitlink
+makes that parent dirty; dirtiness inside the child is reported on the child row
+without recursively duplicating it into parent state. Captured corpus hashes
 cover only selected source and required inputs; generated output is excluded.
 Thus output changes can make a checkout dirty without changing captured corpus.
 
@@ -69,7 +72,10 @@ never an all-zero hash or an invented clean state. If child HEAD/history cannot 
 read, its availability is `unavailable_history`; absent checkout uses `missing_checkout`.
 Unavailable participants have unknown checkout state and no corpus hash. Report all
 required participants, including unavailable descendants, without opening an
-unavailable ancestor's descendants. Their relation evidence remains null/unavailable.
+unavailable ancestor's descendants. Those descendants use `blocked_by_ancestor`,
+not an invented missing-checkout diagnosis. Their relation evidence remains
+null/unavailable. Required pinned commit objects must also be available; an
+observed HEAD alone cannot substitute for missing pinned history.
 
 ## Capture, identity and failure
 
@@ -93,7 +99,8 @@ removed. Incomplete sets use null. This hash includes HEAD/pin/state context, so
 is distinct from the content-derived projection `snapshot_id`. Canonical source
 records retain `(repository_id, relative_path, content_sha256)` and feed the existing
 corpus hash. No timestamp or checkout absolute path enters either identity.
-The example uses illustrative hashes; it is not execution or digest evidence.
+Example commit/corpus hashes are synthetic; the example selection digest is
+computed and checked against those synthetic fields. It is not runtime evidence.
 
 ## Acceptance cases to implement
 
@@ -144,3 +151,13 @@ owning relation together so users can inspect and reconcile the work in progress
 This is follow-up work, not a claim that those helpers currently implement it.
 It adds no new frozen SBC status, automatic clearance rule or permission to update
 a gitlink. Exact wire framing remains draft; runtime acceptance remains open.
+
+
+## Gate preparation — revision 0.1.2
+
+The [wire approval packet](SBCT-01-OBSERVATION-WIRE-REVIEW.md) collects the three
+remaining proposed decisions. This revision distinguishes descendants blocked by
+an unavailable ancestor from checkouts actually observed missing, and makes local
+dirty-state scope explicit. The existing accepted recursion/WIP decision is retained.
+Approval of this packet would authorize the exact wire extension, not runtime
+acceptance, an Interlock governance model, or automatic gitlink reconciliation.

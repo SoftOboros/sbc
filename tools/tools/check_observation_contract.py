@@ -2,6 +2,8 @@
 import argparse
 import copy
 import json
+import hashlib
+import unicodedata
 from pathlib import Path
 import jsonschema
 from referencing import Registry, Resource
@@ -49,5 +51,59 @@ changed(['selection'],complete['selection'],unavailable)
 changed(['observation'],None)
 for number,item in enumerate(negative):
     if validator.is_valid(item): raise AssertionError(f'Negative case accepted: {number}')
+def digest(value):
+    payload = {k:v for k,v in value.items() if k != 'selection_sha256'}
+    return hashlib.sha256((json.dumps(payload,sort_keys=True,separators=(',',':'),
+                                     ensure_ascii=False)+'\n').encode()).hexdigest()
+
+
+def check_complete_semantics(value):
+    # Developer review witness only: this is not the runtime observation validator.
+    rows, edges = value['participants'], value['relations']
+    ids = [r['repository_id'] for r in rows]
+    assert ids == sorted(set(ids))
+    assert all(unicodedata.normalize('NFC',x) == x for x in ids)
+    root = value['root_repository_id']
+    assert root in ids
+    by_id = {r['repository_id']:r for r in rows}
+    keys = [(e['parent_repository_id'],e['path']) for e in edges]
+    assert keys == sorted(set(keys))
+    parents = {}
+    for edge in edges:
+        parent,child = edge['parent_repository_id'],edge['repository_id']
+        assert parent in by_id and child in by_id and child != root and child not in parents
+        parents[child] = parent
+        expected = 'match' if edge['recorded_child_commit'] == by_id[child]['observed_head'] else 'mismatch'
+        assert edge['pin_state'] == expected
+        if parent != root:
+            assert edge['parent_commit'] == by_id[parent]['observed_head']
+    assert set(parents) == set(ids)-{root}
+    for child in parents:
+        seen = set()
+        while child != root:
+            assert child not in seen and child in parents
+            seen.add(child)
+            child = parents[child]
+    assert value['selection_sha256'] == digest(value)
+
+check_complete_semantics(complete['observation'])
+semantic_negative = []
+for mutation in ('digest','false_match','missing_root','duplicate_id','missing_edge','unknown_parent','duplicate_edge','unsorted'):
+    item = copy.deepcopy(complete['observation'])
+    if mutation == 'digest': item['selection_sha256'] = '0'*64
+    elif mutation == 'false_match': item['relations'][0]['pin_state'] = 'match'
+    elif mutation == 'missing_root': item['root_repository_id'] = 'absent'
+    elif mutation == 'duplicate_id': item['participants'].append(copy.deepcopy(item['participants'][0]))
+    elif mutation == 'missing_edge': item['relations'] = []
+    elif mutation == 'unknown_parent': item['relations'][0]['parent_repository_id'] = 'absent'
+    elif mutation == 'duplicate_edge': item['relations'].append(copy.deepcopy(item['relations'][0]))
+    elif mutation == 'unsorted': item['participants'].reverse()
+    if mutation != 'digest': item['selection_sha256'] = digest(item)
+    semantic_negative.append(item)
+for item in semantic_negative:
+    try: check_complete_semantics(item)
+    except AssertionError: pass
+    else: raise AssertionError('Semantic negative accepted')
 print(json.dumps({'draft_schema_positive_cases':3,'draft_schema_negative_cases':len(negative),
-    'scope':'Structure only; semantic graph/digest/stability checks and runtime cases not executed'},indent=2))
+    'complete_semantic_positive_cases':1,'complete_semantic_negative_cases':len(semantic_negative),
+    'scope':'Developer contract checks; filesystem capture, temporal stability and runtime cases not executed'},indent=2))

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "root_repository_id": "root",
   "complete": true,
-  "selection_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "selection_sha256": "15c4fc4e7e213449a6bfdadcbcc7c8c43b6710e677a23d73414f4e9336a7023e",
   "participants": [
     {
       "repository_id": "child",
@@ -15,7 +15,7 @@
       "repository_id": "root",
       "availability": "available",
       "observed_head": "1111111111111111111111111111111111111111",
-      "checkout_state": "clean",
+      "checkout_state": "dirty",
       "corpus_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
     }
   ],

@@ -105,3 +105,5 @@ package's evidence links. Owner approval under GATE-206 is recorded; runtime acc
 The [submodule observation contract](SBCT-01-SUBMODULE-OBSERVATIONS.md) records
 owner-approved first-version boundaries and proposes the exact versioned wire
 extension. Its schemas are draft, structurally checked, and not emitted by runtime.
+
+The [observation wire approval packet](SBCT-01-OBSERVATION-WIRE-REVIEW.md) presents the three remaining amendment decisions and bounded validation evidence.
