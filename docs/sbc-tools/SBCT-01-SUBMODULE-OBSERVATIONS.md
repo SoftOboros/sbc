@@ -1,8 +1,8 @@
 # SBCT-01 submodule observation contract
 
 **Document ID:** SBCT-01-OBSERVATIONS
-**Revision:** 0.1.0
-**Status:** DRAFT wire contract; first-version boundaries approved by the owner.
+**Revision:** 0.1.1
+**Status:** DRAFT wire contract; first-version boundaries and nested observation context accepted by the owner.
 **Date:** 2026-09-23
 
 ## Authority and scope
@@ -112,8 +112,8 @@ The example uses illustrative hashes; it is not execution or digest evidence.
 
 ## Next review
 
-Review exact recursion context, dirty-state scope, digest and version-2 framing
-before implementing the extension. The runtime currently rejects submodule
+Nested recursion context is accepted. Review the remaining dirty-state scope,
+digest and version-2 framing before implementing the extension. The runtime currently rejects submodule
 observations, which remains safe during this contract preparation.
 
 
@@ -125,3 +125,22 @@ null committed identities, unavailable participant structure, incomplete-result
 restrictions, and unsafe-path rejection. Graph ownership, digest correctness,
 false-match detection and cross-repository runtime stability remain semantic
 acceptance work; this structural check does not claim them.
+
+
+## Owner disposition — 2026-09-23
+
+The owner accepted the review point: nested relationships use the immediate
+parent's observed HEAD while retaining its mismatch against the recorded pin.
+The owner identified this as a known work-in-progress condition that will need
+support from the indexing helpers later.
+
+Treat the mismatch as visible observation evidence of work in progress, not a
+clean pinned composition, an approval, or a reason by itself to block a complete
+observation. Existing distinctions remain: dirty content is independent of pin
+mismatch; unavailable required evidence prevents aggregate publication.
+
+Future indexing helpers should surface the recorded pin, observed HEAD and
+owning relation together so users can inspect and reconcile the work in progress.
+This is follow-up work, not a claim that those helpers currently implement it.
+It adds no new frozen SBC status, automatic clearance rule or permission to update
+a gitlink. Exact wire framing remains draft; runtime acceptance remains open.

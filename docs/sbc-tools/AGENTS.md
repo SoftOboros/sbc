@@ -13,7 +13,7 @@
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
 | Latest execution | 98 core and 110 Git/provenance tests; 15 schema envelopes; installed committed/working-tree console proof |
-| Next work | Review draft submodule observation wire contract; first-version boundaries owner-approved |
+| Next work | Review remaining observation wire details; boundaries and nested context owner-accepted |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -43,3 +43,9 @@ The owner approved the first-version submodule observation boundaries. The exact
 [draft contract](SBCT-01-SUBMODULE-OBSERVATIONS.md) proposes nested context and wire
 versioning; it is not a ratified extension or completed runtime implementation.
 Current runtime still rejects submodule observations.
+
+
+The nested observation context review point was accepted on 2026-09-23. Pin
+mismatch is a known work-in-progress condition to be exposed by future indexing
+helpers, preserving recorded pin and observed HEAD. See the owner disposition in
+[the observation contract](SBCT-01-SUBMODULE-OBSERVATIONS.md).
