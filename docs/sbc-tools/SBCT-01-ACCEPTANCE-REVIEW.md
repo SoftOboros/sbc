@@ -65,3 +65,18 @@ and part of GATE-102. Root escape/symlink out-of-scope-read witnesses and litera
 empty-directory semantics still need reconciliation; working-tree observation
 mode remains absent. The earlier review table records the state at its review
 revision. No gate is closed by this follow-up.
+
+
+## Configured path boundary repair — 2026-09-23
+
+Configuration now rejects symlink/reparse components before path resolution or
+inspection of their descendants. Ten metadata-injected negative cases cover
+source roots, nested roots, registry files, authority files and output paths for
+both link types. These are deterministic boundary controls, not proof against
+concurrent filesystem replacement or native Windows junction creation.
+
+A literal empty existing directory passes configuration validation. Committed
+corpus admission still requires the root to appear in committed file ancestry;
+an empty directory absent from Git history therefore remains an acceptance gap.
+Do not infer GATE-102 closure from the configuration-level positive test.
+See [boundary execution](evidence/sbct-01-path-boundary-execution.json).

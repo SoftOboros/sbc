@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-23",
+  "version": "0.1.0.dev23",
+  "result": "pass",
+  "core_tests": 86,
+  "git_provenance_tests": 98,
+  "configured_link_negative_cases": 10,
+  "controls": "Metadata-injected symlink and Windows reparse flags; resolution, descendant metadata and content reads fail the test if reached",
+  "limitations": [
+    "No native junction or concurrent replacement proof",
+    "Literal empty directory only passes configuration; absent committed ancestry still rejects",
+    "Working-tree mode and runtime gates remain open"
+  ]
+}

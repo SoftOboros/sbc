@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 import re
+import stat
 from types import MappingProxyType
 import tomllib
 import unicodedata
@@ -26,6 +27,19 @@ def _paths(value):
     if len(set(value)) != len(value):
         raise ValueError("Duplicate configured path")
     return tuple(_path(p) for p in value)
+
+
+def _reject_linked_components(root, relative):
+    """Inspect each component before resolving or inspecting any descendant."""
+    current = root
+    for component in relative.split('/'):
+        current = current/component
+        try:
+            metadata = current.lstat()
+        except FileNotFoundError:
+            break
+        if stat.S_ISLNK(metadata.st_mode) or getattr(metadata, 'st_file_attributes', 0) & 0x400:
+            raise ValueError("Linked configured path is not permitted")
 
 
 def _overlap(a, b):
@@ -80,6 +94,7 @@ def validate_configuration(raw, *, config_directory, registered_repositories):
     if any(p == e or p.startswith(e + "/") for p in (*roots, *registry, authority) for e in excluded):
         raise ValueError("Exclusion hides required input")
     for path in (*roots, *excluded, *registry, output, authority):
+        _reject_linked_components(root, path)
         resolved = (root/path).resolve()
         if not resolved.is_relative_to(root):
             raise ValueError("Configured path escapes repository")

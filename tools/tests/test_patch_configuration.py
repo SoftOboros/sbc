@@ -3,6 +3,9 @@ import hashlib
 from pathlib import Path
 import tempfile
 import unittest
+import stat
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from sbc_tools.authority import PATCH_ROLES, VerifiedAuthorityInputs
 from sbc_tools.configuration import validate_configuration
@@ -97,6 +100,35 @@ submodules = []
             ('exclude = []','exclude = [".git"]')]
         for old,new in replacements:
             with self.subTest(new=new), self.assertRaises(ValueError): self.verify(self.raw.replace(old,new))
+
+    def test_links_reject_before_resolution_or_descendant_reads(self):
+        original_lstat, original_resolve = Path.lstat, Path.resolve
+        for attributes, mode in ((0,stat.S_IFLNK),(0x400,stat.S_IFDIR)):
+            for relative in ('docs','docs/nested','registry.md','authority.json','output'):
+                target = self.root/relative
+                raw = self.raw.replace('source_roots = ["docs"]',
+                                       'source_roots = ["docs/nested"]')
+                def metadata(path,*args,**kwargs):
+                    if path == target:
+                        return SimpleNamespace(st_mode=mode,st_file_attributes=attributes)
+                    if target in path.parents:
+                        raise AssertionError('Descendant metadata accessed through link')
+                    return original_lstat(path,*args,**kwargs)
+                def resolve(path,*args,**kwargs):
+                    if path == target or target in path.parents:
+                        raise AssertionError('Configured link was resolved')
+                    return original_resolve(path,*args,**kwargs)
+                with self.subTest(relative=relative,attributes=attributes), \
+                     patch.object(Path,'lstat',metadata), patch.object(Path,'resolve',resolve), \
+                     patch.object(Path,'read_bytes',side_effect=AssertionError('Content read')):
+                    with self.assertRaisesRegex(ValueError,'Linked configured path'):
+                        self.verify(raw)
+
+    def test_literal_empty_existing_root_validates(self):
+        empty = self.root/'empty'
+        empty.mkdir()
+        result = self.verify(self.raw.replace('source_roots = ["docs"]','source_roots = ["empty"]'))
+        self.assertEqual(('empty',),result.values['source_roots'])
 
     def test_registered_identity_required(self):
         with self.assertRaises(ValueError): self.verify(mapping={})
