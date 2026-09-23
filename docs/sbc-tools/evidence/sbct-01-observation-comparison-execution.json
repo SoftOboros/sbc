@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-23",
+  "version": "0.1.0.dev25",
+  "result": "pass",
+  "core_tests": 91,
+  "observation_tests": 5,
+  "schema_valid_envelopes": 14,
+  "scope": "Data-only single-repository validated observation comparison",
+  "limitations": [
+    "No filesystem capture, submodule observation or CLI wiring",
+    "No observation publication",
+    "Host remains responsible for authority and complete capture",
+    "Git suite not rerun: committed implementation unchanged",
+    "Runtime gates remain open"
+  ]
+}

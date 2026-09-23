@@ -98,3 +98,18 @@ ancestor remains invalid under the empty-root option. This resolves the prior
 literal-empty-root implementation gap. It does not close GATE-102 or establish
 filesystem race isolation. Working-tree observation mode remains outstanding.
 See [execution evidence](evidence/sbct-01-empty-root-execution.json).
+
+
+## Observation comparison component — 2026-09-23
+
+`tools/src/sbc_tools/observations.py` compares supplied validated candidate and
+reference bytes as a single-repository observation. Both commit IDs remain null;
+its value type does not carry committed admission or invoke a provenance verifier.
+Candidate identity is independent of comparison outcome. Missing/corrupt reference
+bytes report unavailable while retaining candidate findings. It performs no file
+reads or publication. Five tests and the ratified envelope schema cover this
+boundary; see [execution evidence](evidence/sbct-01-observation-comparison-execution.json).
+
+This is a building block, not completed working-tree mode. Safe complete capture,
+authority verification, submodule observations, scan publication and CLI host
+integration remain required. The default console still rejects working-tree mode.

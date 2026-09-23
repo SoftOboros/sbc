@@ -13,10 +13,14 @@ args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(root/'src'),str(root/'tests')]
 from test_cli_results import sample_envelopes
+from test_observations import observation_samples
+from sbc_tools.observations import check_observation
 
 raw = args.schema.read_bytes()
 validator = jsonschema.Draft202012Validator(json.loads(raw))
-envelopes = sample_envelopes()
+args, _ = observation_samples()
+envelopes = sample_envelopes() + [check_observation(**args),
+    check_observation(**dict(args,reference_files=None))]
 for envelope in envelopes:
     validator.validate(envelope)
 print(json.dumps({'schema_sha256':hashlib.sha256(raw).hexdigest(),
