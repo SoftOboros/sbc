@@ -404,3 +404,11 @@ This is a local installed-package proof using synthetic approval fixtures. Audit
 hooks are test controls, not an OS sandbox. Other platforms, working-tree mode,
 consumer approval and runtime gate closure remain unproven. The harness prints a
 JSON report and deletes its disposable environments; it does not publish a release.
+
+
+Configured source directories must exist when a scan/check is admitted. They
+may be literally empty, including directories absent from Git history; create
+such configured directories explicitly in a fresh checkout. Their presence is
+an admission precondition, not committed corpus content. Only selected committed
+files contribute bytes, and missing roots still reject. The host rechecks path
+configuration before and after admission; this is not filesystem race isolation.

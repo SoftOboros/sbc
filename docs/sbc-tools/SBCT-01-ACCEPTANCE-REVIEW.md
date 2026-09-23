@@ -80,3 +80,21 @@ corpus admission still requires the root to appear in committed file ancestry;
 an empty directory absent from Git history therefore remains an acceptance gap.
 Do not infer GATE-102 closure from the configuration-level positive test.
 See [boundary execution](evidence/sbct-01-path-boundary-execution.json).
+
+
+## Empty-root implementation — 2026-09-23
+
+The registered committed host now accepts a configured existing directory with
+zero committed source members. Configuration existence and linked-path checks
+run before and after admission. The corpus inventory still reads only committed
+files; it does not synthesize directory records or ingest checkout bytes.
+The standalone inventory primitive remains strict by default; the host explicitly
+enables empty selections after configuration validation. Committed file, symlink
+or unmounted gitlink ancestors cannot be treated as empty directories.
+
+Console scan/commit/check succeeds for a literally empty directory without a
+marker file. A root removed after host construction rejects, and a committed file
+ancestor remains invalid under the empty-root option. This resolves the prior
+literal-empty-root implementation gap. It does not close GATE-102 or establish
+filesystem race isolation. Working-tree observation mode remains outstanding.
+See [execution evidence](evidence/sbct-01-empty-root-execution.json).

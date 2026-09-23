@@ -151,6 +151,11 @@ class CommittedProvenanceVerifier:
         """
         source = self._reader.resolve_commit(self._config["tracked_ref"])
         def observe():
+            # Recheck existence and linked-path boundaries at both admission ends.
+            validate_configuration(self._config_bytes,
+                config_directory=(self._reader.checkout_path/self._config_path).parent,
+                registered_repositories={key:reader.checkout_path
+                                         for key,reader in self._sources.items()})
             return observe_checkout_tree(root_repository_id=self._repository_id,
                 root_commit=source, mounts=self._config["submodules"],
                 source_roots=tuple(sorted(set((*self._config["source_roots"],*self._required)))),
@@ -284,7 +289,7 @@ class CommittedProvenanceVerifier:
         inventory = inventory_mounted_corpus(repository_id=self._repository_id,
             commit=source, readers=self._sources, mounts=self._config["submodules"],
             source_roots=self._config["source_roots"],required_files=self._required,
-            exclude=self._config["exclude"])
+            exclude=self._config["exclude"],allow_empty_roots=True)
         combined = {(r.repository_id,r.path):r for r in inventory.records}
         # Authority input pins may live outside source roots or in another registered repo.
         manifest = json.loads(raw)

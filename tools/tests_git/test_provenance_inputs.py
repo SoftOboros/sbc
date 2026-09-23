@@ -90,6 +90,13 @@ class ProvenanceInputTests(unittest.TestCase):
         args.update(kwargs)
         return inventory_committed_corpus(self.reader, **args)
 
+    def test_empty_root_option_cannot_hide_committed_file_ancestor(self):
+        from sbc_tools.corpus import inventory_mounted_corpus
+        with self.assertRaisesRegex(ValueError,'blocked by a committed entry'):
+            inventory_mounted_corpus(repository_id='fixture',commit=self.commit,
+                readers={'fixture':self.reader},mounts=(),source_roots=('docs/a.md/nested',),
+                required_files=('config.toml',),allow_empty_roots=True)
+
     def test_all_authority_roles_verified_and_immutable(self):
         result = self.verify()
         self.assertEqual(16, len(result.base_files_by_role))

@@ -55,6 +55,16 @@ class AdmissionTests(unittest.TestCase):
         with patch.object(self.verifier,"_verify_source",side_effect=changed):
             with self.assertRaises(ValueError): self.verifier.admit_source()
 
+    def test_empty_root_removed_after_host_construction_rejects(self):
+        files = {p:b for p,b in self.source_files.items() if p != 'docs/todo/spec.md'}
+        (self.source_root/'docs/todo/spec.md').unlink()
+        commit = commit_files(self.source_repo,files)
+        checkout(self.source_repo,self.source_root,commit)
+        self.assertTrue(self.verifier.admit_source().checkout.clean)
+        (self.source_root/'docs/todo').rmdir()
+        with self.assertRaisesRegex(ValueError,'Missing source directory'):
+            self.verifier.admit_source()
+
     def test_checkout_at_other_commit_is_rejected(self):
         other = commit_files(self.source_repo,{"other":b"other"})
         self.source_repo.refs[b"HEAD"] = other.encode()

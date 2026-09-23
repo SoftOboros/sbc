@@ -121,6 +121,29 @@ class ConsoleHostTests(unittest.TestCase):
         self.assertEqual('equal',result['result']['comparison'])
         self.assertEqual(before,self.observed_files())
 
+    def test_literal_empty_root_scan_commit_check(self):
+        self.source_files = {p:b for p,b in self.source_files.items()
+                             if p != 'docs/todo/spec.md'}
+        (self.source_root/'docs/todo/spec.md').unlink()
+        commit = commit_files(self.source_repo,self.source_files)
+        test_admission.checkout(self.source_repo,self.source_root,commit)
+        self.binding['document_families'] = {}
+        self.write()
+        self.assertEqual([],list((self.source_root/'docs/todo').iterdir()))
+        before = self.observed_files()
+        code,result = self.invoke('scan')
+        self.assertIn(code,(0,1))
+        self.assertEqual('published',result['result']['publication'])
+        self.assertEqual(before,{p:b for p,b in self.observed_files().items()
+                                 if not p.startswith('projection/')})
+        self.commit_output()
+        before = self.observed_files()
+        code,result = self.invoke()
+        self.assertIn(code,(0,1))
+        self.assertEqual('equal',result['result']['comparison'])
+        self.assertEqual(before,self.observed_files())
+        self.assertEqual([],list((self.source_root/'docs/todo').iterdir()))
+
     def test_missing_configured_root_rejects_without_source_writes(self):
         files = {p:b for p,b in self.source_files.items() if not p.startswith('docs/todo/')}
         (self.source_root/'docs/todo/spec.md').unlink()

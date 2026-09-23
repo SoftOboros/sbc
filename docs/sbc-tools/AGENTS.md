@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, validation, provenance, CLI, atomic directory publication, SQLite snapshots and cursor codec |
-| Latest execution | 86 core and 98 Git/provenance tests (2026-09-23); prior relocated installed-wheel proof |
-| Next work | SBCT-01 remaining root-boundary witnesses and working-tree observations; then shared query/provider engine |
+| Latest execution | 86 core and 101 Git/provenance tests (2026-09-23); prior relocated installed-wheel proof |
+| Next work | SBCT-01 working-tree observations and acceptance reconciliation; then shared query/provider engine |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 

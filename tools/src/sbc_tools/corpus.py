@@ -66,12 +66,14 @@ class MountedCorpus:
 
 
 def inventory_mounted_corpus(*, repository_id, commit, readers, mounts,
-                             source_roots, required_files, exclude=()):
+                             source_roots, required_files, exclude=(), allow_empty_roots=False):
     """Select in parent-relative coordinates, hash in owning-repository coordinates.
 
     Every child is opened at the gitlink commit in its immediate pinned parent.
     Exclusions are literal parent-relative paths; they never hide required files.
     No checkout files or current child HEADs contribute committed corpus bytes.
+    allow_empty_roots is for a host that validates configured directories at live
+    admission. It permits zero selected committed files, never checkout content.
     """
     from .mounts import pin_child_mounts
     if (not isinstance(repository_id,str) or not repository_id
@@ -99,7 +101,11 @@ def inventory_mounted_corpus(*, repository_id, commit, readers, mounts,
             if path in virtual:
                 raise ValueError("Conflicting mounted corpus paths")
             virtual[path] = (owner,selected_commit,entry)
-    if any(root not in directories or root in virtual for root in roots):
+    # A validated configured root may select no committed files. Never reinterpret
+    # a file, symlink or unmounted gitlink ancestor as an empty directory.
+    if any(root == path or root.startswith(path + '/') for root in roots for path in virtual):
+        raise ValueError("Source directory is blocked by a committed entry")
+    if not allow_empty_roots and any(root not in directories for root in roots):
         raise ValueError("Missing committed source directory")
     if any(path not in virtual for path in required):
         raise ValueError("Missing required committed input")

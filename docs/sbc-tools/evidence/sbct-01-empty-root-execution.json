@@ -1,0 +1,18 @@
+{
+  "date": "2026-09-23",
+  "version": "0.1.0.dev24",
+  "result": "pass",
+  "core_tests": 86,
+  "git_provenance_tests": 101,
+  "cases": [
+    "Literal empty directory console scan/commit/check with no marker",
+    "Empty root removed after host construction rejects",
+    "Committed file ancestor cannot be treated as empty"
+  ],
+  "semantics": "Directory existence is checked at admission; only committed file bytes enter corpus identity",
+  "limitations": [
+    "No filesystem race isolation",
+    "Working-tree observation mode absent",
+    "Runtime gates remain open"
+  ]
+}
