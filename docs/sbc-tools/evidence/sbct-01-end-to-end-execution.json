@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-23",
+  "result": "pass",
+  "git_provenance_tests": 98,
+  "added_console_cases": 4,
+  "test_sha256": "127aed0d13efb43c9b724e33c7a61c37b7a7975dc8003b96a9e9d8e78900353c",
+  "cases": [
+    "Committed source change causes nonwriting drift",
+    "Repeated scans preserve exact projection payload bytes",
+    "Existing marker-retained root without documents scans and checks",
+    "Missing configured root rejects without source or output writes"
+  ],
+  "limitations": [
+    "No runtime gate closure",
+    "Literal empty directory absent from Git tree not covered",
+    "Root escape/symlink read boundary matrix incomplete",
+    "Working-tree observation mode unimplemented",
+    "Core suite not rerun: only Git integration tests and documentation changed"
+  ]
+}

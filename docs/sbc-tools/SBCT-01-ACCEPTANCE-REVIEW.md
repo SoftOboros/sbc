@@ -49,3 +49,19 @@ Historical execution JSON remains unchanged. Its earlier pending-work statements
 refer to the execution date, not the current state. The consolidation test run
 proves the relocated package; no runtime suite was rerun for this documentation-only
 review. External SIDX source accessibility and public release acceptance remain open.
+
+
+## Follow-up execution — 2026-09-23
+
+Four added console integration cases execute committed source-change drift with
+unchanged source/output bytes, repeated full projection payload equality, a
+configured root without Markdown documents, and missing-root rejection without
+source/output writes. See [execution evidence](evidence/sbct-01-end-to-end-execution.json).
+The root-without-documents case uses a tracked `.keep` file: it is not proof for
+a literally empty filesystem directory absent from the committed Git tree.
+
+These cases address the direct source-change/repeat-emission gap in GATE-103
+and part of GATE-102. Root escape/symlink out-of-scope-read witnesses and literal
+empty-directory semantics still need reconciliation; working-tree observation
+mode remains absent. The earlier review table records the state at its review
+revision. No gate is closed by this follow-up.

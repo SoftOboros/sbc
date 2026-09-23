@@ -64,6 +64,75 @@ class ConsoleHostTests(unittest.TestCase):
             self.assertEqual(1,code)
             self.assertEqual(check['selection']['snapshot_id'],json.loads(out.getvalue())['selection']['snapshot_id'])
 
+    def observed_files(self):
+        return {p.relative_to(self.source_root).as_posix():p.read_bytes()
+                for p in self.source_root.rglob('*')
+                if p.is_file() and '.git' not in p.relative_to(self.source_root).parts}
+
+    def test_committed_source_change_reports_drift_without_writing(self):
+        self.assertEqual('published',self.invoke('scan')[1]['result']['publication'])
+        self.commit_output()
+        baseline = self.invoke()[1]
+        files = self.observed_files()
+        files['docs/todo/spec.md'] = b'# Changed source\n\n**Document ID:** EX-00\n'
+        commit = commit_files(self.source_repo,files)
+        test_admission.checkout(self.source_repo,self.source_root,commit)
+        before = self.observed_files()
+        code,result = self.invoke()
+        self.assertEqual((1,'different'),(code,result['result']['comparison']))
+        self.assertNotEqual(baseline['selection']['snapshot_id'],result['selection']['snapshot_id'])
+        self.assertEqual(before,self.observed_files())
+
+    def test_repeated_scan_preserves_exact_payload_bytes(self):
+        self.assertEqual('published',self.invoke('scan')[1]['result']['publication'])
+        before = {p.relative_to(self.source_root/'projection').as_posix():p.read_bytes()
+                  for p in (self.source_root/'projection').rglob('*') if p.is_file()}
+        self.commit_output()
+        self.assertEqual('published',self.invoke('scan')[1]['result']['publication'])
+        after = {p.relative_to(self.source_root/'projection').as_posix():p.read_bytes()
+                 for p in (self.source_root/'projection').rglob('*') if p.is_file()}
+        # Publication directory names may differ; complete semantic payloads may not.
+        def payloads(files):
+            return sorted(set((tuple(p.split('/')[-2:]),b) for p,b in files.items()
+                          if '/index/' in p or '/locations/' in p or '/diagnostics/' in p))
+        self.assertTrue(payloads(before))
+        self.assertEqual(payloads(before),payloads(after))
+
+    def test_existing_root_without_documents_scans_and_checks(self):
+        # Git retains a marker file; the scanner corpus contains no Markdown documents.
+        self.source_files = {p:b for p,b in self.source_files.items()
+                             if p != 'docs/todo/spec.md'}
+        self.source_files['docs/todo/.keep'] = b''
+        (self.source_root/'docs/todo/spec.md').unlink()
+        commit = commit_files(self.source_repo,self.source_files)
+        test_admission.checkout(self.source_repo,self.source_root,commit)
+        self.binding['document_families'] = {}
+        self.write()
+        before = self.observed_files()
+        code,result = self.invoke('scan')
+        self.assertIn(code,(0,1))
+        self.assertEqual('published',result['result']['publication'])
+        self.assertEqual(before,{p:b for p,b in self.observed_files().items()
+                                 if not p.startswith('projection/')})
+        self.commit_output()
+        before = self.observed_files()
+        code,result = self.invoke()
+        self.assertIn(code,(0,1))
+        self.assertEqual('equal',result['result']['comparison'])
+        self.assertEqual(before,self.observed_files())
+
+    def test_missing_configured_root_rejects_without_source_writes(self):
+        files = {p:b for p,b in self.source_files.items() if not p.startswith('docs/todo/')}
+        (self.source_root/'docs/todo/spec.md').unlink()
+        (self.source_root/'docs/todo').rmdir()
+        commit = commit_files(self.source_repo,files)
+        test_admission.checkout(self.source_repo,self.source_root,commit)
+        before = self.observed_files()
+        code,result = self.invoke('scan')
+        self.assertEqual((2,'invalid_configuration'),(code,result['error']['code']))
+        self.assertEqual(before,self.observed_files())
+        self.assertFalse((self.source_root/'projection').exists())
+
     def test_schema_and_config_hash_failures(self):
         original = dict(self.binding)
         for change in ({'extra':True},{'schema_version':2},{'config_sha256':'0'*64},
