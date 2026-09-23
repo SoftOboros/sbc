@@ -1,0 +1,127 @@
+# SBCT-01 submodule observation contract
+
+**Document ID:** SBCT-01-OBSERVATIONS
+**Revision:** 0.1.0
+**Status:** DRAFT wire contract; first-version boundaries approved by the owner.
+**Date:** 2026-09-23
+
+## Authority and scope
+
+The owner agreed to the first-version boundaries: explicit registrations, separate
+parent-recorded pins/observed HEADs/captured bytes, immediate-parent ownership,
+change detection, null committed identities, and failure of the aggregate when a
+required participant is unavailable. This records that approval without treating
+this newly authored wire format as ratified. SBCT-01 remains 0.8.0; runtime gates
+remain open. Interlock governance and cross-repository writes remain deferred.
+
+## Proposed wire boundary
+
+Keep the existing version-1 CLI envelope and its committed `dependencies` unchanged.
+Propose CLI envelope version 2 for multi-repository working-tree commands: retain
+the version-1 fields, change `schema_version` to 2, and add required `observation`.
+It contains the separately versioned [observation set](contracts/observation-set.schema.json),
+or null if configuration/authority failure prevents an observation. Version-2
+working-tree selection has null source/projection commit IDs and an empty
+`dependencies` array. Recorded gitlinks appear only in `observation.relations`.
+Existing single-repository and committed commands continue emitting version 1.
+The [draft version-2 envelope schema](contracts/cli-observation-envelope.schema.json)
+and [illustrative example](contracts/cli-observation-envelope.example.json) make this
+extension concrete. No runtime emits version 2 yet. Version-1 clients must reject unsupported versions.
+
+## Registration and traversal
+
+Reuse explicit host repository IDs, source mappings and mount allowlists. Do not
+infer identity from `.gitmodules`, paths or URLs. Do not discover, initialize,
+clone, fetch, update, or run hooks. Include only mounts intersecting configured
+source scope; every included ancestor must be registered. Reject duplicate IDs,
+conflicting ownership, cycles, unsafe paths and unregistered nested repositories.
+A registered relation absent from the selected immediate-parent tree is invalid
+configuration, not a newly inferred relationship from working `.gitmodules`.
+
+For the root, resolve the explicitly configured reference once as baseline context.
+For each child, record the gitlink from that immediate parent's selected context.
+Capture the child's observed HEAD separately. For recursion, use the immediate
+parent child's observed HEAD as the context for its child relations: observations
+follow the checked-out composition, not an implied recursively clean pinned tree.
+The outer relation still retains its original recorded pin, exposing divergence.
+Staged gitlink edits do not replace recorded pins; they contribute dirty checkout
+state. No working-tree change can rewrite an observed baseline relation.
+
+## Observation fields and semantic validation
+
+Participants are sorted by repository ID; each ID occurs once and is NFC text.
+The root must occur once. Each other participant has exactly one incoming relation.
+Relations are sorted by `(parent_repository_id, path)` and form one rooted acyclic
+tree. Paths are immediate-parent-relative, safe POSIX paths, not flattened host paths.
+These are semantic checks in addition to JSON Schema; JSON Schema alone is insufficient.
+
+A participant's `observed_head` is contextual metadata, never a claim that captured
+bytes equal that commit. `checkout_state` reports whole-checkout clean/dirty status
+against that HEAD using the existing offline checkout rules. Captured corpus hashes
+cover only selected source and required inputs; generated output is excluded.
+Thus output changes can make a checkout dirty without changing captured corpus.
+
+For an available parent, `parent_commit` is its selected context commit. For a
+relation with evidence, `recorded_child_commit` is exactly its gitlink. `pin_state`
+is `match` only if that pin equals the child's observed HEAD; otherwise `mismatch`.
+Dirty is independent of match/mismatch. Unknown evidence uses null and `unavailable`,
+never an all-zero hash or an invented clean state. If child HEAD/history cannot be
+read, its availability is `unavailable_history`; absent checkout uses `missing_checkout`.
+Unavailable participants have unknown checkout state and no corpus hash. Report all
+required participants, including unavailable descendants, without opening an
+unavailable ancestor's descendants. Their relation evidence remains null/unavailable.
+
+## Capture, identity and failure
+
+Capture every participant with explicit owning repository ID and relative path.
+Retain stable ordered byte inventories. Observe relevant refs, index/checkout state,
+selected gitlinks and content before/after aggregate capture. Any detected change
+rejects the aggregate as evidence unavailable (exit 3); no publication occurs.
+This is bounded change detection, not a simultaneous filesystem snapshot or lock.
+
+`complete` is true only when every required participant and relation is available
+and stable. Dirty content and pin mismatch do not by themselves make it incomplete.
+Required unavailable participants yield exit 3, `selection: null`, `result: null`,
+and an incomplete observation set. No partial projection, successful empty corpus,
+or pointer switch is permitted. Early configuration/authority errors use exit 2;
+local IO failures use the existing safe IO error. Availability is evidence context,
+not authorization or permission to expose a repository.
+
+For a complete set, `selection_sha256` is SHA-256 of canonical UTF-8 JSON with sorted
+keys, compact separators and final LF, of the observation object with that field
+removed. Incomplete sets use null. This hash includes HEAD/pin/state context, so it
+is distinct from the content-derived projection `snapshot_id`. Canonical source
+records retain `(repository_id, relative_path, content_sha256)` and feed the existing
+corpus hash. No timestamp or checkout absolute path enters either identity.
+The example uses illustrative hashes; it is not execution or digest evidence.
+
+## Acceptance cases to implement
+
+1. Clean matching child: preserve pin, observed HEAD and owning file identity.
+2. Dirty matching child: inspect changed bytes; retain null committed identities.
+3. Clean/dirty mismatched child: report mismatch independently of dirty state.
+4. Missing checkout, missing child history and unreadable parent context: aggregate
+   unavailable, no output publication, explicit unknown states.
+5. Nested child with diverged parent HEAD: outer mismatch preserved; inner gitlink
+   belongs to the observed immediate parent, not the root or original child pin.
+6. Participant/ref/index/content changes during capture: reject without switching.
+7. Excluded/unregistered/cyclic mounts and linked paths: no out-of-scope reads.
+8. Identical captures with different enumeration order: identical selection digest.
+9. Version-1 committed dependency behavior remains unchanged; malformed version-2
+   states, false matches and incomplete-but-successful results reject.
+
+## Next review
+
+Review exact recursion context, dirty-state scope, digest and version-2 framing
+before implementing the extension. The runtime currently rejects submodule
+observations, which remains safe during this contract preparation.
+
+
+## Structural verification
+
+The offline developer check `tools/tools/check_observation_contract.py` passes
+three positive and eighteen negative cases. It verifies closed/versioned fields,
+null committed identities, unavailable participant structure, incomplete-result
+restrictions, and unsafe-path rejection. Graph ownership, digest correctness,
+false-match detection and cross-repository runtime stability remain semantic
+acceptance work; this structural check does not claim them.

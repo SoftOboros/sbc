@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-23",
+  "status": "draft wire contract; owner-approved first-version boundaries",
+  "positive_structural_cases": 3,
+  "negative_structural_cases": 18,
+  "runtime_changes": false,
+  "unexecuted": [
+    "Graph ownership and cycle rules",
+    "Digest correctness",
+    "False match detection",
+    "Capture stability and no-publication failure cases"
+  ],
+  "sha256": {
+    "observation-set.schema.json": "9104d3b43d81aab1b535d142230472d89e5c38c5480bcb27b425c022aaeab1c0",
+    "cli-observation-envelope.schema.json": "c2aab487b3a21fc5305995909b0f6976c8fed0d34e9496e87682c5dcc51c948f"
+  }
+}

@@ -100,3 +100,8 @@ typed declarations, JSON schemas, exact query authority pins and 16 executed
 reference-producer vectors. Its 28 additional runtime scenarios are specified,
 not executed. Structural/digest checks and limited review are recorded in the
 package's evidence links. Owner approval under GATE-206 is recorded; runtime acceptance remains outstanding.
+
+
+The [submodule observation contract](SBCT-01-SUBMODULE-OBSERVATIONS.md) records
+owner-approved first-version boundaries and proposes the exact versioned wire
+extension. Its schemas are draft, structurally checked, and not emitted by runtime.

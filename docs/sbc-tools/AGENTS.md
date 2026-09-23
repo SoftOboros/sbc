@@ -13,7 +13,7 @@
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
 | Latest execution | 98 core and 110 Git/provenance tests; 15 schema envelopes; installed committed/working-tree console proof |
-| Next work | SBCT-01 acceptance reconciliation and submodule observation limits; then shared query/provider engine |
+| Next work | Review draft submodule observation wire contract; first-version boundaries owner-approved |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -37,3 +37,9 @@ and minimal MCP OAuth. Production identity, policy, credentials and deployment
 remain downstream. Shared semantic behavior must not be forked by a host.
 First-party licensing is BSD-3-Clause. Example maintenance and eventual support
 status remain explicit release decisions.
+
+
+The owner approved the first-version submodule observation boundaries. The exact
+[draft contract](SBCT-01-SUBMODULE-OBSERVATIONS.md) proposes nested context and wire
+versioning; it is not a ratified extension or completed runtime implementation.
+Current runtime still rejects submodule observations.

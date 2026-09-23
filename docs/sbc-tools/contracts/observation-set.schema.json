@@ -1,0 +1,277 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "root_repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "complete": {
+      "type": "boolean"
+    },
+    "selection_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "repository_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "availability": {
+            "enum": [
+              "available",
+              "missing_checkout",
+              "unavailable_history"
+            ]
+          },
+          "observed_head": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "checkout_state": {
+            "enum": [
+              "clean",
+              "dirty",
+              "unknown"
+            ]
+          },
+          "corpus_sha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "repository_id",
+          "availability",
+          "observed_head",
+          "checkout_state",
+          "corpus_sha256"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "availability": {
+                  "const": "available"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "observed_head": {
+                  "type": "string",
+                  "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                },
+                "checkout_state": {
+                  "enum": [
+                    "clean",
+                    "dirty"
+                  ]
+                },
+                "corpus_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "observed_head": {
+                  "type": "null"
+                },
+                "checkout_state": {
+                  "const": "unknown"
+                },
+                "corpus_sha256": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "parent_repository_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*[\\\\:\\u0000-\\u001f])(?!.*(?:^|/)\\.git(?:/|$))[^/]+(?:/[^/]+)*$"
+          },
+          "repository_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parent_commit": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recorded_child_commit": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pin_state": {
+            "enum": [
+              "match",
+              "mismatch",
+              "unavailable"
+            ]
+          }
+        },
+        "required": [
+          "parent_repository_id",
+          "path",
+          "repository_id",
+          "parent_commit",
+          "recorded_child_commit",
+          "pin_state"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "pin_state": {
+                  "enum": [
+                    "match",
+                    "mismatch"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "parent_commit": {
+                  "type": "string",
+                  "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                },
+                "recorded_child_commit": {
+                  "type": "string",
+                  "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "root_repository_id",
+    "complete",
+    "selection_sha256",
+    "participants",
+    "relations"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DRAFT SBCT submodule observation set version 1",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "complete": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selection_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "participants": {
+            "items": {
+              "properties": {
+                "availability": {
+                  "const": "available"
+                }
+              }
+            }
+          },
+          "relations": {
+            "items": {
+              "properties": {
+                "pin_state": {
+                  "enum": [
+                    "match",
+                    "mismatch"
+                  ]
+                },
+                "parent_commit": {
+                  "type": "string",
+                  "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                },
+                "recorded_child_commit": {
+                  "type": "string",
+                  "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "selection_sha256": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$id": "urn:sbct:draft:observation-set:1"
+}

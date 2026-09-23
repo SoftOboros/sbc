@@ -1,0 +1,536 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "command": {
+      "enum": [
+        "scan",
+        "check",
+        null
+      ]
+    },
+    "mode": {
+      "const": "working-tree"
+    },
+    "status": {
+      "enum": [
+        "ok",
+        "findings",
+        "error"
+      ]
+    },
+    "exit_code": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4
+    },
+    "selection": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "repository_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_commit": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "projection_commit": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "corpus_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "authority_manifest_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "snapshot_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "parent_repository_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "parent_commit": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+                  },
+                  "repository_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "child_commit": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "parent_repository_id",
+                  "parent_commit",
+                  "path",
+                  "repository_id",
+                  "child_commit"
+                ]
+              },
+              "maxItems": 0
+            }
+          },
+          "required": [
+            "repository_id",
+            "source_commit",
+            "projection_commit",
+            "corpus_sha256",
+            "authority_manifest_sha256",
+            "snapshot_id",
+            "dependencies"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "enum": [
+                "invalid_invocation",
+                "invalid_configuration",
+                "invalid_authority",
+                "evidence_unavailable",
+                "io_failure",
+                "internal_failure"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "result": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "publication": {
+              "enum": [
+                "published",
+                "not_written"
+              ]
+            },
+            "comparison": {
+              "enum": [
+                "equal",
+                "different",
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "required": [
+                  "path",
+                  "sha256"
+                ]
+              }
+            }
+          },
+          "required": [
+            "publication",
+            "comparison",
+            "files"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "observation": {
+      "anyOf": [
+        {
+          "$ref": "urn:sbct:draft:observation-set:1"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "command",
+    "mode",
+    "status",
+    "exit_code",
+    "selection",
+    "findings",
+    "error",
+    "result",
+    "observation"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exit_code": {
+            "const": 0
+          },
+          "error": {
+            "type": "null"
+          },
+          "selection": {
+            "type": "object"
+          },
+          "result": {
+            "type": "object"
+          },
+          "command": {
+            "enum": [
+              "scan",
+              "check"
+            ]
+          },
+          "mode": {
+            "enum": [
+              "committed",
+              "working-tree"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "findings"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exit_code": {
+            "const": 1
+          },
+          "error": {
+            "type": "null"
+          },
+          "selection": {
+            "type": "object"
+          },
+          "result": {
+            "type": "object"
+          },
+          "command": {
+            "enum": [
+              "scan",
+              "check"
+            ]
+          },
+          "mode": {
+            "enum": [
+              "committed",
+              "working-tree"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exit_code": {
+            "enum": [
+              2,
+              3,
+              4
+            ]
+          },
+          "error": {
+            "type": "object"
+          },
+          "result": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "check"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "properties": {
+              "publication": {
+                "const": "not_written"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "committed"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "findings"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selection": {
+            "properties": {
+              "source_commit": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "working-tree"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selection": {
+            "properties": {
+              "source_commit": {
+                "type": "null"
+              },
+              "projection_commit": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "check"
+          },
+          "mode": {
+            "const": "committed"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "findings"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selection": {
+            "properties": {
+              "projection_commit": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "ok",
+              "findings"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "observation": {
+            "type": "object",
+            "properties": {
+              "complete": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "observation": {
+            "type": "object",
+            "properties": {
+              "complete": {
+                "const": false
+              }
+            },
+            "required": [
+              "complete"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "const": "error"
+          },
+          "exit_code": {
+            "const": 3
+          },
+          "selection": {
+            "type": "null"
+          },
+          "result": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "observation": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "const": "error"
+          },
+          "selection": {
+            "type": "null"
+          },
+          "result": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$id": "urn:sbct:draft:cli-envelope:2",
+  "title": "DRAFT multi-repository observation CLI envelope version 2"
+}
