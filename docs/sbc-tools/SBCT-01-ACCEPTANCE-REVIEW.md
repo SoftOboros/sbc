@@ -132,3 +132,19 @@ Seven focused tests pass within 98 core tests. See
 This is not an atomic snapshot or hostile-filesystem sandbox. Authority verification,
 producer composition, submodule observations, publication and CLI integration
 remain outstanding; working-tree console mode remains disabled.
+
+
+## Verified observation generation — 2026-09-23
+
+`generate_working_tree` now composes captured single-repository bytes with exact
+registered configuration/profile checks, offline pinned authority verification,
+and approved support-patch verification. Generation uses the same configured
+producer helper as committed generation; both paths apply complete bundle
+semantic validation. The observation result has no committed admission or source
+commit. Its validator uses an explicitly rejecting committed-proof provider.
+
+Tests cover dirty-source output and immutable captures, wrong authority pin
+rejection before producer invocation, configuration/profile/patch tampering, and
+refusal to supply committed proof. No projection is published by generation.
+See [execution evidence](evidence/sbct-01-working-generation-execution.json).
+CLI integration, observation publication and submodule observations remain open.

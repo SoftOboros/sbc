@@ -427,3 +427,10 @@ scopes and required inputs into immutable bytes. It rejects linked paths, nested
 repositories and configured mounts, and compares two reads to detect observed
 changes. It does not provide an atomic snapshot or approve captured authority
 inputs. Producer composition and working-tree CLI integration remain pending.
+
+
+`generate_working_tree` verifies captured configuration/profile bytes and approved
+authority/patch pins before using the shared projection builder. It returns
+validated observation files without publishing them or claiming committed
+provenance. It currently supports one source repository; CLI integration and
+submodule observations remain pending.

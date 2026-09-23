@@ -96,3 +96,58 @@ def capture_working_tree(configuration, *, required_files):
     owner = value['repository_id']
     records = tuple(CorpusInput(owner,p,hashlib.sha256(b).hexdigest()) for p,b in sorted(before.items()))
     return ObservedCorpus(owner,records,MappingProxyType(before))
+
+
+@dataclass(frozen=True)
+class ObservedProjection:
+    corpus: ObservedCorpus
+    authority_sha256: str
+    files: object
+    location_diagnostics: bytes
+
+
+class _RejectCommittedProof:
+    def verify(self, *args, **kwargs):
+        raise ValueError('Working-tree observation cannot verify committed publication')
+
+
+def generate_working_tree(registration, *, authority_readers):
+    """Verify explicit host pins and generate from captured single-repository bytes.
+
+    Returned data does not contain VerifiedProvenance or committed admission.
+    All authority objects must already exist in the supplied offline readers.
+    """
+    from .authority import verify_authority_inputs
+    from .canonical import canonical_json
+    from .configuration import validate_configuration
+    from .patches import verify_support_patch
+    from .projections import build_configured_projection
+    from .validation import BundleValidator
+    from .provenance import AuthorityValidationError
+    configured = validate_configuration(registration.config_bytes,
+        config_directory=registration.configuration_file.parent,
+        registered_repositories=registration.source_repositories)
+    if configured.values['repository_id'] != registration.repository_id:
+        raise ValueError('Registered repository identity mismatch')
+    captured = capture_working_tree(configured,required_files=(registration.config_path,
+        registration.profile_path,registration.patch_path,*registration.evidence_paths))
+    if captured.files[registration.config_path] != registration.config_bytes:
+        raise ValueError('Captured configuration differs from registered bytes')
+    if hashlib.sha256(captured.files[registration.profile_path]).hexdigest() != registration.profile_sha256:
+        raise ValueError('Captured profile differs from registered digest')
+    raw = captured.files[configured.values['authority_manifest']]
+    patch = captured.files[registration.patch_path]
+    try:
+        authority = verify_authority_inputs(raw,
+            approved_manifest_sha256=registration.approved_authority_sha256,
+            patch_bytes=patch,readers=authority_readers)
+        verify_support_patch(authority,patch,approved_result_sha256=registration.approved_support_sha256)
+    except ValueError:
+        raise AuthorityValidationError('Invalid authority inputs') from None
+    validator = BundleValidator(source_roots=configured.values['source_roots'],
+        profile_sha256=registration.profile_sha256,provenance_verifier=_RejectCommittedProof())
+    files,diagnostics = build_configured_projection(captured.files,
+        source_roots=configured.values['source_roots'],registry_paths=configured.values['registry_paths'],
+        document_families=registration.document_families,archive_families=registration.archive_families,
+        validator=validator)
+    return ObservedProjection(captured,authority.manifest_sha256,files,canonical_json(diagnostics))

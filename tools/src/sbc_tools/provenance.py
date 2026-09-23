@@ -181,28 +181,15 @@ class CommittedProvenanceVerifier:
         are visited in configuration order, with paths sorted within each root.
         No files, refs, commits or store selections are written by this operation.
         """
-        from . import _producer_parser as producer
-        from .projections import build_projection_files
+        from .projections import build_configured_projection
         admission = self.admit_source()
         proof, inventory = self._source_inputs(admission.source_commit)
         if proof != admission.provenance or inventory.pins != admission.checkout.pins:
             raise ValueError("Admitted source inventory changed")
-        ordered = [p for root in self._config['source_roots'] for p in sorted(inventory.files)
-                   if p.startswith(root + '/')]
-        documents = [p for p in ordered if p.endswith('.md')]
-        families = dict(document_families)
-        if set(families) != set(documents):
-            raise ValueError("Explicit family routing must cover the exact Markdown corpus")
-        prefixes = set()
-        for path in self._config['registry_paths']:
-            prefixes.update(producer._registered_invariant_prefixes(
-                inventory.files[path].decode('utf-8', errors='replace')))
-        files, diagnostics = build_projection_files(
-            [(p, families[p], inventory.files[p]) for p in documents],
-            registered_prefixes=prefixes,
-            archives={p:inventory.files[p] for p in ordered if p.endswith('.zip')},
-            archive_families=archive_families)
-        checked = self.bundle_validator().validate_files(files)
+        checked, diagnostics = build_configured_projection(inventory.files,
+            source_roots=self._config['source_roots'],registry_paths=self._config['registry_paths'],
+            document_families=document_families,archive_families=archive_families,
+            validator=self.bundle_validator())
         snapshot = {'authority_manifest_sha256':proof.authority_manifest_sha256,
                     'corpus_sha256':proof.corpus_sha256,
                     'files':[{'path':p,'sha256':hashlib.sha256(b).hexdigest()}

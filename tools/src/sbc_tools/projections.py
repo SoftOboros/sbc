@@ -74,3 +74,21 @@ def build_projection_files(sources, *, registered_prefixes, archives, archive_fa
     files.update({'locations/' + name + '.json': producer.locations.render(payload).encode('utf-8')
                   for name, payload in locations.items()})
     return files, diagnostics
+
+
+def build_configured_projection(inputs, *, source_roots, registry_paths,
+                                document_families, archive_families, validator):
+    """Shared committed/observed producer composition over captured input bytes."""
+    ordered = [p for root in source_roots for p in sorted(inputs) if p.startswith(root + '/')]
+    documents = [p for p in ordered if p.endswith('.md')]
+    families = dict(document_families)
+    if set(families) != set(documents):
+        raise ValueError('Explicit family routing must cover the exact Markdown corpus')
+    prefixes = set()
+    for path in registry_paths:
+        prefixes.update(producer._registered_invariant_prefixes(
+            inputs[path].decode('utf-8',errors='replace')))
+    files, diagnostics = build_projection_files(
+        [(p,families[p],inputs[p]) for p in documents],registered_prefixes=prefixes,
+        archives={p:inputs[p] for p in ordered if p.endswith('.zip')},archive_families=archive_families)
+    return validator.validate_files(files), diagnostics

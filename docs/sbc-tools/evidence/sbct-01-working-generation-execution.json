@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-23",
+  "version": "0.1.0.dev27",
+  "result": "pass",
+  "core_tests": 98,
+  "git_provenance_tests": 105,
+  "new_generation_tests": 4,
+  "scope": "Single-repository working-tree authority verification and validated generation",
+  "shared_builder": "Both committed and observed generation use build_configured_projection",
+  "checks": [
+    "Dirty captured corpus identity changes and retained bytes stay immutable",
+    "Wrong authority pin rejects before producer",
+    "Configuration/profile/patch tampering rejects",
+    "Observation validator cannot supply committed publication proof"
+  ],
+  "limitations": [
+    "Synthetic authority approvals",
+    "No CLI wiring or observation publication",
+    "No submodule observations",
+    "No runtime gate closure"
+  ]
+}
