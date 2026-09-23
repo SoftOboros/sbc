@@ -33,9 +33,9 @@ GATE-406 review; its interfaces and witnesses remain proposed.
 
 Read [AGENTS.md](AGENTS.md), then the ratified [SBCT-00](SBCT-00-CONCEPTS.md)
 revision 0.4.2. SBCT-01 is ratified with approved amendment 0.8.0; SBCT-02 is ratified 0.6.2; SBCT-06 is draft 0.6.0; other child phases are 0.5.0. §8 supplies concrete candidate
-contracts and prerequisites for review. Begin with SBCT-01's exact authority/source
+contracts and prerequisites for review. The [implementation acceptance review](SBCT-01-ACCEPTANCE-REVIEW.md) maps current evidence and gaps. Begin with SBCT-01's exact authority/source
 baseline and configuration, then SBCT-02's public interfaces. SBCT-01 GATE-106 and parent review gates are complete; implementation
-acceptance remains unchecked. GATE-206 was approved 2026-09-20; the active work is SBCT-02 implementation.
+acceptance remains unchecked. GATE-206 was approved 2026-09-20; active work is SBCT-01 acceptance gaps followed by the remaining SBCT-02 engine.
 
 | Phase | Owns | Depends on |
 |---|---|---|

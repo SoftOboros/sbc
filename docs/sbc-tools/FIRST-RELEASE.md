@@ -16,15 +16,15 @@ Guiding documents can be shared before implementation is complete. The public
 surface must support substantial internal reuse without shipping internal
 production policy. BSD-3-Clause remains the first-party license.
 
-The discipline repository and the separate supporting-tool repository retain
-their approved boundary. Publication of incomplete work does not promote draft
+The discipline and supporting tools share the owner-approved SBC repository;
+semantic authority and installable package boundaries remain distinct. Publication of incomplete work does not promote draft
 specifications or satisfy runtime gates.
 
 ## Minimum release path
 
 | Order | Deliverable | Prerequisite | Exit evidence |
 |---|---|---|---|
-| 1 | Separate tooling checkout with portable docs and exact authority/source inventory | Record authoring-home migration; preserve discipline submodule | Repository layout and accessible pins; no dangling consumer-only references |
+| 1 | Unified SBC checkout with portable docs and exact authority/source inventory | Migration recorded; preserve one adoption submodule | Repository layout and accessible pins; no dangling consumer-only references |
 | 2 | Offline pure-Python indexing, validation and CLI | Ratified SBCT-01 and approved baseline reconciliation | GATE-101 through GATE-105, including clean unrelated fixture and deterministic output |
 | 3 | Shared C11/C12 engine, immutable file view and publication selection | Owner approval of completed SBCT-02 contract package, GATE-206 | GATE-201 through GATE-205; scoped cursor and provider cases executed |
 | 4 | Minimal Django store/session example and bounded MCP OAuth | SBCT-03 exact library/protocol/endpoint contract and ratification | GATE-301 through GATE-310 |
@@ -39,13 +39,13 @@ complete this first-release goal.
 
 ## Next concrete work
 
-1. Implement [SBCT-02's approved package](SBCT-02-CONTRACT-PACKAGE.md);
-   GATE-206 was explicitly approved 2026-09-20.
-2. Complete SBCT-03's OAuth dependency audit and exact example contract.
-3. Review the proposed [dashboard host contract](SBCT-04-HOST-CONTRACT.md),
-   select exact extraction pins and presentation dependency versions.
-4. Prepare the separate tooling repository and authority-reference layout,
-   then implement each approved phase with the shared reference fixtures.
+1. Complete the missing witnesses and working-tree behavior identified by the
+   [SBCT-01 acceptance review](SBCT-01-ACCEPTANCE-REVIEW.md).
+2. Finish SBCT-02's approved shared query/provider implementation and parity evidence.
+3. Prepare SBCT-03's exact OAuth/example contract and SBCT-04's dashboard host
+   contract for ratification before implementing those phases.
+4. Resolve public authority accessibility, supported environments and release
+   acceptance under SBCT-06. Interlock remains outside the minimum release.
 
 ## Public versus downstream contents
 
@@ -62,11 +62,13 @@ through published interfaces, not maintain a forked semantic engine.
 
 ## Progress record
 
-The query package has bounded pinned-producer and structural evidence; it is
-not yet a complete portable query implementation. The dashboard host declarations and runtime
-witnesses are proposed. No release tag or runtime acceptance is recorded here.
+As of 2026-09-22, the unified SBC repository contains offline committed-source
+indexing, validation, provenance, CLI publication, SQLite snapshots and cursor
+support. The relocated implementation passed 84 core and 94 Git/provenance tests,
+plus an installed-wheel console scan/commit/check proof. These are bounded local
+results; runtime gates remain open.
 
-GATE-206 was approved 2026-09-20. A separate local tooling checkout now contains
-the first cursor-codec implementation with 13 focused standard-library tests.
-This does not complete the semantic engine, stores, CLI, example or dashboard,
-nor the full GATE-204 cursor/access-context witness.
+Shared queries/providers are incomplete. Working-tree observations, the Django
+OAuth example and the reusable dashboard remain implementation work. SBCT-03
+through SBCT-06 remain drafts; no release tag or production acceptance is claimed.
+See [current state](AGENTS.md) and the [acceptance review](SBCT-01-ACCEPTANCE-REVIEW.md).
