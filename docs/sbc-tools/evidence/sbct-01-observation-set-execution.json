@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-23",
+  "version": "0.1.0.dev29",
+  "result": "pass",
+  "owner_decision": "proceed as recomended",
+  "approved_contract": "SBCT-01-OBSERVATIONS 0.1.2; incorporated by SBCT-01 0.9.0",
+  "core_tests": 105,
+  "new_observation_set_tests": 7,
+  "developer_contract_checks": {
+    "structural_positive": 3,
+    "structural_negative": 18,
+    "semantic_positive": 1,
+    "semantic_negative": 8,
+    "runtime_example_parity": 2
+  },
+  "limitations": [
+    "Metadata validation is not Git evidence or proof of capture stability",
+    "No submodule capture or version-2 CLI emission yet",
+    "Git suite not rerun: no Git path implementation changed",
+    "Runtime acceptance gates remain open"
+  ],
+  "schema_sha256": {
+    "observation-set.schema.json": "567ff006b4071624a2a4cdfd902211629b86d91f32de161981667e5b8b40ffb6",
+    "cli-observation-envelope.schema.json": "a9e03dd9873ae3c8563efe7e9a7d18a00bbebab5f339e43d34089d70ecf050a3"
+  }
+}

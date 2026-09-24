@@ -453,3 +453,9 @@ Configured submodules and nested source repositories remain unsupported and reje
 Earlier incremental implementation notes describe their respective development
 stages; this section supersedes their pending single-repository CLI statements.
 This local capability is not runtime gate closure or production acceptance.
+
+
+`observation_sets` implements the approved observation-set version-1 metadata
+boundary: canonical bytes, context digest, rooted repository ownership, pin-state
+consistency and explicit blocked descendants. It does not inspect Git or authorize
+participants. Submodule capture and CLI version-2 emission remain pending.

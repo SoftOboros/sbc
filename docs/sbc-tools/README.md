@@ -107,3 +107,5 @@ owner-approved first-version boundaries and proposes the exact versioned wire
 extension. Its schemas are draft, structurally checked, and not emitted by runtime.
 
 The [observation wire approval packet](SBCT-01-OBSERVATION-WIRE-REVIEW.md) presents the three remaining amendment decisions and bounded validation evidence.
+
+The owner approved observation wire contract 0.1.2 under SBCT-01 0.9.0. Observation-set validation is implemented; submodule capture and version-2 CLI integration remain pending. Earlier draft references describe preparation history.

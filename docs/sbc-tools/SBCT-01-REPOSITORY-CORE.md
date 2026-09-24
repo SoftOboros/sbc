@@ -2,8 +2,8 @@
 
 **Document ID:** SBCT-01
 **Status:** RATIFIED — Ira Abbott, 2026-09-19
-**Revision:** 0.8.0
-**Date:** 2026-09-21
+**Revision:** 0.9.0
+**Date:** 2026-09-23
 **Owner:** Ira Abbott
 **Depends on:** [SBCT-00](SBCT-00-CONCEPTS.md), especially §8 baseline/layout decisions.
 
@@ -266,6 +266,13 @@ available and MUST NOT report success. No command may silently rewrite source
 specifications, acknowledgments or accepted diagnostic baselines.
 
 ## §7 Git and Submodule Provenance [Normative]
+
+The owner-approved [submodule observation contract](SBCT-01-SUBMODULE-OBSERVATIONS.md)
+revision 0.1.2 extends working-tree mode with observation-set version 1 and CLI
+version 2. Its identity, ownership, failure and dirty-state rules are normative
+for that extension. Existing single-repository and committed version-1 behavior
+remains unchanged.
+
 
 A committed scan MUST identify each source's owning repository and exact commit.
 For included submodules, the parent commit, mount path and recorded child commit
@@ -531,3 +538,13 @@ production deployment are not implied by this act.
 **Touches:** SBCT-01 configuration host boundary and CLI options.
 **Decision:** Approves the explicit data-only console binding, version-1 schema, exact configuration matching and no implicit discovery or approval inference. Repository TOML remains unchanged. The in-process host remains available; conflicting mechanisms reject.
 **Unblocks:** Console binding implementation and validation witnesses. No particular host registration, baseline, runtime gate or release is approved by this amendment.
+
+
+### 0.9.0 — 2026-09-23 — Approved submodule observation wire extension
+
+**Authority:** Ira Abbott, "proceed as recomended" accepting the wire review packet.
+**Decision:** Incorporates SBCT-01-OBSERVATIONS 0.1.2: local dirty-state scope,
+separate observation-context digest, version-2 envelope, explicit unavailable and
+blocked descendants, and no partial aggregate publication. The previously accepted
+immediate-parent observed-HEAD recursion and known-work-in-progress interpretation
+remain in force. Implementation is unblocked; runtime gates and release remain open.

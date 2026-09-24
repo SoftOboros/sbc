@@ -1,5 +1,6 @@
 """Offline structural checks for draft schemas; no runtime conformance claim."""
 import argparse
+import sys
 import copy
 import json
 import hashlib
@@ -86,6 +87,10 @@ def check_complete_semantics(value):
             child = parents[child]
     assert value['selection_sha256'] == digest(value)
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
+from sbc_tools.observation_sets import observation_set_bytes
+for value in (complete,unavailable):
+    observation_set_bytes(value['observation'])
 check_complete_semantics(complete['observation'])
 semantic_negative = []
 for mutation in ('digest','false_match','missing_root','duplicate_id','missing_edge','unknown_parent','duplicate_edge','unsorted'):

@@ -1,6 +1,6 @@
 # SBCT-01 observation wire approval review
 
-**Status:** READY FOR OWNER REVIEW — no approval inferred.
+**Status:** APPROVED — Ira Abbott, 2026-09-23.
 **Date:** 2026-09-23
 **Target:** SBCT-01-OBSERVATIONS 0.1.2, proposed SBCT-01 amendment.
 
@@ -51,3 +51,10 @@ Owner approval would authorize the wire amendment and its implementation under
 SBCT-01. It would not ratify SBCT-05 Interlock, update gitlinks, clear work-in-progress
 conditions, close runtime gates, or authorize a release tag. Indexing helpers for
 surfacing and reconciling these observations remain future implementation work.
+
+## Owner decision
+
+The owner accepted the recommendation with "proceed as recomended". All three
+wire decisions are approved and incorporated by SBCT-01 0.9.0. Runtime gates
+and release approval remain separate. The review evidence records the preapproval
+artifact hashes; it is retained unchanged.

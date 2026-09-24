@@ -8,12 +8,12 @@
 |---|---|
 | Family/prefix | `sbc-tools` / `SBCT` |
 | Authoring home | `docs/sbc-tools/` in `SoftOboros/sbc`; package in `tools/` |
-| Ratified artifacts | SBCT-00 0.4.2, SBCT-01 0.8.0, SBCT-02 0.6.2 |
+| Ratified artifacts | SBCT-00 0.4.2, SBCT-01 0.9.0, SBCT-02 0.6.2 |
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | 98 core and 110 Git/provenance tests; 15 schema envelopes; installed committed/working-tree console proof |
-| Next work | Owner review of observation wire packet 0.1.2; boundaries and nested context accepted |
+| Latest execution | 105 core tests; prior 110 Git/provenance tests, 15 schema envelopes and installed console proof |
+| Next work | Implement approved observation wire packet 0.1.2 and reconcile acceptance |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -51,3 +51,5 @@ helpers, preserving recorded pin and observed HEAD. See the owner disposition in
 [the observation contract](SBCT-01-SUBMODULE-OBSERVATIONS.md).
 
 [Observation wire approval packet](SBCT-01-OBSERVATION-WIRE-REVIEW.md) is ready for owner review; no wire approval or runtime acceptance is inferred.
+
+Observation wire packet 0.1.2 is approved by the owner and incorporated in SBCT-01 0.9.0. Earlier pending-review notes are historical. Runtime acceptance remains open.

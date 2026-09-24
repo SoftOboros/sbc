@@ -166,3 +166,18 @@ capture is a bounded two-pass observation, not atomic filesystem isolation.
 Historical pending-CLI statements above are superseded for this supported subset.
 See [CLI execution evidence](evidence/sbct-01-working-cli-execution.json).
 Runtime acceptance gates remain open for final witness reconciliation.
+
+
+## Approved observation-set validation — 2026-09-23
+
+The owner approved the wire review recommendation, incorporated by SBCT-01 0.9.0.
+`observation_sets.py` now builds canonical observation-set bytes and validates
+closed fields, identities, sorted ownership, rooted acyclic relations, pin matches,
+immediate-parent observed-HEAD context, blocked descendants and selection digests.
+Seven new tests pass within 105 core tests; the runtime validator also accepts
+the complete and unavailable contract examples. See
+[execution evidence](evidence/sbct-01-observation-set-execution.json).
+
+Validation operates on supplied metadata; Git truth, capture stability and host
+authorization remain separate obligations. Multi-repository capture and version-2
+CLI emission are not yet implemented. No runtime gate is closed.

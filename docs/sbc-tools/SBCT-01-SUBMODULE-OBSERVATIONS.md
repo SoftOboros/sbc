@@ -2,7 +2,7 @@
 
 **Document ID:** SBCT-01-OBSERVATIONS
 **Revision:** 0.1.2
-**Status:** DRAFT wire contract; first-version boundaries and nested observation context accepted by the owner.
+**Status:** APPROVED — Ira Abbott, 2026-09-23; incorporated by SBCT-01 0.9.0.
 **Date:** 2026-09-23
 
 ## Authority and scope
@@ -14,10 +14,10 @@ required participant is unavailable. This records that approval without treating
 this newly authored wire format as ratified. SBCT-01 remains 0.8.0; runtime gates
 remain open. Interlock governance and cross-repository writes remain deferred.
 
-## Proposed wire boundary
+## Approved wire boundary
 
 Keep the existing version-1 CLI envelope and its committed `dependencies` unchanged.
-Propose CLI envelope version 2 for multi-repository working-tree commands: retain
+Use CLI envelope version 2 for multi-repository working-tree commands: retain
 the version-1 fields, change `schema_version` to 2, and add required `observation`.
 It contains the separately versioned [observation set](contracts/observation-set.schema.json),
 or null if configuration/authority failure prevents an observation. Version-2
@@ -150,7 +150,7 @@ Future indexing helpers should surface the recorded pin, observed HEAD and
 owning relation together so users can inspect and reconcile the work in progress.
 This is follow-up work, not a claim that those helpers currently implement it.
 It adds no new frozen SBC status, automatic clearance rule or permission to update
-a gitlink. Exact wire framing remains draft; runtime acceptance remains open.
+a gitlink. Exact wire framing was subsequently approved below; runtime acceptance remains open.
 
 
 ## Gate preparation — revision 0.1.2
@@ -161,3 +161,13 @@ an unavailable ancestor from checkouts actually observed missing, and makes loca
 dirty-state scope explicit. The existing accepted recursion/WIP decision is retained.
 Approval of this packet would authorize the exact wire extension, not runtime
 acceptance, an Interlock governance model, or automatic gitlink reconciliation.
+
+
+## Wire amendment approval — 2026-09-23
+
+The owner instructed "proceed as recomended" in response to the wire approval
+packet's recommendation. This approves revision 0.1.2's dirty-state scope,
+observation identity and version-2 framing, including blocked descendants and
+aggregate failure on unavailable required evidence. SBCT-01 0.9.0 incorporates
+this extension. Implementation is authorized; runtime gates remain open.
+Historical draft/review wording above describes preparation before this approval.
