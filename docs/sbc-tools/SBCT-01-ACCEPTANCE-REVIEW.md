@@ -181,3 +181,19 @@ the complete and unavailable contract examples. See
 Validation operates on supplied metadata; Git truth, capture stability and host
 authorization remain separate obligations. Multi-repository capture and version-2
 CLI emission are not yet implemented. No runtime gate is closed.
+
+## Observed relationship collector — 2026-09-24
+
+`observed_mounts.py` implements the approved relationship-context slice using
+host-supplied readers and explicit mount/source selections. It retains the root
+reference baseline separately from observed HEAD, follows immediate-parent
+observed HEAD for nested relations, and preserves outer pin mismatches. Missing
+checkouts and unavailable required pinned history block descendants without
+accessing their readers. Unregistered included gitlinks and invalid mappings
+reject; excluded participants are not inspected.
+
+Eight new real-Git tests cover ordering, divergence, unavailable evidence,
+baseline separation, invalid registration and excluded readers. This collector
+does not establish physical mount ownership, checkout dirtiness, captured bytes,
+aggregate stability or publication. Those remain host/capture integration work;
+the CLI still rejects multi-repository observations. No runtime gate is closed.

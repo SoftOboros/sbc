@@ -2,7 +2,7 @@
 
 **Document ID:** SBCT-AGENTS
 **Owner:** Ira Abbott
-**Current state:** 2026-09-23, informative implementation record.
+**Current state:** 2026-09-24, informative implementation record.
 
 | State | Value |
 |---|---|
@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | 105 core tests; prior 110 Git/provenance tests, 15 schema envelopes and installed console proof |
-| Next work | Implement approved observation wire packet 0.1.2 and reconcile acceptance |
+| Latest execution | 105 core tests and 118 Git/provenance tests; prior 15 schema envelopes and installed console proof |
+| Next work | Integrate observed relationship collector with physical ownership, local dirty-state observation and aggregate capture, then version-2 CLI |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -53,3 +53,7 @@ helpers, preserving recorded pin and observed HEAD. See the owner disposition in
 [Observation wire approval packet](SBCT-01-OBSERVATION-WIRE-REVIEW.md) is ready for owner review; no wire approval or runtime acceptance is inferred.
 
 Observation wire packet 0.1.2 is approved by the owner and incorporated in SBCT-01 0.9.0. Earlier pending-review notes are historical. Runtime acceptance remains open.
+
+The dev30 relationship collector implements explicit topology, recorded pins,
+observed HEAD context and unavailable/blocked participants. This is an internal
+context layer, not a complete observation set or multi-repository CLI support.
