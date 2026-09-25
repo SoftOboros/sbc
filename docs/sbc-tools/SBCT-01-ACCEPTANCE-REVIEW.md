@@ -4,7 +4,7 @@
 **Status:** Informative review; runtime gates remain open.
 **Reviewed revision:** `3317d112bdd44a7b7f127c61fb639104ba049e9c`.
 
-**Latest bounded review:** [Installed mounted observations, 2026-09-25](SBCT-01-MOUNTED-ACCEPTANCE-REVIEW.md).
+**Latest bounded review:** [Command boundaries and golden-profile reconciliation, 2026-09-25](SBCT-01-BOUNDARY-AND-PROFILE-REVIEW.md).
 Earlier tables and follow-ups below retain their historical evidence context.
 
 ## Recommendation
@@ -342,3 +342,24 @@ suite counts are retained evidence, not rerun claims for this verifier-only revi
 The [bounded review](SBCT-01-MOUNTED-ACCEPTANCE-REVIEW.md) recommends completing
 the command-level path-boundary witness matrix and final profile/golden reconciliation
 before an explicit gate recommendation. No runtime gate or release is closed.
+
+## Command boundaries and golden reconciliation — 2026-09-25
+
+The [current review](SBCT-01-BOUNDARY-AND-PROFILE-REVIEW.md) records 60 injected
+symlink/reparse and six escaping-scope cases across committed/single/mounted
+scan/check. Guarded reads/resolution/descendant metadata remain untouched and
+complete fixture file snapshots remain unchanged on rejection. A native symlink
+test was skipped after filesystem creation failed; native coverage is not claimed.
+
+The core suite passes 111 tests. The provider suite runs 164 tests, with 163
+passing and that one explicit skip. Pinned source regeneration passes five
+reference cases, nine full triple comparisons, five wire vectors, per-document
+fixtures, parser/location extraction and all 46 validator/helper extractions.
+Runtime and generated source remain unchanged; see
+[execution evidence](evidence/sbct-01-boundary-profile-execution.json).
+
+The reviewed profile boundary separates `sidx-schema3-location1` authority roles,
+`c6-v3` new projection validation and SBCT-02 query compatibility. Historical
+serialization rejection evidence is preserved. No new producer semantic difference
+was found within the bounded cases. Remaining native-link/platform/public-source
+limits must accompany a consolidated gate recommendation; all gates remain open.

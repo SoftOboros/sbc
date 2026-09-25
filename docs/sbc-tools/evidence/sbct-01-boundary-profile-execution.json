@@ -1,0 +1,142 @@
+{
+  "date": "2026-09-25",
+  "runtime_revision": "9d666f43efe6ffab4c478a97ba199077e611d7de",
+  "runtime_version": "0.1.0.dev34",
+  "result": "bounded checks passed; native symlink witness skipped",
+  "tests": {
+    "core_passed": 111,
+    "provider_run": 164,
+    "provider_passed": 163,
+    "provider_skipped": 1,
+    "native_symlink_skip": "Native directory symlink unavailable: 22",
+    "command_link_reparse_cases": 60,
+    "command_escape_cases": 6,
+    "injected_metadata": true,
+    "guarded_operations": [
+      "file open",
+      "link resolution",
+      "descendant metadata"
+    ],
+    "mutation_comparison": "Exact fixture file bytes including host, source, Git metadata and output"
+  },
+  "profile": {
+    "authority_manifest": "sidx-schema3-location1",
+    "new_projection_validation": "c6-v3",
+    "source_commit": "751ffe62027a3030bc989d22f5c2f759234064dc",
+    "query_profile_acceptance_claimed": false
+  },
+  "golden_checks": {
+    "parser_extraction": "exact reproduction",
+    "validator_extraction_functions": 46,
+    "wire_vectors": 5,
+    "document_vectors": 6,
+    "projection_comparison": {
+      "exact_reference_cases": [
+        "empty",
+        "stable",
+        "checked",
+        "malformed_gate",
+        "duplicate_invariant",
+        "cross_family",
+        "historical_cross_family",
+        "archived_and_active",
+        "declared_archive_and_lifecycle"
+      ],
+      "audit": "File, process and network access blocked during all pure builds",
+      "standalone_layout": "passed"
+    },
+    "full_reference_regeneration": {
+      "scope": "Full pinned reference producer on committed fixture bytes; temporary files only",
+      "cases": [
+        {
+          "case": "empty",
+          "source_commit": "8f3c92ba03090791ad4cff8c6cc4cb82144603e9",
+          "files": 3,
+          "status": "exact match",
+          "location_diagnostics": 0,
+          "sha256": {
+            "diagnostics/_manifest.json": "50e6b60eb33dd589d0adb0a9038952b665967f052ff63d9f8a5f65ec8deeb8ad",
+            "index/_manifest.json": "97dd13f95e7599c9d7689be3cd3f4acf9e6732fa2578189d5f5e8f96ae456500",
+            "locations/_manifest.json": "131bd8c94464ec51a8bdf0a95c841e46c74573b1aa593002c3ecf727cb9e43e7"
+          }
+        },
+        {
+          "case": "stable",
+          "source_commit": "e7b720d4a5190845eb1aba073499a9b2f49b2205",
+          "files": 6,
+          "status": "exact match",
+          "location_diagnostics": 0,
+          "sha256": {
+            "diagnostics/_manifest.json": "09822f005d5f22a266c9e24ce61b5b089863282496263388e62e8eed4edf7e36",
+            "diagnostics/vectors.json": "0a1715801b4e68d935c97275a693fd0c61f63a2eb7e25635ff4f08e7d0b7c05a",
+            "index/_manifest.json": "a2907470483e24f78adcf151e786fd7208659cb9dd4bd449ec369d753f913012",
+            "index/vectors.json": "60a20dbc4baa046c19c632ec89495089242112e09dbb25374bcf6cda0e0c7674",
+            "locations/_manifest.json": "526a47ad10cde6789bf8f20365ad32756010da12366ad0634552e307f4ff1ff9",
+            "locations/vectors.json": "a02e4b31f23affa948c32a188a703da26be49921fb541c337e016b0840fcf423"
+          }
+        },
+        {
+          "case": "checked",
+          "source_commit": "79fb6747572e3eb4487b23003b8c73bfa94a70ba",
+          "files": 6,
+          "status": "exact match",
+          "location_diagnostics": 0,
+          "sha256": {
+            "diagnostics/_manifest.json": "09822f005d5f22a266c9e24ce61b5b089863282496263388e62e8eed4edf7e36",
+            "diagnostics/vectors.json": "0a1715801b4e68d935c97275a693fd0c61f63a2eb7e25635ff4f08e7d0b7c05a",
+            "index/_manifest.json": "a2907470483e24f78adcf151e786fd7208659cb9dd4bd449ec369d753f913012",
+            "index/vectors.json": "8e1a747a4897d2ddc63568a694d64d33389eedb5322a7f04a69f6aabdce35df5",
+            "locations/_manifest.json": "526a47ad10cde6789bf8f20365ad32756010da12366ad0634552e307f4ff1ff9",
+            "locations/vectors.json": "a02e4b31f23affa948c32a188a703da26be49921fb541c337e016b0840fcf423"
+          }
+        },
+        {
+          "case": "malformed_gate",
+          "source_commit": "cad3c971f63d57bde19c4fc989959e63608245a6",
+          "files": 6,
+          "status": "exact match",
+          "location_diagnostics": 0,
+          "sha256": {
+            "diagnostics/_manifest.json": "35cad460ebb88c27d9d9729c24161256d071aa498b950d46863d916534496312",
+            "diagnostics/vectors.json": "000e76039b04c69dbb4b26d9b7aeef96d6500ec4f7bb6cc63c65eb07ff5d911e",
+            "index/_manifest.json": "cd9b801cac63566337de28fc113726daa4eb8a4d79d3730af986f212fa2052e2",
+            "index/vectors.json": "8057723baad3483e3ec2c2ccb1a20e0b8941162114434f5738ed9692badf14ed",
+            "locations/_manifest.json": "526a47ad10cde6789bf8f20365ad32756010da12366ad0634552e307f4ff1ff9",
+            "locations/vectors.json": "a02e4b31f23affa948c32a188a703da26be49921fb541c337e016b0840fcf423"
+          }
+        },
+        {
+          "case": "duplicate_invariant",
+          "source_commit": "24afd5240baf46bbdaf50f5f1881dcba8d91da58",
+          "files": 6,
+          "status": "exact match",
+          "location_diagnostics": 0,
+          "sha256": {
+            "diagnostics/_manifest.json": "dbb59e6fc242c1cd6caf5827f737e672916df9f395430d3041c095e94132518f",
+            "diagnostics/vectors.json": "72f45e84013d203166663b40144696e8aabb38c1990c25d1c91f3fc94b468d9c",
+            "index/_manifest.json": "6a23836075f598eed06826301ecb620b87ef6263968a6b6efe23b69eb541ecea",
+            "index/vectors.json": "6b46d69d4955ebb6091a8baae71bf741f032d2ebab26aee4978ae43aa03e4c87",
+            "locations/_manifest.json": "223ad9d709c7d146221432484b05f80c20ad162715a471b381502c9771abdb1d",
+            "locations/vectors.json": "640758a132bf314f29d51dffa18a7e8c369a19e308280c1606ae5c297b5c1893"
+          }
+        }
+      ]
+    }
+  },
+  "sha256": {
+    "tools/tests_git/test_cli_path_boundaries.py": "71113fe0d486e790105e539b8cfb228a6ae779a12163a9dc95eb3dae8b50a45f",
+    "tools/src/sbc_tools/_producer_parser.py": "6c787f193c65840df06b5ce4e0fc459e4fb0c838248b57b5e064a0e3f70486ef",
+    "tools/src/sbc_tools/_producer_locations.py": "b44fe002d6ad1794452992147dcbab87874ad6ce13cd868bcae43aed1cfdbcb9",
+    "tools/src/sbc_tools/_sidx_validation.py": "eec2160708cc05e49e6244c7a287e247192379e622c6a5abe7a46de63049acdf",
+    "tools/tests/fixtures/producer-source-vectors.json": "30a7b86f4fdcecf83f1f5e0fd7b29e5626ec3d304acb2ec5bfc2f548c3290236",
+    "tools/tests/fixtures/projection-vectors.json": "8322e469b79cda74dc3daf75fc10ce4d4ac5cc27133883a6c802dba364a0fddc",
+    "tools/tests/fixtures/projection-wire-vectors.json": "78794a7d883892c103e71465927502b58531baa7a0f1a095014997fb47d2317c",
+    "tools/tests/fixtures/document-parser-vectors.json": "a2a10afdb2f3c833bfcc4213672dc2fa9cb2a4d964bd8354a0f731e7e3e29a65"
+  },
+  "limitations": [
+    "Native symlink creation failed in this environment; no native junction proof",
+    "Platform installation evidence remains Windows/Python 3.14.6",
+    "Local pinned objects were verified; public retrieval was not tested",
+    "No runtime source change, gate closure, production host approval or release"
+  ]
+}

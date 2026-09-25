@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | Installed dev34 Windows/Python 3.14.6 proof, nine mounted launcher/module envelopes; 30 runtime modules audited; prior 111 core and 161 provider tests |
-| Next work | Command-level path-boundary witness matrix, then final profile/golden reconciliation and explicit gate recommendation |
+| Latest execution | 111 core tests; 163 provider passes and one native-symlink skip; 66 command boundary cases; nine exact producer comparisons; prior installed dev34 proof |
+| Next work | Consolidated gate decision packet with bounded witnesses and remaining native-link/platform requirements |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -86,3 +86,8 @@ Dev34 runtime source is unchanged by that review. Its distribution verifier now
 covers mounted repeat/drift, missing/blocked evidence and retained publication.
 Windows/Python 3.14.6 remains the executed installation boundary; other platform
 and Python combinations are not established by this evidence.
+
+The [boundary/profile reconciliation](SBCT-01-BOUNDARY-AND-PROFILE-REVIEW.md)
+records 60 injected link/reparse and six escaping-scope command cases, exact
+pinned regeneration, and the remaining native-link/platform limits. Runtime
+source remains dev34. No gate, exception or new compatibility profile is approved.
