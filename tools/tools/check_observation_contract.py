@@ -109,6 +109,13 @@ for item in semantic_negative:
     try: check_complete_semantics(item)
     except AssertionError: pass
     else: raise AssertionError('Semantic negative accepted')
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
+from test_mounted_observations import mounted_samples
+from sbc_tools.observations import check_observation
+runtime = mounted_samples()
+for changes in ({}, {'reference_files': None}):
+    validator.validate(check_observation(**dict(runtime, **changes)))
 print(json.dumps({'draft_schema_positive_cases':3,'draft_schema_negative_cases':len(negative),
     'complete_semantic_positive_cases':1,'complete_semantic_negative_cases':len(semantic_negative),
-    'scope':'Developer contract checks; filesystem capture, temporal stability and runtime cases not executed'},indent=2))
+    'runtime_comparison_envelopes':2,
+    'scope':'Developer contract and data-only runtime comparison checks; no filesystem or CLI execution'},indent=2))

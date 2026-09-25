@@ -255,3 +255,32 @@ remain pending for mounted observations. The unavailable exception is an interna
 context carrier, not yet a complete unavailable wire envelope. Whole-checkout
 unknown state remains fail-closed, including additional gitlinks for which no child
 evidence is supplied. This record does not close runtime acceptance gates.
+
+## Mounted generation and version-2 comparison — 2026-09-25
+
+Dev33 connects mounted capture to the existing authority-verified producer through
+one shared captured-input generation function. Exact configuration/profile bytes,
+approved authority-manifest digest and support-patch results are verified before
+the producer runs. Registered child locations must match configured mounts.
+The returned projection is immutable observation data, with no publication or
+committed admission.
+
+The data-only comparison API now accepts complete observation sets, validates
+their root and participant ownership, and checks every participant corpus hash
+against the supplied records before emitting version 2. Foreign records, missing
+records, changed hashes, duplicate corpus identities, incomplete sets and modified
+selection digests reject. Version-1 single-source behavior remains unchanged.
+A missing comparison reference preserves complete captured observation evidence
+and candidate selection while returning unavailable. Context identity remains
+separate from content-derived projection identity.
+
+Five new core cases and five real-Git generation cases pass within 110 core and
+146 provider tests. Two runtime comparison envelopes pass the approved version-2
+schema in the developer contract checker, alongside its existing positive and
+negative contract cases. Provider checks use audited pure wheels with process
+and network calls rejected. No installed-console proof is claimed for dev33.
+
+The explicit console host still rejects mounted working-tree configuration.
+Its eager reader opening and strict existing-path loading need reconciliation
+with unavailable/blocked participant reporting before CLI integration. Incomplete
+observation error framing is still pending. No runtime acceptance gate is closed.

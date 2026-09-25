@@ -100,7 +100,7 @@ def capture_working_tree(configuration, *, required_files):
 
 @dataclass(frozen=True)
 class ObservedProjection:
-    corpus: ObservedCorpus
+    corpus: object
     authority_sha256: str
     files: object
     location_diagnostics: bytes
@@ -117,13 +117,7 @@ def generate_working_tree(registration, *, authority_readers):
     Returned data does not contain VerifiedProvenance or committed admission.
     All authority objects must already exist in the supplied offline readers.
     """
-    from .authority import verify_authority_inputs
-    from .canonical import canonical_json
     from .configuration import validate_configuration
-    from .patches import verify_support_patch
-    from .projections import build_configured_projection
-    from .validation import BundleValidator
-    from .provenance import AuthorityValidationError
     configured = validate_configuration(registration.config_bytes,
         config_directory=registration.configuration_file.parent,
         registered_repositories=registration.source_repositories)
@@ -131,6 +125,17 @@ def generate_working_tree(registration, *, authority_readers):
         raise ValueError('Registered repository identity mismatch')
     captured = capture_working_tree(configured,required_files=(registration.config_path,
         registration.profile_path,registration.patch_path,*registration.evidence_paths))
+    return _generate_captured_working_tree(registration, configured, captured, authority_readers)
+
+
+def _generate_captured_working_tree(registration, configured, captured, authority_readers):
+    """One authority and producer path for single and mounted observations."""
+    from .authority import verify_authority_inputs
+    from .canonical import canonical_json
+    from .patches import verify_support_patch
+    from .projections import build_configured_projection
+    from .validation import BundleValidator
+    from .provenance import AuthorityValidationError
     if captured.files[registration.config_path] != registration.config_bytes:
         raise ValueError('Captured configuration differs from registered bytes')
     if hashlib.sha256(captured.files[registration.profile_path]).hexdigest() != registration.profile_sha256:

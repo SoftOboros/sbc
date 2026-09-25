@@ -18,10 +18,12 @@ from .cli_results import failure_envelope
 
 def check_observation(*, repository_id, corpus_records, authority_sha256,
                       candidate_files, reference_files, validator,
-                      location_diagnostics=()):
+                      location_diagnostics=(), observation_set=None):
     """Validate and compare supplied bytes with null committed identities.
 
-    Single-repository observations only. Hosts must enforce authority, complete
+    Mounted observations require a complete validated observation set whose
+    per-participant corpus hashes match the supplied records. Without that set,
+    only single-repository records are accepted. Hosts must enforce authority, complete
     capture and scope before calling; passing a digest never establishes approval.
     None or invalid reference bytes mean unavailable, never ordinary drift.
     Candidate validation failures propagate to the host for safe classification.
@@ -32,8 +34,26 @@ def check_observation(*, repository_id, corpus_records, authority_sha256,
     if not isinstance(authority_sha256,str) or not re.fullmatch('[0-9a-f]{64}',authority_sha256):
         raise ValueError('Invalid authority digest')
     records = tuple(corpus_records)
-    if any(r.repository_id != repository_id for r in records):
-        raise ValueError('Single-repository observation required')
+    observation = None
+    if observation_set is None:
+        if any(r.repository_id != repository_id for r in records):
+            raise ValueError('Single-repository observation required')
+    else:
+        from .observation_sets import observation_set_bytes
+        observation = json.loads(observation_set_bytes(observation_set))
+        if not observation['complete'] or observation['root_repository_id'] != repository_id:
+            raise ValueError('Complete observation for the selected root required')
+        participants = {p['repository_id']: p for p in observation['participants']}
+        if any(r.repository_id not in participants for r in records):
+            raise ValueError('Unobserved corpus owner')
+        for owner, participant in participants.items():
+            if corpus_digest(r for r in records if r.repository_id == owner) != participant['corpus_sha256']:
+                raise ValueError('Participant corpus hash mismatch')
+
+    def envelope(result):
+        if observation is not None:
+            result.update(schema_version=2, observation=observation)
+        return result
     # Copy inputs before validation; no caller mutation can alter the result.
     files = validator.validate_files(copy_files(candidate_files))
     corpus = corpus_digest(records)
@@ -55,10 +75,10 @@ def check_observation(*, repository_id, corpus_records, authority_sha256,
     except (ValueError,KeyError,TypeError,IngestError):
         result = failure_envelope('evidence_unavailable',command='check',mode='working-tree')
         result.update(selection=selection,findings=findings)
-        return result
+        return envelope(result)
     different = dict(files) != dict(reference)
     code = int(bool(different or findings))
-    return dict(schema_version=1,command='check',mode='working-tree',
+    return envelope(dict(schema_version=1,command='check',mode='working-tree',
                 status='findings' if code else 'ok',exit_code=code,selection=selection,
                 findings=findings,error=None,result=dict(publication='not_written',
-                    comparison='different' if different else 'equal',files=hashes))
+                    comparison='different' if different else 'equal',files=hashes)))

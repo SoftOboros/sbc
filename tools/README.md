@@ -485,3 +485,22 @@ or implement version-2 CLI envelopes. A selected participant whose whole-checkou
 state cannot be established (including additional gitlinks without child evidence)
 remains unavailable; this slice adds no scoped-clean exemption. The existing CLI
 still rejects submodule working-tree configurations.
+
+### Mounted generation and comparison (0.1.0.dev33)
+
+`generate_mounted_working_tree` now feeds captured mounted bytes through the
+same configuration/profile/authority/patch checks and semantic producer as
+single-repository generation. It returns validated projection files without
+publishing or claiming committed provenance. Explicit child registration paths
+must match their configured mounts.
+
+`check_observation` accepts an optional complete observation set and returns a
+version-2 comparison result after validating root identity, participant membership
+and every participant's corpus hash against supplied records. Without that set,
+it keeps version-1 single-repository behavior. Complete captures with unavailable
+comparison references retain their observation and selection while reporting an
+error. Incomplete captures are rejected by this comparison API.
+
+Console integration, missing-participant host loading and incomplete observation
+error framing remain pending. The console still rejects mounted working-tree
+configuration; these internal APIs do not imply runtime gate acceptance.

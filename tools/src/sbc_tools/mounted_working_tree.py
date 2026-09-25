@@ -133,3 +133,37 @@ def capture_mounted_working_tree(*, repository_id, repository_root, root_ref,
     observation = build_observation_set(root_repository_id=repository_id, participants=rows,
         relations=[asdict(r) for r in context.relations], complete=True)
     return MountedWorkingCorpus(records, MappingProxyType(first), observation)
+
+
+def generate_mounted_working_tree(registration, *, source_readers, authority_readers):
+    """Generate validated observation projections from explicit registered mounts.
+
+    Uses the same authority checks and semantic producer as single-repository
+    generation. It does not publish or claim committed provenance.
+    """
+    from .configuration import validate_configuration
+    from .working_tree import _generate_captured_working_tree
+    configured = validate_configuration(registration.config_bytes,
+        config_directory=registration.configuration_file.parent,
+        registered_repositories=registration.source_repositories)
+    value = configured.values
+    if (value['repository_id'] != registration.repository_id or value['mode'] != 'working-tree'
+            or not value['submodules']):
+        raise ValueError('Registered mounted working-tree configuration required')
+    required = (registration.config_path, registration.profile_path, registration.patch_path,
+                *registration.evidence_paths, value['authority_manifest'], *value['registry_paths'])
+    scopes = (*value['source_roots'], *required)
+    selected = {registration.repository_id}
+    for path, owner in value['submodules']:
+        if (any(_within(path, e) for e in value['exclude'])
+                or not any(_within(path, s) or _within(s, path) for s in scopes)):
+            continue
+        if registration.source_repositories[owner] != configured.repository_root / path:
+            raise ValueError('Registered child location differs from configured mount')
+        selected.add(owner)
+    captured = capture_mounted_working_tree(repository_id=registration.repository_id,
+        repository_root=configured.repository_root, root_ref=value['tracked_ref'],
+        readers={owner: source_readers[owner] for owner in selected if owner in source_readers},
+        mounts=value['submodules'], source_roots=value['source_roots'],
+        required_files=tuple(sorted(set(required))), exclude=value['exclude'])
+    return _generate_captured_working_tree(registration, configured, captured, authority_readers)

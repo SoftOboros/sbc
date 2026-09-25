@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | 105 core tests and 141 Git/provenance tests; prior 15 schema envelopes and installed console proof |
-| Next work | Connect mounted capture to authority-verified generation and version-2 CLI, including unavailable-result framing |
+| Latest execution | 110 core tests and 146 Git/provenance tests; two runtime v2 comparisons pass schema checks; prior installed console proof |
+| Next work | Integrate mounted generation/comparison with CLI host loading and incomplete-observation error framing |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -67,3 +67,7 @@ Dev32 integrates the internal mounted capture path and emits validated complete
 observation-set metadata with immutable captured bytes. Failures produce no
 corpus and retain relationship context. Host/generation/CLI integration and
 unavailable version-2 envelope framing remain pending; no gate is closed.
+
+Dev33 adds authority-verified mounted generation through the shared producer and
+data-only version-2 comparison with participant corpus-hash binding. Console host
+integration and missing-participant/incomplete-observation results remain pending.
