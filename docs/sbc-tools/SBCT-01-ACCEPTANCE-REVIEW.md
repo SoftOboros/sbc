@@ -197,3 +197,31 @@ baseline separation, invalid registration and excluded readers. This collector
 does not establish physical mount ownership, checkout dirtiness, captured bytes,
 aggregate stability or publication. Those remain host/capture integration work;
 the CLI still rejects multi-repository observations. No runtime gate is closed.
+
+## Physical ownership and local checkout observation — 2026-09-25
+
+`local_checkout.py` verifies an explicitly supplied checkout location, inspecting
+path components before resolving them or reading child HEADs. Identical Git
+objects in another checkout do not establish mount ownership. Symlinks/reparse
+points, missing boundary evidence and unsupported local evidence yield unknown.
+
+Local checkout checks compare index membership/modes/objects and whole-checkout
+file bytes against observed HEAD. Registered child mounts are traversal boundaries:
+child HEAD mismatch makes the immediate parent dirty, but dirty child interiors
+do not propagate. Untracked files (including ignored files), deletions and staged
+changes conservatively count as dirty. Two equal passes retain an internal
+evidence digest over local files, index and HEAD context; detected changes reject
+the observation even when both passes would independently report dirty.
+
+Eleven new provider tests pass within 129 Git/provenance tests; 105 core tests
+also pass. The provider run uses the audited pure wheels and rejects process and
+network calls. Tests cover parent/child dirtiness boundaries, wrong physical
+ownership, simulated reparse components, unregistered nested checkouts and
+content/ref/index changes. Existing committed recursive-clean behavior remains
+unchanged. This is bounded change detection, not filesystem isolation.
+
+These internal primitives still require integration with explicit host
+registration, relationship collection, aggregate corpus capture and version-2
+CLI emission. Their internal evidence digest is not a corpus/selection identity.
+No runtime acceptance gate is closed and no release or installed-console proof
+is claimed for dev31.

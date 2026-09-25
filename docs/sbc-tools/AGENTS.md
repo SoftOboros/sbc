@@ -2,7 +2,7 @@
 
 **Document ID:** SBCT-AGENTS
 **Owner:** Ira Abbott
-**Current state:** 2026-09-24, informative implementation record.
+**Current state:** 2026-09-25, informative implementation record.
 
 | State | Value |
 |---|---|
@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | 105 core tests and 118 Git/provenance tests; prior 15 schema envelopes and installed console proof |
-| Next work | Integrate observed relationship collector with physical ownership, local dirty-state observation and aggregate capture, then version-2 CLI |
+| Latest execution | 105 core tests and 129 Git/provenance tests; prior 15 schema envelopes and installed console proof |
+| Next work | Integrate relationship context, physical ownership and local checkout primitives with aggregate capture, then version-2 CLI |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -57,3 +57,8 @@ Observation wire packet 0.1.2 is approved by the owner and incorporated in SBCT-
 The dev30 relationship collector implements explicit topology, recorded pins,
 observed HEAD context and unavailable/blocked participants. This is an internal
 context layer, not a complete observation set or multi-repository CLI support.
+
+Dev31 adds physical checkout-location verification and local dirty-state
+observation. Dirty child interiors do not propagate to parents; child HEAD
+mismatches do. Unknown evidence stays distinct from dirty state. Aggregate
+capture and CLI integration remain pending; acceptance gates remain open.

@@ -459,3 +459,12 @@ This local capability is not runtime gate closure or production acceptance.
 boundary: canonical bytes, context digest, rooted repository ownership, pin-state
 consistency and explicit blocked descendants. It does not inspect Git or authorize
 participants. Submodule capture and CLI version-2 emission remain pending.
+
+`local_checkout` supplies internal physical mount verification and local checkout
+observations. An explicit expected checkout path is required; linked components,
+wrong reader locations and unavailable child boundary evidence return unknown.
+Registered child interiors are not traversed. Their HEAD mismatches make the
+immediate parent dirty, while their internal dirtiness remains on the child.
+Two passes compare file, index and HEAD evidence, including dirty content. This
+is bounded change detection, not atomic filesystem isolation. These primitives
+are not yet wired into aggregate submodule capture or the CLI.
