@@ -65,7 +65,7 @@ class ResolvedConfiguration:
     values: object
 
 
-def validate_configuration(raw, *, config_directory, registered_repositories):
+def validate_configuration(raw, *, config_directory, registered_repositories, allow_missing_mount_inputs=False):
     """Validate explicit TOML and containment against host repository mappings.
 
     This does not resolve refs, establish Git tracking, validate child gitlinks
@@ -87,6 +87,14 @@ def validate_configuration(raw, *, config_directory, registered_repositories):
         raise ValueError("Repository root does not match registered identity")
     roots, excluded, registry = (_paths(value[k]) for k in ("source_roots", "exclude", "registry_paths"))
     output, authority = _path(value["output_root"]), _path(value["authority_manifest"])
+    deferred_mounts = ()
+    if allow_missing_mount_inputs:
+        if value['mode'] != 'working-tree' or not isinstance(value['submodules'], list):
+            raise ValueError('Deferred mount inputs require working-tree configuration')
+        # Structural/registration checks below still apply. Only input existence
+        # below explicit mounts is deferred to ordered relationship acquisition.
+        deferred_mounts = tuple(_path(m['path']) for m in value['submodules']
+                                if isinstance(m, dict) and 'path' in m)
     if not roots or any(_overlap(a, b) for a in roots for b in roots if a != b):
         raise ValueError("Source roots must be nonempty and nonoverlapping")
     if any(_overlap(output, p) for p in (*roots, *registry, authority)):
@@ -94,19 +102,23 @@ def validate_configuration(raw, *, config_directory, registered_repositories):
     if any(p == e or p.startswith(e + "/") for p in (*roots, *registry, authority) for e in excluded):
         raise ValueError("Exclusion hides required input")
     for path in (*roots, *excluded, *registry, output, authority):
+        deferred = any(path == mount or path.startswith(mount + '/') for mount in deferred_mounts)
+        if deferred and path != output:
+            continue
         _reject_linked_components(root, path)
         resolved = (root/path).resolve()
         if not resolved.is_relative_to(root):
             raise ValueError("Configured path escapes repository")
-        if path in roots and not resolved.is_dir():
+        if path in roots and not deferred and not resolved.is_dir():
             raise ValueError("Missing source directory")
-        if path in (*registry, authority) and not resolved.is_file():
+        if path in (*registry, authority) and not deferred and not resolved.is_file():
             raise ValueError("Missing required input file")
     resolved_output = (root/output).resolve()
     if resolved_output.exists() and not resolved_output.is_dir():
         raise ValueError("Output destination is not a directory")
     for path in (*roots, *registry, authority):
-        resolved_input = (root/path).resolve()
+        deferred = any(path == mount or path.startswith(mount + '/') for mount in deferred_mounts)
+        resolved_input = root/path if deferred else (root/path).resolve()
         if resolved_output.is_relative_to(resolved_input) or resolved_input.is_relative_to(resolved_output):
             raise ValueError("Resolved output overlaps authoritative input")
     if value["mode"] not in {"committed", "working-tree"}:

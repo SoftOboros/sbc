@@ -8,12 +8,12 @@
 |---|---|
 | Family/prefix | `sbc-tools` / `SBCT` |
 | Authoring home | `docs/sbc-tools/` in `SoftOboros/sbc`; package in `tools/` |
-| Ratified artifacts | SBCT-00 0.4.2, SBCT-01 0.9.0, SBCT-02 0.6.2 |
+| Ratified artifacts | SBCT-00 0.4.2, SBCT-01 0.9.1, SBCT-02 0.6.2 |
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
-| Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | 110 core tests and 146 Git/provenance tests; two runtime v2 comparisons pass schema checks; prior installed console proof |
-| Next work | Integrate mounted generation/comparison with CLI host loading and incomplete-observation error framing |
+| Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
+| Latest execution | 111 core tests and 161 Git/provenance tests; 12 mounted CLI envelopes pass schema checks; installed mounted launcher proof pending |
+| Next work | Installed mounted console proof and bounded acceptance review, then reconcile remaining runtime witnesses |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -71,3 +71,11 @@ unavailable version-2 envelope framing remain pending; no gate is closed.
 Dev33 adds authority-verified mounted generation through the shared producer and
 data-only version-2 comparison with participant corpus-hash binding. Console host
 integration and missing-participant/incomplete-observation results remain pending.
+
+Dev34 implements mounted working-tree scan/check through explicit host bindings.
+Registered source readers open lazily in relationship order; missing participants
+and blocked descendants produce incomplete v2 results with no publication. The
+owner approved known HEAD with unknown local evidence in incomplete observations
+in [the amendment review](SBCT-01-INCOMPLETE-OBSERVATION-REVIEW.md), incorporated
+by SBCT-01 0.9.1 / observation contract 0.1.3. Prior pending-CLI notes are historical.
+No runtime acceptance gate or release is approved by this implementation record.

@@ -6,6 +6,7 @@ import hashlib
 import json
 import re
 import stat
+import tomllib
 from pathlib import Path
 from types import MappingProxyType
 
@@ -14,6 +15,11 @@ from .cli_results import CommandFailure
 from .git_reader import GitCommitReader
 from .identity import copy_files
 from .provenance import CommittedProvenanceVerifier
+
+
+def _mounted_observation(raw):
+    value = tomllib.loads(raw.decode('utf-8'))
+    return value.get('mode') == 'working-tree' and bool(value.get('submodules'))
 
 
 def _regular_input(path):
@@ -61,7 +67,9 @@ def load_console_host(host_path, config_path):
             for key,location in value[name].items():
                 if not key or not isinstance(location,str) or not location or '://' in location or location.startswith('~'):
                     raise ValueError('Invalid local repository path')
-                paths[key] = (path.parent/location).resolve(strict=True)
+                # Keep source bindings literal until configuration determines
+                # whether missing mounted participants can be observed.
+                paths[key] = Path(os.path.abspath(path.parent/location))
             value[name] = paths
         if value['repository_id'] not in value['source_repositories']:
             raise ValueError('Root repository missing')
@@ -130,10 +138,15 @@ class HostRegistration:
 
     def __post_init__(self):
         copy_files({self.config_path:self.config_bytes})
+        mounted = _mounted_observation(self.config_bytes)
         for name in ('source_repositories','authority_repositories'):
-            paths = {key:Path(path).resolve(strict=True) for key,path in dict(getattr(self,name)).items()}
-            if any(not isinstance(key,str) or not key or not path.is_dir() for key,path in paths.items()):
-                raise ValueError('Invalid repository registration')
+            paths = {}
+            for key, location in dict(getattr(self,name)).items():
+                deferred = mounted and name == 'source_repositories' and key != self.repository_id
+                path = Path(os.path.abspath(location)) if deferred else Path(location).resolve(strict=True)
+                if not isinstance(key,str) or not key or (not deferred and not path.is_dir()):
+                    raise ValueError('Invalid repository registration')
+                paths[key] = path
             object.__setattr__(self,name,MappingProxyType(paths))
         if self.repository_id not in self.source_repositories:
             raise ValueError('Root repository is not registered')
@@ -181,6 +194,22 @@ class RegisteredHostLoader:
         if config_bytes != registration.config_bytes:
             raise CommandFailure('invalid_configuration')
         with ExitStack() as stack:
+            if _mounted_observation(registration.config_bytes):
+                from .configuration import validate_configuration
+                from .working_tree import WorkingTreeHost
+                from .registered_readers import RegisteredCheckoutReaders
+                try:
+                    configured = validate_configuration(registration.config_bytes,
+                        config_directory=registration.configuration_file.parent,
+                        registered_repositories=registration.source_repositories,
+                        allow_missing_mount_inputs=True)
+                except ValueError:
+                    raise CommandFailure('invalid_configuration', mounted_observation=True) from None
+                readers = RegisteredCheckoutReaders(registration.source_repositories, stack)
+                authority = {key: stack.enter_context(GitCommitReader(str(root)))
+                             for key, root in sorted(registration.authority_repositories.items())}
+                yield WorkingTreeHost(registration, readers, configured, authority)
+                return
             repositories = dict(registration.authority_repositories)
             repositories.update(registration.source_repositories)
             readers = {key:stack.enter_context(GitCommitReader(str(root)))

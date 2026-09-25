@@ -53,9 +53,12 @@ def observation_set_bytes(value):
         availability = row['availability']
         if availability == 'available':
             _hex(row['observed_head'],r'(?:[0-9a-f]{40}|[0-9a-f]{64})')
-            _hex(row['corpus_sha256'],r'[0-9a-f]{64}')
-            if row['checkout_state'] not in ('clean','dirty'):
+            if row['corpus_sha256'] is not None:
+                _hex(row['corpus_sha256'],r'[0-9a-f]{64}')
+            if row['checkout_state'] not in ('clean','dirty','unknown'):
                 raise ValueError('Available checkout state required')
+            if value['complete'] and (row['corpus_sha256'] is None or row['checkout_state'] == 'unknown'):
+                raise ValueError('Complete observation requires checkout and corpus evidence')
         elif availability in ('missing_checkout','unavailable_history','blocked_by_ancestor'):
             if row['observed_head'] is not None or row['corpus_sha256'] is not None or row['checkout_state'] != 'unknown':
                 raise ValueError('Unavailable participant cannot claim observed content')

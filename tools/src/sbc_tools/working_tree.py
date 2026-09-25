@@ -21,6 +21,10 @@ def _signature(value):
     return (value.st_dev,value.st_ino,value.st_mode,value.st_size,value.st_mtime_ns,value.st_ctime_ns)
 
 
+class WorkingTreeChangedError(ValueError):
+    """A selected file changed while acquiring observation bytes."""
+
+
 def _read_regular(path, expected):
     flags = os.O_RDONLY | getattr(os,'O_BINARY',0) | getattr(os,'O_NOFOLLOW',0)
     descriptor = os.open(path,flags)
@@ -29,10 +33,10 @@ def _read_regular(path, expected):
         # Windows path and handle stat may disagree on ctime; compare it only
         # between observations of the same open handle below.
         if not stat.S_ISREG(opened.st_mode) or _signature(opened)[:-1] != _signature(expected)[:-1]:
-            raise ValueError('Observed file changed before read')
+            raise WorkingTreeChangedError('Observed file changed before read')
         data = stream.read()
         if _signature(os.fstat(stream.fileno())) != _signature(opened):
-            raise ValueError('Observed file changed during read')
+            raise WorkingTreeChangedError('Observed file changed during read')
     return data
 
 
@@ -160,10 +164,11 @@ def _generate_captured_working_tree(registration, configured, captured, authorit
 
 @dataclass(frozen=True)
 class WorkingTreeHost:
-    """Explicit single-source CLI host; observations never carry commit claims."""
+    """Explicit CLI host; observations never carry committed provenance claims."""
     registration: object
     readers: object
     configuration: object
+    authority_readers: object = None
 
     def execute(self, invocation):
         import json
@@ -174,22 +179,34 @@ class WorkingTreeHost:
         from .validation import BundleValidator
         from .provenance import AuthorityValidationError, read_committed_projection
         from .directory_store import DirectoryProjectionStore
+        from .mounted_working_tree import generate_mounted_working_tree, AggregateObservationUnavailable
         value = self.configuration.values
         result = None
+        mounted = bool(value['submodules'])
+        observation = None
         def failure(code):
             error = failure_envelope(code,command=invocation.command,mode='working-tree')
+            if mounted:
+                error.update(schema_version=2, observation=observation)
             if result is not None:
                 error.update(selection=result['selection'],findings=result['findings'])
             return error
         if invocation.command not in value['capabilities']:
             return failure('invalid_configuration')
         try:
-            observed = generate_working_tree(self.registration,authority_readers=self.readers)
+            if mounted:
+                observed = generate_mounted_working_tree(self.registration, source_readers=self.readers,
+                    authority_readers=self.authority_readers)
+                observation = json.loads(observed.corpus.observation)
+            else:
+                observed = generate_working_tree(self.registration,authority_readers=self.readers)
             validator = BundleValidator(source_roots=value['source_roots'],
                 profile_sha256=self.registration.profile_sha256,provenance_verifier=_RejectCommittedProof())
-            args = dict(repository_id=observed.corpus.repository_id,corpus_records=observed.corpus.records,
+            args = dict(repository_id=self.registration.repository_id,corpus_records=observed.corpus.records,
                 authority_sha256=observed.authority_sha256,candidate_files=observed.files,
                 validator=validator,location_diagnostics=json.loads(observed.location_diagnostics))
+            if mounted:
+                args['observation_set'] = observation
             result = check_observation(**args,reference_files=observed.files)
             if invocation.command == 'check':
                 reader = self.readers[self.registration.repository_id]
@@ -208,9 +225,14 @@ class WorkingTreeHost:
             return result
         except AuthorityValidationError:
             return failure('invalid_authority')
+        except AggregateObservationUnavailable as exc:
+            observation = json.loads(exc.observation_bytes(self.registration.repository_id))
+            return failure('evidence_unavailable')
         except GitUnavailableError:
             return failure('evidence_unavailable')
         except OSError:
             return failure('io_failure')
+        except ValueError:
+            return failure('invalid_configuration' if mounted else 'internal_failure')
         except Exception:
             return failure('internal_failure')

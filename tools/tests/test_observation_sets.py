@@ -23,6 +23,14 @@ class ObservationSetTests(unittest.TestCase):
 
     def build(self): return build_observation_set(**self.args)
 
+    def test_known_head_can_lack_local_evidence_only_when_incomplete(self):
+        self.args['complete'] = False
+        self.args['participants'][0].update(checkout_state='unknown', corpus_sha256=None)
+        result = json.loads(self.build())
+        self.assertIsNone(result['selection_sha256'])
+        self.args['complete'] = True
+        with self.assertRaises(ValueError): self.build()
+
     def test_nested_mismatch_uses_observed_parent_and_stable_sorted_identity(self):
         first = self.build()
         self.args['participants'].reverse()

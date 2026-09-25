@@ -284,3 +284,36 @@ The explicit console host still rejects mounted working-tree configuration.
 Its eager reader opening and strict existing-path loading need reconciliation
 with unavailable/blocked participant reporting before CLI integration. Incomplete
 observation error framing is still pending. No runtime acceptance gate is closed.
+
+## Mounted CLI and incomplete evidence — 2026-09-25
+
+The owner approved the bounded incomplete-evidence amendment, recorded in SBCT-01
+0.9.1 and observation contract 0.1.3. Available Git context may retain unknown
+checkout state/null corpus in incomplete observations. Complete observations
+still require all local evidence; no successful partial projection is permitted.
+
+Dev34 connects mounted scan/check to the explicit host-binding path. Lazy source
+readers acquire only requested registered checkouts and close through the host's
+ExitStack. Relationship traversal reaches parents first; unavailable parents
+prevent descendant acquisition. Input existence under configured mounts is deferred
+to that traversal so a missing child is evidence unavailable, not misreported as
+an ordinary missing source-directory configuration error. Path ownership, link
+checks and source routing remain enforced before capture/generation.
+
+Incomplete observations retain known HEADs/pins and unavailable/blocked participants
+without fabricated local state or corpus hashes. Scan does not publish; selection
+and result are null. Complete captures can publish or compare normally with null
+committed IDs. Invalid authority and configuration return safe early errors;
+missing references retain complete observation findings. Failed pointer switches
+retain the previous publication. File changes detected inside a read and later
+relationship changes are classified as unavailable observation evidence.
+
+Validation: 111 core tests and 161 provider tests, including five lazy-reader and
+ten mounted CLI tests. The developer `check_mounted_cli_envelopes.py` runs those
+ten CLI scenarios and validates all twelve resulting envelopes against the approved
+schema. The existing contract checker also accepts the amended known-HEAD incomplete
+case and rejects its use in complete results. Provider runs use audited pure wheels
+and reject process/network calls. No installed mounted-console proof is claimed.
+
+Next: installed mounted-console execution and bounded implementation review before
+reconciling runtime witnesses. GATE-101–105 and GATE-201–205 remain open.

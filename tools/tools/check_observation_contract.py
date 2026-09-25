@@ -28,7 +28,11 @@ unavailable['observation']['participants'][0].update(availability='missing_check
 unavailable['observation']['relations'][0]['pin_state'] = 'unavailable'
 early = copy.deepcopy(unavailable)
 early.update(exit_code=2,observation=None,error={'code':'invalid_configuration','message':'Invalid repository configuration.'})
-for value in (complete,unavailable,early): validator.validate(value)
+known_head_incomplete = copy.deepcopy(unavailable)
+for participant in known_head_incomplete['observation']['participants']:
+    if participant['availability'] == 'available':
+        participant.update(checkout_state='unknown',corpus_sha256=None)
+for value in (complete,unavailable,early,known_head_incomplete): validator.validate(value)
 negative = []
 def changed(path,value,base=complete):
     item = copy.deepcopy(base)
@@ -89,7 +93,7 @@ def check_complete_semantics(value):
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
 from sbc_tools.observation_sets import observation_set_bytes
-for value in (complete,unavailable):
+for value in (complete,unavailable,known_head_incomplete):
     observation_set_bytes(value['observation'])
 check_complete_semantics(complete['observation'])
 semantic_negative = []
@@ -115,7 +119,7 @@ from sbc_tools.observations import check_observation
 runtime = mounted_samples()
 for changes in ({}, {'reference_files': None}):
     validator.validate(check_observation(**dict(runtime, **changes)))
-print(json.dumps({'draft_schema_positive_cases':3,'draft_schema_negative_cases':len(negative),
+print(json.dumps({'draft_schema_positive_cases':4,'draft_schema_negative_cases':len(negative),
     'complete_semantic_positive_cases':1,'complete_semantic_negative_cases':len(semantic_negative),
     'runtime_comparison_envelopes':2,
     'scope':'Developer contract and data-only runtime comparison checks; no filesystem or CLI execution'},indent=2))

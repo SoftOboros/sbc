@@ -93,16 +93,6 @@
                 "observed_head": {
                   "type": "string",
                   "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
-                },
-                "checkout_state": {
-                  "enum": [
-                    "clean",
-                    "dirty"
-                  ]
-                },
-                "corpus_sha256": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
                 }
               }
             },
@@ -239,6 +229,16 @@
               "properties": {
                 "availability": {
                   "const": "available"
+                },
+                "checkout_state": {
+                  "enum": [
+                    "clean",
+                    "dirty"
+                  ]
+                },
+                "corpus_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
                 }
               }
             }

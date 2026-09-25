@@ -1,9 +1,9 @@
 # SBCT-01 submodule observation contract
 
 **Document ID:** SBCT-01-OBSERVATIONS
-**Revision:** 0.1.2
-**Status:** APPROVED — Ira Abbott, 2026-09-23; incorporated by SBCT-01 0.9.0.
-**Date:** 2026-09-23
+**Revision:** 0.1.3
+**Status:** APPROVED — Ira Abbott; incomplete-evidence amendment 2026-09-25, incorporated by SBCT-01 0.9.1.
+**Date:** 2026-09-25
 
 ## Authority and scope
 
@@ -76,6 +76,14 @@ unavailable ancestor's descendants. Those descendants use `blocked_by_ancestor`,
 not an invented missing-checkout diagnosis. Their relation evidence remains
 null/unavailable. Required pinned commit objects must also be available; an
 observed HEAD alone cannot substitute for missing pinned history.
+
+For an incomplete observation, an `available` participant MAY retain its known
+HEAD while using unknown checkout state and a null corpus hash. Availability
+describes required Git context, not completed checkout/corpus capture. Known
+local evidence MAY be retained when actually acquired. A complete observation
+MUST have clean/dirty state and a non-null corpus hash for every participant.
+This bounded distinction is approved in the
+[incomplete evidence review](SBCT-01-INCOMPLETE-OBSERVATION-REVIEW.md).
 
 ## Capture, identity and failure
 
@@ -171,3 +179,10 @@ observation identity and version-2 framing, including blocked descendants and
 aggregate failure on unavailable required evidence. SBCT-01 0.9.0 incorporates
 this extension. Implementation is authorized; runtime gates remain open.
 Historical draft/review wording above describes preparation before this approval.
+
+### Incomplete evidence amendment — 2026-09-25
+
+Ira Abbott explicitly approved the bounded amendment permitting known Git context
+with unknown checkout state/null corpus in incomplete results. Revision 0.1.3
+incorporates that decision; complete-result requirements and no-partial-publication
+rules remain unchanged. SBCT-01 0.9.1 records the owning amendment.

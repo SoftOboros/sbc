@@ -19,10 +19,11 @@ _ERRORS = {
 
 class CommandFailure(Exception):
     """A host classifies its failure without disclosing exception text."""
-    def __init__(self, code):
+    def __init__(self, code, *, mounted_observation=False):
         if code not in _ERRORS:
             raise ValueError('Unknown command error code')
         self.code = code
+        self.mounted_observation = mounted_observation
         super().__init__(_ERRORS[code][1])
 
 

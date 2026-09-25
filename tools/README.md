@@ -504,3 +504,23 @@ error. Incomplete captures are rejected by this comparison API.
 Console integration, missing-participant host loading and incomplete observation
 error framing remain pending. The console still rejects mounted working-tree
 configuration; these internal APIs do not imply runtime gate acceptance.
+
+### Mounted working-tree CLI (0.1.0.dev34)
+
+Explicit working-tree host bindings now support configured submodule `scan` and
+`check`, emitting version-2 results. Source repositories are acquired lazily from
+registered paths; blocked descendants and unselected registrations are not opened.
+No discovery, fetching, initialization or approval inference is performed.
+
+Missing checkouts/history and detected capture changes return incomplete
+observations, exit 3, null selection/result and no publication. Known HEAD/pin
+evidence is retained even when local state/corpus evidence is unknown, under the
+owner-approved incomplete-evidence amendment. Invalid authority returns an early
+error with null observation. Missing comparison references retain a complete
+capture's candidate selection. Failed publication retains the prior pointer.
+
+Single-repository working-tree and committed commands retain version-1 results.
+Whole-checkout unknown evidence remains fail-closed, including unobserved additional
+gitlinks. Tests invoke the explicit `--host` CLI path; the installed mounted console
+launcher and final acceptance reconciliation remain pending. Earlier implementation
+notes describe historical stages.

@@ -10,7 +10,7 @@ from .corpus import CorpusInput, _paths, _within, corpus_digest
 from .local_checkout import observe_local_checkout
 from .observed_mounts import collect_mount_context
 from .observation_sets import build_observation_set
-from .working_tree import _read_regular
+from .working_tree import _read_regular, WorkingTreeChangedError
 
 
 class AggregateObservationUnavailable(ValueError):
@@ -18,6 +18,14 @@ class AggregateObservationUnavailable(ValueError):
     def __init__(self, reason, context):
         super().__init__(reason)
         self.context = context
+
+    def observation_bytes(self, repository_id):
+        """Retain known Git context without inventing uncaptured local evidence."""
+        return build_observation_set(root_repository_id=repository_id, complete=False,
+            participants=[dict(repository_id=p.repository_id, availability=p.availability,
+                observed_head=p.observed_head, checkout_state='unknown', corpus_sha256=None)
+                for p in self.context.participants],
+            relations=[asdict(r) for r in self.context.relations])
 
 
 @dataclass(frozen=True)
@@ -102,7 +110,10 @@ def capture_mounted_working_tree(*, repository_id, repository_root, root_ref,
                     _reject_linked_components(root, name)
                     visit(name, stat.S_ISDIR(child.lstat().st_mode))
             elif stat.S_ISREG(metadata.st_mode) and not directory_required:
-                files[relative] = _read_regular(path, metadata)
+                try:
+                    files[relative] = _read_regular(path, metadata)
+                except WorkingTreeChangedError:
+                    raise AggregateObservationUnavailable('File changed during capture', context) from None
             else:
                 raise ValueError('Required corpus input has unsupported type')
         for path in roots:
@@ -114,9 +125,13 @@ def capture_mounted_working_tree(*, repository_id, repository_root, root_ref,
     before = checkout_evidence()
     first, second = capture(), capture()
     after = checkout_evidence()
-    current = collect_mount_context(root_ref=context.root_commit, **arguments)
+    try:
+        current = collect_mount_context(root_ref=context.root_commit, **arguments)
+        final_root_commit = readers[repository_id].resolve_commit(root_ref)
+    except (ValueError, KeyError):
+        raise AggregateObservationUnavailable('Relationship evidence changed during capture', context) from None
     if (first != second or before != after or current != context
-            or readers[repository_id].resolve_commit(root_ref) != context.root_commit):
+            or final_root_commit != context.root_commit):
         raise AggregateObservationUnavailable('Aggregate changed during capture', context)
     records = []
     for path, data in sorted(first.items()):
@@ -145,7 +160,7 @@ def generate_mounted_working_tree(registration, *, source_readers, authority_rea
     from .working_tree import _generate_captured_working_tree
     configured = validate_configuration(registration.config_bytes,
         config_directory=registration.configuration_file.parent,
-        registered_repositories=registration.source_repositories)
+        registered_repositories=registration.source_repositories, allow_missing_mount_inputs=True)
     value = configured.values
     if (value['repository_id'] != registration.repository_id or value['mode'] != 'working-tree'
             or not value['submodules']):
@@ -153,17 +168,15 @@ def generate_mounted_working_tree(registration, *, source_readers, authority_rea
     required = (registration.config_path, registration.profile_path, registration.patch_path,
                 *registration.evidence_paths, value['authority_manifest'], *value['registry_paths'])
     scopes = (*value['source_roots'], *required)
-    selected = {registration.repository_id}
     for path, owner in value['submodules']:
         if (any(_within(path, e) for e in value['exclude'])
                 or not any(_within(path, s) or _within(s, path) for s in scopes)):
             continue
         if registration.source_repositories[owner] != configured.repository_root / path:
             raise ValueError('Registered child location differs from configured mount')
-        selected.add(owner)
     captured = capture_mounted_working_tree(repository_id=registration.repository_id,
         repository_root=configured.repository_root, root_ref=value['tracked_ref'],
-        readers={owner: source_readers[owner] for owner in selected if owner in source_readers},
+        readers=source_readers,
         mounts=value['submodules'], source_roots=value['source_roots'],
         required_files=tuple(sorted(set(required))), exclude=value['exclude'])
     return _generate_captured_working_tree(registration, configured, captured, authority_readers)

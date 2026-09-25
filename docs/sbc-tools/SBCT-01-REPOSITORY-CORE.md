@@ -2,8 +2,8 @@
 
 **Document ID:** SBCT-01
 **Status:** RATIFIED — Ira Abbott, 2026-09-19
-**Revision:** 0.9.0
-**Date:** 2026-09-23
+**Revision:** 0.9.1
+**Date:** 2026-09-25
 **Owner:** Ira Abbott
 **Depends on:** [SBCT-00](SBCT-00-CONCEPTS.md), especially §8 baseline/layout decisions.
 
@@ -268,7 +268,7 @@ specifications, acknowledgments or accepted diagnostic baselines.
 ## §7 Git and Submodule Provenance [Normative]
 
 The owner-approved [submodule observation contract](SBCT-01-SUBMODULE-OBSERVATIONS.md)
-revision 0.1.2 extends working-tree mode with observation-set version 1 and CLI
+revision 0.1.3 extends working-tree mode with observation-set version 1 and CLI
 version 2. Its identity, ownership, failure and dirty-state rules are normative
 for that extension. Existing single-repository and committed version-1 behavior
 remains unchanged.
@@ -548,3 +548,14 @@ separate observation-context digest, version-2 envelope, explicit unavailable an
 blocked descendants, and no partial aggregate publication. The previously accepted
 immediate-parent observed-HEAD recursion and known-work-in-progress interpretation
 remain in force. Implementation is unblocked; runtime gates and release remain open.
+
+### 0.9.1 — 2026-09-25 — Incomplete participant evidence
+
+**Authority:** Ira Abbott, "Approve the bounded amendment."
+**Decision:** Incorporates SBCT-01-OBSERVATIONS 0.1.3 and the
+[incomplete evidence review](SBCT-01-INCOMPLETE-OBSERVATION-REVIEW.md).
+An available participant in an incomplete observation may retain known Git HEAD
+context without invented checkout state or corpus evidence. Complete observations
+still require clean/dirty state and a corpus hash for every participant. Incomplete
+results remain exit 3 with null selection/result and no publication. The review
+records the rationale and rejected alternatives. No runtime gate or release is approved.

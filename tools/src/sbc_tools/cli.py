@@ -90,6 +90,8 @@ def main(argv=None, *, load_host=None, stdout=None):
         if completed is not None:
             result['selection'] = completed['selection']
             result['findings'] = completed['findings']
+            if completed['schema_version'] == 2:
+                result.update(schema_version=2, observation=completed['observation'])
         return result
     try:
         invocation = parse_invocation(args)
@@ -106,6 +108,8 @@ def main(argv=None, *, load_host=None, stdout=None):
         envelope = completed
     except CommandFailure as exc:
         envelope = failed(exc.code)
+        if exc.mounted_observation and completed is None:
+            envelope.update(schema_version=2, mode='working-tree', observation=None)
     except GitUnavailableError:
         envelope = failed('evidence_unavailable')
     except OSError:
