@@ -5,7 +5,9 @@
 **Reviewed revision:** `3317d112bdd44a7b7f127c61fb639104ba049e9c`.
 
 **Latest decision packet:** [Consolidated gate recommendations, 2026-09-25](SBCT-01-GATE-DECISION-PACKET.md).
-Recommends owner approval of GATE-103/104/105; all runtime gates remain open pending explicit disposition.
+The consolidated review recommends owner approval of GATE-101 through GATE-105
+against the pinned runtime and witnesses; all remain open pending explicit disposition.
+Final release support policy is separate from the now-executed installation witness.
 **Installation follow-up:** [Requirements recipe and environment ledger, 2026-09-25](SBCT-01-INSTALLATION-REVIEW.md).
 **Latest execution follow-up:** [Python 3.11, Linux and native links, 2026-09-25](SBCT-01-PORTABILITY-REVIEW.md).
 **Latest bounded execution review:** [Command boundaries and golden-profile reconciliation, 2026-09-25](SBCT-01-BOUNDARY-AND-PROFILE-REVIEW.md).

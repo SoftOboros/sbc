@@ -9,8 +9,9 @@
 **Informative:** phase documents own contracts; this file owns navigation only.
 
 **Current acceptance review (2026-09-25):** The
-[consolidated gate decision packet](SBCT-01-GATE-DECISION-PACKET.md) recommends
-owner approval of GATE-103/104/105 and retaining GATE-101/102 open. Mounted
+[consolidated gate decision packet](SBCT-01-GATE-DECISION-PACKET.md) now recommends
+owner approval of GATE-101 through GATE-105 for the pinned runtime and executed
+witnesses. Final release support policy remains separate. Mounted
 observations are implemented under SBCT-01 0.9.1 / observation contract 0.1.3;
 older progress entries below are historical. No runtime gate is closed by the packet.
 

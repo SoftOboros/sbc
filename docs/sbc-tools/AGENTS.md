@@ -13,7 +13,7 @@
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
 | Latest execution | Windows/Python 3.14.6: all 165 provider tests pass after authorized Developer Mode enablement, including 26 native symlink and 26 junction command cases; earlier core/install/Linux evidence retained |
-| Next work | Owner gate/support-scope review; remaining selected-platform witnesses and authorized SBCT-02 query-engine work |
+| Next work | Owner review of GATE-101–105 recommendations; authorized SBCT-02 engine work; separate release support-policy review |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -112,3 +112,10 @@ The owner authorized Windows Developer Mode; the
 the previously skipped directory-symlink matrix under a non-administrator token.
 Developer Mode remains enabled. This is fixture-creation setup, not a new SBC
 runtime installation requirement. Gate approvals remain unchanged.
+
+The consolidated acceptance review now recommends owner approval of GATE-101
+through GATE-105 for the pinned runtime and recorded witnesses. It corrects
+stale packet blockers and separates SBCT-01's executed installation witness from
+the final release support policy assigned by §5. See the updated
+[decision packet](SBCT-01-GATE-DECISION-PACKET.md). This is a recommendation only;
+all five checkboxes remain open. No new runtime suite or subagent review is claimed.

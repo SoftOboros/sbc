@@ -3,35 +3,28 @@
 **Date:** 2026-09-25
 **Status:** Prepared for owner decision; no acceptance recorded.
 **Runtime:** `0.1.0.dev34`, revision `9d666f43efe6ffab4c478a97ba199077e611d7de`.
-**Evidence checkpoint:** `c8ce3e2` (tests and evidence; runtime unchanged).
+**Evidence checkpoint:** `4def3c6` (latest Windows execution; runtime unchanged).
 **Governing contract:** [SBCT-01](SBCT-01-REPOSITORY-CORE.md) 0.9.1 and
 [observation contract](SBCT-01-SUBMODULE-OBSERVATIONS.md) 0.1.3.
 
-**Follow-up evidence:** [Installation reconciliation](SBCT-01-INSTALLATION-REVIEW.md)
-adds direct requirements-recipe execution on Windows/Python 3.12.14 and 3.14.6.
-The original evidence scope below is retained; no gate recommendation or approval
-state changes. The Python 3.11 branch and release environment matrix remain open.
-
-**Latest follow-up:** [Portability and native-link review](SBCT-01-PORTABILITY-REVIEW.md)
-now supplies Python 3.11 and WSL Linux execution, native Windows junctions and
-native Linux directory symlinks. It adds GATE-102 to the bounded owner review
-recommendation, with unexecuted native cases stated explicitly. GATE-101 retains
-support-policy reconciliation. Earlier recommendations and decision wording
-below describe the original packet; they are not an approval record.
-
-**Windows native follow-up:** The owner-authorized Developer Mode change enabled
-the ordinary-token directory-symlink matrix. The
-[Windows execution record](evidence/sbct-01-windows-native-execution.json) reports
-all 165 provider tests passing, with native symlink and junction witnesses.
-The earlier Windows directory-symlink gap is resolved for that environment;
-support-scope decisions and formal gate disposition remain open.
+**Review scope:** Consolidated requirement-to-witness review of the existing
+records and selected test/runtime paths. No fresh runtime suite or independent
+subagent review is claimed. Historical execution records remain unchanged.
 
 ## Proposed disposition
 
-Recommend owner approval of `GATE-103`, `GATE-104` and `GATE-105` against the
-identified runtime, source baseline and witnesses below. Keep `GATE-101` and
-`GATE-102` open. Their missing evidence prevents full SBCT-01 acceptance even if
-the three recommended gates are approved. All five remain unchecked today.
+Recommend owner approval of `GATE-101` through `GATE-105` against the identified
+runtime, source baseline and witnesses below. All five remain unchecked until
+the owner explicitly decides. No new blocking runtime defect was identified in
+this limited review; that is not an exhaustive implementation or security audit.
+
+Two review findings are resolved in this informative packet: its main table and
+decision text had retained blockers already superseded by later execution; and
+its `GATE-101` recommendation conflated the offline installation witness with
+the final release support policy. SBCT-01 §5 explicitly assigns the final
+supported-version matrix to a release gate. The now-executed ordinary-user
+installation/scan/check and dependency boundary support phase acceptance without
+asserting support for every platform or every version above the metadata floor.
 
 This packet maps the existing gate requirements; it does not amend them or grant
 an exception. The owner may accept or return each recommendation separately.
@@ -39,36 +32,65 @@ an exception. The owner may accept or return each recommendation separately.
 
 | Gate | Recommendation | Basis and remaining limit |
 |---|---|---|
-| `GATE-101` | Keep open | Installed offline scan/check and import/dependency evidence exist on Windows 11 / Python 3.14.6. Supported Python/platform coverage and final distribution-recipe reconciliation remain. |
-| `GATE-102` | Keep open | Empty/missing roots and command rejection are covered, including 60 injected link/reparse cases and six escaping-scope cases with guarded reads and unchanged fixture bytes. Native symlink creation failed with errno 22; native junction behavior is unproven. |
+| `GATE-101` | Recommend approval | Exact requirements-recipe installation and offline committed/single/mounted CLI witnesses pass on Windows/Python 3.11.9 and 3.14.6 and WSL Linux/Python 3.12.3; earlier Windows 3.12.14 evidence also exists. Real 3.11 conditional dependency inclusion, pure-wheel guards, exact runtime inventory and the 30-module import audit are recorded. Release support policy remains separate. |
+| `GATE-102` | Recommend approval | Literal empty roots, missing roots, malformed configuration and escaping paths have witnesses. Windows now passes all 165 provider tests, including 26 native directory-symlink and 26 junction command cases; Linux directory symlinks also pass. Guards and exact fixture snapshots establish bounded no-read/no-mutation rejection. A separate native file-symlink matrix and hostile concurrent replacement are not proven. |
 | `GATE-103` | Recommend approval | Exact repeated projection payloads, semantic source-change drift without writes, interrupted file-write preservation and failed selection-switch preservation have witnesses. Random retained directory names are outside projection payload equality; power-loss durability is not established. |
 | `GATE-104` | Recommend approval | Committed reads use parent-recorded child history and reject dirty/mismatched clean admission. Observation mode separately retains recorded pins, observed HEADs, local state and incomplete evidence without claiming a clean committed snapshot. |
 | `GATE-105` | Recommend approval | Exact pinned producer, wire, document and extraction comparisons pass for the selected profile. Existing portable differences are owned by SBCT-01; no new semantic difference was found in these cases. Public retrieval of authority/source pins remains release work. |
 
 ## Evidence identity and execution scope
 
-The [boundary/profile record](evidence/sbct-01-boundary-profile-execution.json)
-records 111 core passes and 164 provider tests: 163 passed, one native-symlink
-case skipped. Counts include overlapping witnesses and are not separate gate
-proofs. The [installed execution record](evidence/sbct-01-installed-mounted-execution.json)
-records nine mounted launcher/module envelopes, actual console execution and
-offline installation outside the source checkout. These were prior executions;
-preparing this packet does not constitute a new runtime test run.
+| Record | Accepted review input; not owner acceptance |
+|---|---|
+| [Original boundary/profile execution](evidence/sbct-01-boundary-profile-execution.json) | 111 core passes, earlier provider matrix and exact golden regeneration. Its original symlink skip remains historical. |
+| [Recipe execution](evidence/sbct-01-installation-recipe-execution.json) | Direct requirements resolver and installed CLI on Windows/Python 3.12.14 and 3.14.6. |
+| [Portability execution](evidence/sbct-01-portability-native-execution.json) | Windows 3.11.9 and WSL Linux 3.12.3 each pass 111 core tests and 164 of 165 provider tests, with one platform-specific skip. Three installed proofs include nine mounted envelopes each and exact artifact/dependency hashes. |
+| [Windows native execution](evidence/sbct-01-windows-native-execution.json) | Windows 3.14.6 passes all 165 provider tests after owner-authorized Developer Mode enablement; execution itself uses the ordinary token. |
 
-The installed artifact was `sbc_tools-0.1.0.dev34-py3-none-any.whl`, SHA-256
-`0561e8b750dc9015b0badeb0b991a46072d957f392938c1465af008b48207996`.
-The record pins build/provider wheel hashes and runtime package inventory.
-Its environment had no Django, consumer application, application credentials,
-Git on PATH or runtime build tooling. Python audit controls reject process and
-network access with negative controls; they are not an OS sandbox.
+These counts overlap and are not separate gate proofs. The installed records
+identify each `sbc_tools-0.1.0.dev34-py3-none-any.whl` artifact by digest, with
+build/provider hashes and exact runtime inventory. Those runtime environments
+contain no Django, consumer application, application credentials, Git on PATH or
+build tooling. Python audit controls reject process/network access with negative
+controls; they are not an OS sandbox. Developer schema tooling remains outside
+the installed runtime. The earlier verifier findings and their repairs are
+recorded in the [portability review](SBCT-01-PORTABILITY-REVIEW.md).
 
 The [import inventory](evidence/sbct-01-core-import-audit.json) hashes 30 runtime
 Python modules and finds Dulwich as the only nonstandard-library import root.
 This is a static first-party inventory, not a full dependency-source security
-audit. Installation evidence remains Windows 11 / Python 3.14.6 with synthetic
-fixture approvals, not production authority approval.
+audit. All installed proofs use synthetic fixture approvals, not production
+authority approval. Review rechecks confirm these 30 runtime files match the
+recorded baseline; documentation and verifier changes did not alter the runtime.
 
 ## Witness map for the recommended gates
+
+### Installation and path boundaries
+
+For `GATE-101` / `W-101-P/N`, the
+[installed verifier](../../tools/tools/check_installed_distribution.py) builds
+and installs outside the source checkout, exercises the actual requirements
+recipe and launcher, checks import origin and exact package inventory, and
+rejects tampered provider wheels and matching-digest native archive sentinels.
+Its ordinary-token Windows and UID-1000 Linux executions provide the positive
+runtime witnesses. Python 3.11's bootstrap setuptools is removed from the
+disposable runtime, and its required `typing_extensions` is included. Native
+schema-test dependencies belong only to the developer process.
+
+For `GATE-102`, [console tests](../../tools/tests_git/test_console_host.py)
+exercise literal empty roots, missing configured roots and malformed bindings.
+The [command boundary matrix](../../tools/tests_git/test_cli_path_boundaries.py)
+guards opens, resolution and descendant metadata while comparing all fixture
+file/link contents, including Git metadata and external targets. Injected
+`S_IFLNK`/reparse cases include file-input roles; native matrices exercise
+directory symlinks/junctions. The linked-component check uses `lstat` and rejects
+the link/reparse marker before resolving or opening selected input content.
+The lack of a separate native file-symlink matrix is a coverage limit, not an
+exception permitting file links. Approval does not relax that rejection rule.
+
+Developer Mode was authorized to create native Windows test fixtures. It is not
+required by the SBC runtime, nor does enabling it satisfy an acceptance gate by
+itself. The subsequent non-administrator execution provides the witness.
 
 ### Deterministic output and retained publication
 
@@ -133,15 +155,14 @@ disposition. Query-profile and retained-profile acceptance are separate.
 
 ## Work remaining after the proposed decisions
 
-1. For `GATE-101` / `W-101-P/N`, reconcile the Python 3.11 floor and supported
-   environments with an explicit execution matrix. Exercise the ordinary-user
-   install recipe with hash-selected universal provider wheels, including the
-   Python-version conditional dependency path. Package metadata alone does not
-   establish CLI provider installation; the explicit requirements recipe matters.
-2. For `GATE-102`, run actual native symlink/junction command witnesses in an
-   environment that supports their creation, retaining read guards and exact
-   no-mutation comparisons. Preserve the current skipped result as historical
-   evidence. Do not treat injected metadata as native filesystem proof.
+1. Record the owner's explicit phase-gate dispositions. No acceptance is inferred
+   from this review or from authorization to continue implementation.
+2. Under release planning, select the supported interpreter/platform matrix and
+   obtain any additional witnesses that selection requires. Executed versions
+   are evidence points, not a security/support recommendation. macOS, Python 3.13,
+   other architectures and native Linux beyond the tested WSL environment remain
+   unexecuted. Preserve native file-symlink coverage as an explicit follow-up;
+   do not characterize existing evidence as exhaustive filesystem isolation.
 3. Continue the authorized SBCT-02 engine work. `GATE-201` needs identical
    file/Django request-result fixtures; `GATE-202` needs Python/REST/MCP error
    distinctions; `GATE-203` needs projection-only rebuild with auth preservation;
@@ -160,13 +181,15 @@ disposition. Query-profile and retained-profile acceptance are separate.
 
 Proposed wording, **not an approval record**:
 
-> Approve GATE-103, GATE-104 and GATE-105 for runtime 0.1.0.dev34 at
+> Approve GATE-101 through GATE-105 for runtime 0.1.0.dev34 at
 > 9d666f43efe6ffab4c478a97ba199077e611d7de using this packet's witness map and
-> identified source/profile baseline. Keep GATE-101 and GATE-102 open for their
-> remaining evidence. This does not approve full SBCT-01 acceptance, SBCT-02
-> runtime gates, untested platforms, a release/tag or production adoption.
+> identified source/profile baseline. This accepts the reviewed SBCT-01 runtime
+> witnesses; it does not approve SBCT-02 runtime gates, a general platform/version
+> support policy, a release/tag or production adoption. The stated evidence
+> limits do not create exceptions to the ratified contract.
 
 After an explicit owner decision, record the disposition in SBCT-01 and the
 acceptance log with this packet as evidence. Until then, leave normative gate
-checkboxes and ratification states unchanged. The next independent work is the
-remaining installation-recipe and environment-matrix reconciliation.
+checkboxes and ratification states unchanged. The next implementation work is
+the already authorized SBCT-02 engine; final support-policy and release decisions
+remain separately reviewable.
