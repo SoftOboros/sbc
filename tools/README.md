@@ -468,3 +468,20 @@ immediate parent dirty, while their internal dirtiness remains on the child.
 Two passes compare file, index and HEAD evidence, including dirty content. This
 is bounded change detection, not atomic filesystem isolation. These primitives
 are not yet wired into aggregate submodule capture or the CLI.
+
+### Mounted working-tree capture (0.1.0.dev32)
+
+`capture_mounted_working_tree` now combines registered relationship context,
+physical location checks, local checkout observations and two content captures.
+It returns immutable files in root-relative coordinates, corpus records in each
+owning repository's coordinates, and a validated complete observation set.
+Dirty or mismatched participants can succeed when their evidence is stable.
+Missing participants or detected changes produce no corpus. Unavailable failures
+retain relationship context for later CLI error framing, not partial scan output.
+
+This internal API requires host-supplied registrations, readers, source roots and
+required inputs. It does not verify authority, generate or publish projections,
+or implement version-2 CLI envelopes. A selected participant whose whole-checkout
+state cannot be established (including additional gitlinks without child evidence)
+remains unavailable; this slice adds no scoped-clean exemption. The existing CLI
+still rejects submodule working-tree configurations.

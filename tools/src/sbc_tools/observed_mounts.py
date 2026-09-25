@@ -31,11 +31,13 @@ class MountContext:
 
 
 def collect_mount_context(*, root_repository_id, root_ref, mounts, source_roots,
-                          readers, exclude=()):
+                          readers, exclude=(), checkout_root=None):
     """Read explicitly registered readers; absent readers mean missing checkouts.
 
-    The host must establish registration and physical mount ownership first.
-    This function neither opens repositories nor certifies filesystem location,
+    The host must establish registration first. If checkout_root is supplied,
+    verify each reader's physical location before reading its objects; otherwise
+    the host must establish physical ownership separately. This function neither
+    opens repositories nor certifies
     captured bytes, dirty state, or stability across an aggregate capture.
     Root context resolves once; nested context follows observed parent HEAD.
     """
@@ -85,6 +87,10 @@ def collect_mount_context(*, root_repository_id, root_ref, mounts, source_roots,
         if not blocked and owner in readers:
             reader = readers[owner]
             try:
+                if checkout_root is not None:
+                    from pathlib import Path
+                    from .local_checkout import verify_checkout_location
+                    verify_checkout_location(reader, Path(checkout_root) / prefix)
                 head = reader.resolve_commit('HEAD')
                 if pin is not None and reader.resolve_commit(pin) != pin:
                     raise GitReadError('Child gitlink must name a commit directly')
@@ -95,6 +101,8 @@ def collect_mount_context(*, root_repository_id, root_ref, mounts, source_roots,
                     root_commit = context
             except GitUnavailableError:
                 availability, head, context = 'unavailable_history', None, None
+            except FileNotFoundError:
+                availability, head, context = 'missing_checkout', None, None
         participant = ParticipantContext(owner, availability, head)
         participants.append(participant)
         available = availability == 'available'

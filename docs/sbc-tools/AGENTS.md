@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing and single-repository working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | 105 core tests and 129 Git/provenance tests; prior 15 schema envelopes and installed console proof |
-| Next work | Integrate relationship context, physical ownership and local checkout primitives with aggregate capture, then version-2 CLI |
+| Latest execution | 105 core tests and 141 Git/provenance tests; prior 15 schema envelopes and installed console proof |
+| Next work | Connect mounted capture to authority-verified generation and version-2 CLI, including unavailable-result framing |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -62,3 +62,8 @@ Dev31 adds physical checkout-location verification and local dirty-state
 observation. Dirty child interiors do not propagate to parents; child HEAD
 mismatches do. Unknown evidence stays distinct from dirty state. Aggregate
 capture and CLI integration remain pending; acceptance gates remain open.
+
+Dev32 integrates the internal mounted capture path and emits validated complete
+observation-set metadata with immutable captured bytes. Failures produce no
+corpus and retain relationship context. Host/generation/CLI integration and
+unavailable version-2 envelope framing remain pending; no gate is closed.

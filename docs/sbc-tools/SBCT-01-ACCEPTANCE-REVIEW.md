@@ -225,3 +225,33 @@ registration, relationship collection, aggregate corpus capture and version-2
 CLI emission. Their internal evidence digest is not a corpus/selection identity.
 No runtime acceptance gate is closed and no release or installed-console proof
 is claimed for dev31.
+
+## Mounted aggregate capture — 2026-09-25
+
+Dev32 combines explicit mount context, physical ownership checks and local
+checkout observations with repeated source/required-input capture. Root context
+is pinned for the operation; the configured reference is checked again before
+returning. Nested relations retain immediate-parent observed-HEAD semantics.
+Local checkout evidence brackets two captures; changed refs, relationship context,
+index/content evidence or captured bytes reject the aggregate.
+
+Successful results contain immutable root-relative files, owning-repository
+corpus records and validated complete observation-set bytes. Empty participant
+corpora receive the canonical empty-corpus hash. Dirty and mismatched participants
+remain valid when stable. Missing participants retain their unavailable/blocked
+relationship context in an exception and return no corpus or partial projection.
+Filesystem/configuration failures also return no corpus. No publication occurs.
+
+Twelve aggregate tests run within 141 provider tests; 105 core tests also pass.
+Coverage includes nested divergence, stable dirty content, owner-relative records,
+immutable captures, excluded files and required inputs, unavailable and blocked
+participants, wrong physical ownership, ref/content change detection and ordering.
+Identical bytes with different HEAD context preserve the corpus hash while changing
+the observation-set identity. Provider tests use the audited pure wheels with
+process/network audit rejection; they do not prove atomic filesystem isolation.
+
+Authority verification, generation, host registration and version-2 CLI integration
+remain pending for mounted observations. The unavailable exception is an internal
+context carrier, not yet a complete unavailable wire envelope. Whole-checkout
+unknown state remains fail-closed, including additional gitlinks for which no child
+evidence is supplied. This record does not close runtime acceptance gates.
