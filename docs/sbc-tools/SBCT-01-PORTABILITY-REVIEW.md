@@ -5,6 +5,11 @@
 **Runtime:** `0.1.0.dev34`, revision `9d666f43efe6ffab4c478a97ba199077e611d7de`.
 **Contract:** SBCT-01 0.9.1, `GATE-101/102`, and `W-101-P/N`.
 
+**Windows follow-up:** The owner subsequently authorized Developer Mode. The
+[new execution record](evidence/sbct-01-windows-native-execution.json) records
+native Windows symlink execution under a non-administrator token. Earlier
+privilege skips below remain historical; see the follow-up at the end.
+
 ## Result
 
 The Python 3.11 conditional-install branch, ordinary-user Linux execution and
@@ -103,3 +108,24 @@ does not prove every later interpreter.
 Next consolidate the proposed support scope for owner review while continuing
 already authorized SBCT-02 query-engine work as appropriate. No runtime gate,
 draft phase, release/tag or production approval is inferred here.
+
+## Windows Developer Mode follow-up
+
+The owner explicitly authorized enabling Windows Developer Mode. The machine's
+`AllowDevelopmentWithoutDevLicense` setting was set to `1` using Windows UAC
+elevation. A fresh ordinary, non-administrator Python process then created a
+directory symlink successfully without a restart. Developer Mode remains enabled.
+
+The Windows/Python 3.14.6 provider suite now passes all 165 tests with no skips.
+That includes 26 actual directory-symlink command cases and 26 actual junction
+cases, with guarded reads/resolution/metadata and unchanged file/link snapshots.
+Core and installed-distribution suites were not rerun for this machine-setting
+change; their earlier evidence remains separate. Runtime and test source did not
+change for this follow-up.
+
+Developer Mode enabled creation of adversarial test fixtures; it is not an SBC
+installation or scanning prerequisite. The setting change required elevation,
+but the provider suite and symlink probe ran under the ordinary token. Earlier
+Windows symlink skips are superseded by this additional witness, not rewritten.
+The native file-symlink case and final support-policy scope remain distinct from
+these directory-link results. No acceptance checkbox or release state changes.

@@ -19,6 +19,13 @@ recommendation, with unexecuted native cases stated explicitly. GATE-101 retains
 support-policy reconciliation. Earlier recommendations and decision wording
 below describe the original packet; they are not an approval record.
 
+**Windows native follow-up:** The owner-authorized Developer Mode change enabled
+the ordinary-token directory-symlink matrix. The
+[Windows execution record](evidence/sbct-01-windows-native-execution.json) reports
+all 165 provider tests passing, with native symlink and junction witnesses.
+The earlier Windows directory-symlink gap is resolved for that environment;
+support-scope decisions and formal gate disposition remain open.
+
 ## Proposed disposition
 
 Recommend owner approval of `GATE-103`, `GATE-104` and `GATE-105` against the

@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-25",
+  "result": "pass",
+  "runtime_version": "0.1.0.dev34",
+  "runtime_revision": "9d666f43efe6ffab4c478a97ba199077e611d7de",
+  "source_checkpoint": "c92ab21",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "developer_mode": {
+    "owner_authorization": "Developer mode enable AUTHORIZED",
+    "AllowDevelopmentWithoutDevLicense": 1,
+    "change_required_windows_uac": true,
+    "remains_enabled": true
+  },
+  "execution": {
+    "administrator_token": false,
+    "fresh_process_symlink_probe": true,
+    "provider_run": 165,
+    "provider_passed": 165,
+    "provider_skipped": 0,
+    "native_directory_symlink_commands": 26,
+    "native_junction_commands": 26,
+    "core_suite_rerun": false,
+    "installed_distribution_rerun": false
+  },
+  "test_sha256": "a6ff46cbd852fbb634d2cb43468f858c6b64b52ba1212c17568641b36ca60e0b",
+  "runtime_modules_rechecked_unchanged": 30,
+  "limits": [
+    "Windows 11 x86_64 / Python 3.14.6 execution",
+    "Developer Mode enabled native test fixture creation; SBC runtime does not require the setting",
+    "Native file symlinks and hostile concurrent filesystem replacement are not established by these directory-link matrices",
+    "No gate closure, support-policy approval, release or production authorization"
+  ]
+}

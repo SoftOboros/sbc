@@ -12,7 +12,7 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | Windows/Python 3.11.9 and WSL Linux/Python 3.12.3: 111 core passes, 164 provider passes and one platform-specific skip each; installed proofs plus Windows 3.14 rerun; native link matrices |
+| Latest execution | Windows/Python 3.14.6: all 165 provider tests pass after authorized Developer Mode enablement, including 26 native symlink and 26 junction command cases; earlier core/install/Linux evidence retained |
 | Next work | Owner gate/support-scope review; remaining selected-platform witnesses and authorized SBCT-02 query-engine work |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
@@ -106,3 +106,9 @@ Python 3.11 conditional inclusion, ordinary-user WSL Linux execution, 26 native
 Windows junction cases and 26 native Linux directory-symlink cases. It repairs
 verification-only POSIX fixture and audit-hook issues. GATE-102 is now included
 in the bounded owner review recommendation; no acceptance is recorded.
+
+The owner authorized Windows Developer Mode; the
+[Windows follow-up](evidence/sbct-01-windows-native-execution.json) now executes
+the previously skipped directory-symlink matrix under a non-administrator token.
+Developer Mode remains enabled. This is fixture-creation setup, not a new SBC
+runtime installation requirement. Gate approvals remain unchanged.
