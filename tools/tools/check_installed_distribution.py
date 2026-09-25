@@ -1,7 +1,7 @@
 """Build/install/execute a disposable distribution offline after wheel acquisition.
 
 Preparation may start Python/pip processes. Installed command executions reject
-process and network operations through a sitecustomize audit hook. No source or
+process and network operations through a virtual-environment audit hook. No source or
 runtime environment in the checkout is installed into or modified.
 """
 import argparse
@@ -94,6 +94,12 @@ def verify(build_wheels, provider_wheels, *, python=None):
         local_recipe = work/'requirements-git.txt'
         local_recipe.write_bytes(recipe_bytes)
         before = json.loads(run([python_at(runtime),'-m','pip','list','--format=json'],runtime))
+        # Python 3.11 ensurepip bootstraps setuptools into new environments.
+        # Remove that build helper to prove the installed runtime does not need it.
+        bootstrap_removed = [p['name'] for p in before if p['name'].lower() == 'setuptools']
+        if bootstrap_removed:
+            run([python_at(runtime),'-m','pip','uninstall','--yes',*bootstrap_removed],runtime)
+            before = json.loads(run([python_at(runtime),'-m','pip','list','--format=json'],runtime))
         tampered = work/'tampered-provider-wheels'
         tampered.mkdir()
         for name in PINS:
@@ -132,8 +138,11 @@ def verify(build_wheels, provider_wheels, *, python=None):
             raise ValueError('Runtime dependency version differs from the audited pin')
         site = Path(run([python_at(runtime),'-I','-c',
                          'import sysconfig; print(sysconfig.get_path("purelib"))'],runtime).strip())
-        (site/'sitecustomize.py').write_bytes(('import sys\n'+inspect.getsource(reject_process_and_network)
-                                              +'\nsys.addaudithook(reject_process_and_network)\n').encode())
+        # A distribution's standard-library sitecustomize can precede this
+        # environment on sys.path. A dedicated .pth hook avoids that shadowing.
+        (site/'sbct_installed_audit.py').write_bytes(('import sys\n'+inspect.getsource(reject_process_and_network)
+                                                   +'\nsys.addaudithook(reject_process_and_network)\n').encode())
+        (site/'sbct_installed_audit.pth').write_bytes(b'import sbct_installed_audit\n')
         origin = run([python_at(runtime),'-I','-c','import sbc_tools; print(sbc_tools.__file__)'],runtime).strip()
         if not Path(origin).is_relative_to(runtime): raise ValueError('Source checkout shadowed installation')
         negative = """import subprocess, socket
@@ -310,6 +319,7 @@ print('blocked')
                                    'sha256':hashlib.sha256(recipe_bytes).hexdigest(),
                                    'resolver_dependencies':expected,
                                    'typing_extensions_required':runtime_identity['version_info'][:2] < [3,12],
+                                   'bootstrap_packages_removed':bootstrap_removed,
                                    'tampered_wheel_rejected_without_package_changes':True,
                                    'native_archive_guard_rejections':['.pyd','.so']},
                 'checks':['pure wheel and console metadata','offline installation and pip check',

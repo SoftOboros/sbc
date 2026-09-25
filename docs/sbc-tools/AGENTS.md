@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | Hash-constrained recipe and installed CLI pass on Windows/Python 3.12.14 and 3.14.6; see installation review for suite results and limits |
-| Next work | Owner gate-packet review; Python 3.11 conditional install, non-Windows and native-link evidence; final release support matrix |
+| Latest execution | Windows/Python 3.11.9 and WSL Linux/Python 3.12.3: 111 core passes, 164 provider passes and one platform-specific skip each; installed proofs plus Windows 3.14 rerun; native link matrices |
+| Next work | Owner gate/support-scope review; remaining selected-platform witnesses and authorized SBCT-02 query-engine work |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -100,3 +100,9 @@ The [installation reconciliation](SBCT-01-INSTALLATION-REVIEW.md) extends the
 verifier to execute the unchanged requirements recipe and conditional dependency
 resolution on two existing interpreters. Tampered-wheel and native archive guard
 negative controls pass. Runtime remains dev34; GATE-101/102 remain open.
+
+The [portability/native-link review](SBCT-01-PORTABILITY-REVIEW.md) adds actual
+Python 3.11 conditional inclusion, ordinary-user WSL Linux execution, 26 native
+Windows junction cases and 26 native Linux directory-symlink cases. It repairs
+verification-only POSIX fixture and audit-hook issues. GATE-102 is now included
+in the bounded owner review recommendation; no acceptance is recorded.

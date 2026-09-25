@@ -1,0 +1,321 @@
+{
+  "date": "2026-09-25",
+  "result": "bounded portability and native-link witnesses passed",
+  "runtime_version": "0.1.0.dev34",
+  "runtime_revision": "9d666f43efe6ffab4c478a97ba199077e611d7de",
+  "runtime_modules_rechecked_unchanged": 30,
+  "installed_runs": {
+    "windows_311": {
+      "wheel": "sbc_tools-0.1.0.dev34-py3-none-any.whl",
+      "sha256": "8268bf2377fc4d8b4af91565e8159963ab59fc182cc5589dc83507830d2b0b56",
+      "version": "sbc-tools 0.1.0.dev34",
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "mounted_cli_schema_envelopes": 9,
+      "runtime_packages": [
+        {
+          "name": "dulwich",
+          "version": "1.2.15"
+        },
+        {
+          "name": "pip",
+          "version": "24.0"
+        },
+        {
+          "name": "sbc-tools",
+          "version": "0.1.0.dev34"
+        },
+        {
+          "name": "typing_extensions",
+          "version": "4.16.0"
+        },
+        {
+          "name": "urllib3",
+          "version": "2.8.0"
+        }
+      ],
+      "build_wheels": {
+        "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+        "wheel-0.48.0-py3-none-any.whl": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+        "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+      },
+      "provider_wheels": {
+        "dulwich-1.2.15-py3-none-any.whl": "5c863992962bab0fc5f75be132399a16f670f2a9283faf9aaeb953fd8891db83",
+        "urllib3-2.8.0-py3-none-any.whl": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+        "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+      },
+      "provider_recipe": {
+        "path": "tools/requirements-git.txt",
+        "sha256": "d60847d5ed445059a007173ece943879e57c0486352443c0ea69e07d7624dee3",
+        "resolver_dependencies": {
+          "dulwich": "1.2.15",
+          "urllib3": "2.8.0",
+          "typing-extensions": "4.16.0"
+        },
+        "typing_extensions_required": true,
+        "bootstrap_packages_removed": [
+          "setuptools"
+        ],
+        "tampered_wheel_rejected_without_package_changes": true,
+        "native_archive_guard_rejections": [
+          ".pyd",
+          ".so"
+        ]
+      },
+      "checks": [
+        "pure wheel and console metadata",
+        "offline installation and pip check",
+        "hash-constrained requirements resolver and exact package inventory",
+        "tampered provider hash rejection without package changes",
+        "native archive guards with matching digest negative controls",
+        "installed import origin",
+        "process/network audit negative controls",
+        "actual console launcher help/version/invocation error",
+        "console scan/commit/check",
+        "module and launcher envelope parity",
+        "wrong authority pin rejection",
+        "working-tree console scan/check with null commit IDs",
+        "installed mounted scan/commit/check and module parity",
+        "installed mounted repeat emission byte equality without source changes",
+        "installed mounted dirty child nonwriting drift",
+        "installed missing child and blocked descendant with retained pointer",
+        "installed missing history versus checkout and bad authority rejection",
+        "installed mounted envelopes validate against approved schema"
+      ],
+      "scope": "Local disposable environment; fixture approvals only; no release or gate closure"
+    },
+    "windows_314": {
+      "wheel": "sbc_tools-0.1.0.dev34-py3-none-any.whl",
+      "sha256": "f2b159e6cf5a7f949cc44914203f1894157666a6e628af7f4cb3fa8e51682354",
+      "version": "sbc-tools 0.1.0.dev34",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.14.6",
+      "mounted_cli_schema_envelopes": 9,
+      "runtime_packages": [
+        {
+          "name": "dulwich",
+          "version": "1.2.15"
+        },
+        {
+          "name": "pip",
+          "version": "26.1.2"
+        },
+        {
+          "name": "sbc-tools",
+          "version": "0.1.0.dev34"
+        },
+        {
+          "name": "urllib3",
+          "version": "2.8.0"
+        }
+      ],
+      "build_wheels": {
+        "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+        "wheel-0.48.0-py3-none-any.whl": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+        "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+      },
+      "provider_wheels": {
+        "dulwich-1.2.15-py3-none-any.whl": "5c863992962bab0fc5f75be132399a16f670f2a9283faf9aaeb953fd8891db83",
+        "urllib3-2.8.0-py3-none-any.whl": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+        "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+      },
+      "provider_recipe": {
+        "path": "tools/requirements-git.txt",
+        "sha256": "d60847d5ed445059a007173ece943879e57c0486352443c0ea69e07d7624dee3",
+        "resolver_dependencies": {
+          "dulwich": "1.2.15",
+          "urllib3": "2.8.0"
+        },
+        "typing_extensions_required": false,
+        "bootstrap_packages_removed": [],
+        "tampered_wheel_rejected_without_package_changes": true,
+        "native_archive_guard_rejections": [
+          ".pyd",
+          ".so"
+        ]
+      },
+      "checks": [
+        "pure wheel and console metadata",
+        "offline installation and pip check",
+        "hash-constrained requirements resolver and exact package inventory",
+        "tampered provider hash rejection without package changes",
+        "native archive guards with matching digest negative controls",
+        "installed import origin",
+        "process/network audit negative controls",
+        "actual console launcher help/version/invocation error",
+        "console scan/commit/check",
+        "module and launcher envelope parity",
+        "wrong authority pin rejection",
+        "working-tree console scan/check with null commit IDs",
+        "installed mounted scan/commit/check and module parity",
+        "installed mounted repeat emission byte equality without source changes",
+        "installed mounted dirty child nonwriting drift",
+        "installed missing child and blocked descendant with retained pointer",
+        "installed missing history versus checkout and bad authority rejection",
+        "installed mounted envelopes validate against approved schema"
+      ],
+      "scope": "Local disposable environment; fixture approvals only; no release or gate closure"
+    },
+    "linux_312": {
+      "wheel": "sbc_tools-0.1.0.dev34-py3-none-any.whl",
+      "sha256": "1bb94fe0f53faa5bf25425f33f345cf5f7eae418a44dd82801b5381d0dbde9a1",
+      "version": "sbc-tools 0.1.0.dev34",
+      "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "python": "3.12.3",
+      "mounted_cli_schema_envelopes": 9,
+      "runtime_packages": [
+        {
+          "name": "dulwich",
+          "version": "1.2.15"
+        },
+        {
+          "name": "pip",
+          "version": "24.0"
+        },
+        {
+          "name": "sbc-tools",
+          "version": "0.1.0.dev34"
+        },
+        {
+          "name": "urllib3",
+          "version": "2.8.0"
+        }
+      ],
+      "build_wheels": {
+        "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+        "wheel-0.48.0-py3-none-any.whl": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+        "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+      },
+      "provider_wheels": {
+        "dulwich-1.2.15-py3-none-any.whl": "5c863992962bab0fc5f75be132399a16f670f2a9283faf9aaeb953fd8891db83",
+        "urllib3-2.8.0-py3-none-any.whl": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+        "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+      },
+      "provider_recipe": {
+        "path": "tools/requirements-git.txt",
+        "sha256": "d60847d5ed445059a007173ece943879e57c0486352443c0ea69e07d7624dee3",
+        "resolver_dependencies": {
+          "dulwich": "1.2.15",
+          "urllib3": "2.8.0"
+        },
+        "typing_extensions_required": false,
+        "bootstrap_packages_removed": [],
+        "tampered_wheel_rejected_without_package_changes": true,
+        "native_archive_guard_rejections": [
+          ".pyd",
+          ".so"
+        ]
+      },
+      "checks": [
+        "pure wheel and console metadata",
+        "offline installation and pip check",
+        "hash-constrained requirements resolver and exact package inventory",
+        "tampered provider hash rejection without package changes",
+        "native archive guards with matching digest negative controls",
+        "installed import origin",
+        "process/network audit negative controls",
+        "actual console launcher help/version/invocation error",
+        "console scan/commit/check",
+        "module and launcher envelope parity",
+        "wrong authority pin rejection",
+        "working-tree console scan/check with null commit IDs",
+        "installed mounted scan/commit/check and module parity",
+        "installed mounted repeat emission byte equality without source changes",
+        "installed mounted dirty child nonwriting drift",
+        "installed missing child and blocked descendant with retained pointer",
+        "installed missing history versus checkout and bad authority rejection",
+        "installed mounted envelopes validate against approved schema"
+      ],
+      "scope": "Local disposable environment; fixture approvals only; no release or gate closure"
+    }
+  },
+  "suite_runs": {
+    "windows_311": {
+      "core_passed": 111,
+      "provider": {
+        "run": 165,
+        "passed": 164,
+        "skipped": 1,
+        "skip_records": [
+          "test_native_directory_symlink_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_directory_symlink_matrix_rejects_without_reads_or_mutations) ... skipped 'Native directory symlink unavailable: errno=22, winerror=1314'"
+        ]
+      }
+    },
+    "linux_312": {
+      "core_passed": 111,
+      "provider": {
+        "run": 165,
+        "passed": 164,
+        "skipped": 1,
+        "skip_records": [
+          "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+        ]
+      }
+    }
+  },
+  "linux_environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "uid": 1000,
+    "fixture_filesystem": "WSL Linux /tmp, not the mounted Windows source filesystem"
+  },
+  "native_commands": {
+    "per_link_type": 26,
+    "windows_junctions": "passed on Python 3.11.9 full suite; also Python 3.14.6 focused matrix",
+    "linux_directory_symlinks": "passed on Python 3.12.3 native WSL filesystem",
+    "scope": "scan/check; committed, single-source and mounted modes; source, registry, authority and output roles plus mounted child; exact file/link snapshots and read/resolve/metadata guards",
+    "windows_directory_symlink": "skipped: errno 22, WinError 1314; no system privilege change"
+  },
+  "python311_acquisition": {
+    "source": "https://api.nuget.org/v3-flatcontainer/python/3.11.9/python.3.11.9.nupkg",
+    "archive_sha256": "9283876d58c017e0e846f95b490da3bca0fc0a6ee1134b2870677cfb7eec3c67",
+    "authenticode_status": "Valid",
+    "signer": "Python Software Foundation",
+    "administrator_token": false,
+    "purpose": "Temporary floor-version compatibility witness; no system install, support or security declaration"
+  },
+  "developer_schema_wheels_linux": {
+    "attrs-26.1.0-py3-none-any.whl": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+    "jsonschema-4.26.0-py3-none-any.whl": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce",
+    "jsonschema_specifications-2025.9.1-py3-none-any.whl": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe",
+    "referencing-0.37.0-py3-none-any.whl": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231",
+    "rpds_py-2026.6.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "ecabd69db66de867690f9797f2f8fa27ba501bbc24540cbdbdc649cd15888ba6",
+    "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+  },
+  "review_fixes": [
+    {
+      "finding": "POSIX loose Git objects are read-only; deliberate corruption fixture failed before exercising the reader",
+      "change": "Permit owner writes on that test-owned object before corrupting it",
+      "runtime_change": false
+    },
+    {
+      "finding": "Linux installed audit negative control failed because standard-library sitecustomize shadowed the virtual-environment file",
+      "change": "Load a uniquely named audit module through a virtual-environment .pth file; negative controls pass",
+      "runtime_change": false
+    },
+    {
+      "finding": "Existing Linux jsonschema lacked the referencing developer dependency",
+      "change": "Use a disposable developer environment with exact schema packages; keep them outside the installed SBC runtime",
+      "runtime_change": false
+    },
+    {
+      "finding": "Python 3.11 ensurepip adds setuptools to fresh environments",
+      "change": "Remove bootstrapped setuptools from the disposable runtime before proving exact runtime dependency inventory",
+      "runtime_change": false
+    }
+  ],
+  "source_sha256": {
+    "tools/tests_git/test_cli_path_boundaries.py": "a6ff46cbd852fbb634d2cb43468f858c6b64b52ba1212c17568641b36ca60e0b",
+    "tools/tests_git/test_git_reader.py": "5579cbd28319a2d87df5916ae4169dd262160ba9b87cbcb6c0c8250c6b1e4f16",
+    "tools/tools/check_installed_distribution.py": "36d9c81ebbfefb11af16e4a1b0453071a9b58e7af107a6366088970c0fb0b403",
+    "tools/requirements-git.txt": "d60847d5ed445059a007173ece943879e57c0486352443c0ea69e07d7624dee3"
+  },
+  "limitations": [
+    "WSL Linux x86_64 and Windows x86_64 only; no macOS or other architecture claim",
+    "Python 3.13 and newer 3.11 patch releases not exercised",
+    "Native Windows directory-symlink creation requires a privilege unavailable in the test token; junctions tested without elevation",
+    "Native matrices concern directory links; injected metadata and existing component tests remain separate witnesses",
+    "Developer schema dependencies include a compiled rpds wheel but are absent from installed SBC runtime inventories",
+    "No full supported-version policy, gate closure, release or production authority approval"
+  ]
+}

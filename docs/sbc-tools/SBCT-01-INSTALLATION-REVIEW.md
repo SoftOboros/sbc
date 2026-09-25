@@ -5,6 +5,10 @@
 **Runtime:** `0.1.0.dev34`, revision `9d666f43efe6ffab4c478a97ba199077e611d7de`.
 **Contract:** SBCT-01 0.9.1 §5/§8 and named witnesses `W-101-P/N`.
 
+**Follow-up:** The [portability review](SBCT-01-PORTABILITY-REVIEW.md) adds actual
+Python 3.11 and WSL Linux execution and native directory-link witnesses. The
+ledger below retains its earlier scope; consult that review for current evidence.
+
 ## Result
 
 The documented hash-constrained provider recipe now has installed CLI evidence

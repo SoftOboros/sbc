@@ -1,5 +1,6 @@
 """Real Git objects; no Git executable, network, hooks or checkout required."""
 from pathlib import Path
+import stat
 import tempfile
 import unittest
 import zlib
@@ -76,7 +77,11 @@ class GitReaderTests(unittest.TestCase):
 
     def test_corrupt_blob_is_rejected(self):
         oid = self.blob.id.decode()
-        (self.root/".git/objects"/oid[:2]/oid[2:]).write_bytes(zlib.compress(b"blob 5\0wrong"))
+        target = self.root/".git/objects"/oid[:2]/oid[2:]
+        # Dulwich creates read-only loose objects on POSIX. This fixture owns the
+        # object; permit the deliberate corruption before testing reader rejection.
+        target.chmod(target.stat().st_mode | stat.S_IWUSR)
+        target.write_bytes(zlib.compress(b"blob 5\0wrong"))
         with self.assertRaises(GitReadError):
             self.reader.read_blob(self.commit, "projections/record.json")
 

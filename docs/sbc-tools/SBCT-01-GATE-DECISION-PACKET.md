@@ -12,6 +12,13 @@ adds direct requirements-recipe execution on Windows/Python 3.12.14 and 3.14.6.
 The original evidence scope below is retained; no gate recommendation or approval
 state changes. The Python 3.11 branch and release environment matrix remain open.
 
+**Latest follow-up:** [Portability and native-link review](SBCT-01-PORTABILITY-REVIEW.md)
+now supplies Python 3.11 and WSL Linux execution, native Windows junctions and
+native Linux directory symlinks. It adds GATE-102 to the bounded owner review
+recommendation, with unexecuted native cases stated explicitly. GATE-101 retains
+support-policy reconciliation. Earlier recommendations and decision wording
+below describe the original packet; they are not an approval record.
+
 ## Proposed disposition
 
 Recommend owner approval of `GATE-103`, `GATE-104` and `GATE-105` against the

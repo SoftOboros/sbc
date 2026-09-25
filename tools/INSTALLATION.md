@@ -5,6 +5,9 @@ This is the repository-core development recipe governed by
 declare a supported release matrix or complete core/dashboard conformance.
 See the [installation review](../docs/sbc-tools/SBCT-01-INSTALLATION-REVIEW.md)
 for executed environments and remaining evidence.
+The [portability follow-up](../docs/sbc-tools/SBCT-01-PORTABILITY-REVIEW.md)
+records Python 3.11 conditional inclusion, WSL Linux execution and native-link
+checks. Python/platform support remains an explicit release decision.
 
 ## Select the interpreter and environment
 
@@ -37,7 +40,8 @@ python -m venv .venv-sbct
 These acquisition/build commands may access PyPI. They are separate from offline
 repository operations. Source installation uses the build backend in
 `pyproject.toml`; it is not the exact pinned offline build proof below. The POSIX
-commands document the corresponding recipe, not an executed Linux/macOS result.
+commands document the corresponding recipe; the offline installed variant has
+WSL Linux evidence, while macOS remains unexecuted.
 
 The package's standard-library core and optional Git provider are separate
 installation steps. Installing `./tools` alone does not install the provider
@@ -94,6 +98,13 @@ the exact resolved package set, `pip check`, native archive guards, and rejectio
 of a tampered provider wheel without package changes before running the installed
 CLI witnesses. The target interpreter/platform and recipe digest are reported
 with the wheel digest. Temporary environments are removed afterward.
+
+Python 3.11 may bootstrap setuptools into its new virtual environment. The
+verifier removes that build helper from the disposable runtime and records the
+removal before testing the minimal dependency inventory. It loads test audit
+controls through an environment-local `.pth` hook so an operating system's
+`sitecustomize` does not shadow them. Schema packages are developer-only inputs;
+they are not installed into the runtime under test.
 
 Python's standard library and the pip-generated Windows console launcher remain
 within the approved installation boundary. Third-party compiled runtime
