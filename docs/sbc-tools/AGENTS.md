@@ -13,7 +13,7 @@
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
 | Latest execution | 111 core tests; 163 provider passes and one native-symlink skip; 66 command boundary cases; nine exact producer comparisons; prior installed dev34 proof |
-| Next work | Consolidated gate decision packet with bounded witnesses and remaining native-link/platform requirements |
+| Next work | Owner review of consolidated gate packet; remaining installation-recipe, platform and native-link evidence |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -91,3 +91,7 @@ The [boundary/profile reconciliation](SBCT-01-BOUNDARY-AND-PROFILE-REVIEW.md)
 records 60 injected link/reparse and six escaping-scope command cases, exact
 pinned regeneration, and the remaining native-link/platform limits. Runtime
 source remains dev34. No gate, exception or new compatibility profile is approved.
+
+The [consolidated gate decision packet](SBCT-01-GATE-DECISION-PACKET.md)
+recommends owner approval of GATE-103/104/105 and retaining GATE-101/102 open.
+It maps concrete witnesses and remaining work; no owner disposition is recorded.

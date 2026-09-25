@@ -8,6 +8,12 @@
 **Owner:** Ira Abbott
 **Informative:** phase documents own contracts; this file owns navigation only.
 
+**Current acceptance review (2026-09-25):** The
+[consolidated gate decision packet](SBCT-01-GATE-DECISION-PACKET.md) recommends
+owner approval of GATE-103/104/105 and retaining GATE-101/102 open. Mounted
+observations are implemented under SBCT-01 0.9.1 / observation contract 0.1.3;
+older progress entries below are historical. No runtime gate is closed by the packet.
+
 This family specifies reusable indexing helpers, shared queries, an optional
 Django reference backend, a dashboard, and Interlock composition. It governs
 the supporting code separately from the SBC discipline and the SIDX delivery
