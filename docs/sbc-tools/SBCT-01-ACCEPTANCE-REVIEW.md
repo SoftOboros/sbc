@@ -4,6 +4,9 @@
 **Status:** Informative review; runtime gates remain open.
 **Reviewed revision:** `3317d112bdd44a7b7f127c61fb639104ba049e9c`.
 
+**Latest bounded review:** [Installed mounted observations, 2026-09-25](SBCT-01-MOUNTED-ACCEPTANCE-REVIEW.md).
+Earlier tables and follow-ups below retain their historical evidence context.
+
 ## Recommendation
 
 Continue implementation and focused acceptance work. Do not mark SBCT-01 fully
@@ -317,3 +320,25 @@ and reject process/network calls. No installed mounted-console proof is claimed.
 
 Next: installed mounted-console execution and bounded implementation review before
 reconciling runtime witnesses. GATE-101–105 and GATE-201–205 remain open.
+
+## Installed mounted execution and bounded review — 2026-09-25
+
+The actual installed dev34 launcher now passes mounted scan/commit/check,
+module parity, semantic dirty-child drift without writes, repeated selected-payload
+byte equality, missing-child/blocked-descendant reporting, unavailable-history
+distinction and invalid-authority rejection. Nine mounted launcher/module envelopes
+validate against the approved schema. Missing evidence and rejected authority retain
+the existing publication pointer. Existing committed and single-source installed
+scenarios also pass in the same disposable offline runtime.
+
+The [execution record](evidence/sbct-01-installed-mounted-execution.json) pins the
+wheel and verifier digests, exact dependency versions and Windows/Python boundary.
+The [static import inventory](evidence/sbct-01-core-import-audit.json) covers 30
+first-party runtime modules: the only non-stdlib import root is Dulwich; no dynamic
+import calls were found. This is not a security audit of provider dependencies.
+Runtime source remains at `9d666f43efe6ffab4c478a97ba199077e611d7de`; prior 111/161
+suite counts are retained evidence, not rerun claims for this verifier-only review.
+
+The [bounded review](SBCT-01-MOUNTED-ACCEPTANCE-REVIEW.md) recommends completing
+the command-level path-boundary witness matrix and final profile/golden reconciliation
+before an explicit gate recommendation. No runtime gate or release is closed.

@@ -1,0 +1,132 @@
+{
+  "modules": [
+    {
+      "path": "__init__.py",
+      "sha256": "c69bec5c102fdfe886b123584c0234ca950ba8843fd29e515dcb38d5ad6f9924"
+    },
+    {
+      "path": "__main__.py",
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+    },
+    {
+      "path": "_producer_locations.py",
+      "sha256": "b44fe002d6ad1794452992147dcbab87874ad6ce13cd868bcae43aed1cfdbcb9"
+    },
+    {
+      "path": "_producer_parser.py",
+      "sha256": "6c787f193c65840df06b5ce4e0fc459e4fb0c838248b57b5e064a0e3f70486ef"
+    },
+    {
+      "path": "_sidx_validation.py",
+      "sha256": "eec2160708cc05e49e6244c7a287e247192379e622c6a5abe7a46de63049acdf"
+    },
+    {
+      "path": "authority.py",
+      "sha256": "37891208c2bce40ab8751051411b0f36234db25262c55b6f0bbb865e9ad5c687"
+    },
+    {
+      "path": "canonical.py",
+      "sha256": "763010611d49cbadb681db02c7e963c3e18ab5fa3ca51df34bf0dd0305344333"
+    },
+    {
+      "path": "cli.py",
+      "sha256": "c62cb72f4f738cb0bfa54cfb4da2af617ee1ae445e31590945577b1dff3edd97"
+    },
+    {
+      "path": "cli_results.py",
+      "sha256": "7ae6c310087a9771042124c8ee5ba05241cd60e2f82d20b5cea1cf9ad143302e"
+    },
+    {
+      "path": "configuration.py",
+      "sha256": "1c0906a372578ba56f1c11ffd94ab8ad9c212e73d4bcd9983919a2ec0d896c26"
+    },
+    {
+      "path": "corpus.py",
+      "sha256": "f5f997224b0ab794ab856f6486a5bfb61b7f8873940a3cf0b1f01b3a6ca56855"
+    },
+    {
+      "path": "cursors.py",
+      "sha256": "25355d9f2a82601ab0c43bacaf7c57c9493ef827fc88536ff50be7930ec6cc64"
+    },
+    {
+      "path": "directory_store.py",
+      "sha256": "7752b106c3a38c071406dbebf75801334fd0caac462f399d0e03a2e818cce50f"
+    },
+    {
+      "path": "documents.py",
+      "sha256": "c9517a87ecdfff42f86405909500a5d0f3070fb49dc4bd1d6c27dd326e620a8a"
+    },
+    {
+      "path": "git_reader.py",
+      "sha256": "33a49a83cfddb5eee13b19023d9594b43ed3075530d756ff3aad166810654a10"
+    },
+    {
+      "path": "host.py",
+      "sha256": "c5fdda637f684127a98f65d6e9a01e3821c76966fa9817a53d84c5dae1ea4e5a"
+    },
+    {
+      "path": "identity.py",
+      "sha256": "00a0f4fab22801940614b87de6886561847945bfb99567370ad43777e89dcf90"
+    },
+    {
+      "path": "local_checkout.py",
+      "sha256": "9a1b07958075534aafcacd86c1ed6fe189dc8976cca28fb210de7c31c52573d0"
+    },
+    {
+      "path": "mounted_working_tree.py",
+      "sha256": "11e0bd902eaf49931b9d8b37950d36ad8daad56b8971906fbd7ab2572e483fcc"
+    },
+    {
+      "path": "mounts.py",
+      "sha256": "893653f989082b93094791c3718c99a99affc4ebabe1527f76d6fed760b3a59d"
+    },
+    {
+      "path": "observation_sets.py",
+      "sha256": "ba017e888ab7ff6cdcc2bae4038fae25b2123ed0a75d6ece31f4a5fa3979f0ff"
+    },
+    {
+      "path": "observations.py",
+      "sha256": "ca107adc0ad240ac8a53b2ebe0031e32fd519766682377ebdbf2634e211f7cdb"
+    },
+    {
+      "path": "observed_mounts.py",
+      "sha256": "715aa78625a2dbc5a6356e26a3278c263ef7228904783dbb9ebb2ff06cdb8c3b"
+    },
+    {
+      "path": "patches.py",
+      "sha256": "5164e0842dbdcc596d94aa5fcee72feffea559d227c071e5bb31d19fa84e53d1"
+    },
+    {
+      "path": "projections.py",
+      "sha256": "bb9062cea7129e537121b6d466ff9e243478d31ffd3adb09b876361d61159594"
+    },
+    {
+      "path": "provenance.py",
+      "sha256": "e9e5a6f4fd1cf7f2363d202a4e8a4949833402ec6d75a7860db766a5eaf101e3"
+    },
+    {
+      "path": "registered_readers.py",
+      "sha256": "856ac72df4af44fff53a5eaee58902dee158fec39bffb9f9535a289961f6d885"
+    },
+    {
+      "path": "store.py",
+      "sha256": "f8a63f2a13fb3f73aca04f0ad5fdf713f37783932005d912e1b32308e696cab0"
+    },
+    {
+      "path": "validation.py",
+      "sha256": "30fee7412f0d5ae509fb581dea6ce14ea48bc7c1c86e1f8b21098af0a80bef26"
+    },
+    {
+      "path": "working_tree.py",
+      "sha256": "98969915b48012baac5ed5592d0159a3954eefed92cd5dc21b224291b818a633"
+    }
+  ],
+  "nonstdlib_import_roots": [
+    "dulwich"
+  ],
+  "dynamic_import_calls": [],
+  "scope": "Static AST import inventory of first-party runtime files only; not a security audit or dependency source audit.",
+  "date": "2026-09-25",
+  "runtime_revision": "9d666f43efe6ffab4c478a97ba199077e611d7de",
+  "result": "pass"
+}

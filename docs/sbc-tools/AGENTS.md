@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | 111 core tests and 161 Git/provenance tests; 12 mounted CLI envelopes pass schema checks; installed mounted launcher proof pending |
-| Next work | Installed mounted console proof and bounded acceptance review, then reconcile remaining runtime witnesses |
+| Latest execution | Installed dev34 Windows/Python 3.14.6 proof, nine mounted launcher/module envelopes; 30 runtime modules audited; prior 111 core and 161 provider tests |
+| Next work | Command-level path-boundary witness matrix, then final profile/golden reconciliation and explicit gate recommendation |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -79,3 +79,10 @@ owner approved known HEAD with unknown local evidence in incomplete observations
 in [the amendment review](SBCT-01-INCOMPLETE-OBSERVATION-REVIEW.md), incorporated
 by SBCT-01 0.9.1 / observation contract 0.1.3. Prior pending-CLI notes are historical.
 No runtime acceptance gate or release is approved by this implementation record.
+
+The [installed mounted acceptance review](SBCT-01-MOUNTED-ACCEPTANCE-REVIEW.md)
+records successful actual-launcher execution and the remaining gate matrix.
+Dev34 runtime source is unchanged by that review. Its distribution verifier now
+covers mounted repeat/drift, missing/blocked evidence and retained publication.
+Windows/Python 3.14.6 remains the executed installation boundary; other platform
+and Python combinations are not established by this evidence.

@@ -5,10 +5,12 @@ process and network operations through a sitecustomize audit hook. No source or
 runtime environment in the checkout is installed into or modified.
 """
 import argparse
+from dataclasses import replace
 import hashlib
 import inspect
 import json
 import os
+import platform
 from pathlib import Path
 import shutil
 import subprocess
@@ -55,7 +57,8 @@ def verify(build_wheels, provider_wheels):
         def run(args, env, expected=0):
             result = subprocess.run([str(a) for a in args],cwd=work,env=environment(env),
                                     capture_output=True,text=True,encoding='utf-8')
-            if result.returncode != expected:
+            expected_codes = (expected,) if isinstance(expected, int) else expected
+            if result.returncode not in expected_codes:
                 raise RuntimeError(f'Process exit {result.returncode}, expected {expected}: {result.stderr[-1600:]} {result.stdout[-600:]}')
             return result.stdout
         build_env, runtime = work/'builder',work/'runtime'
@@ -140,13 +143,140 @@ print('blocked')
             assert rejected['error']['code'] == 'invalid_authority'
         finally:
             fixture.doCleanups()
+        # Mounted scenarios run through the installed launcher, not mocked source
+        # call sites. Only fixture preparation imports the checkout's helpers.
+        from test_mounted_working_cli import MountedWorkingCLITests
+        from test_admission import checkout
+        from test_provenance_inputs import commit_files
+        mounted = MountedWorkingCLITests()
+        mounted_results = []
+        try:
+            mounted.setUp()
+            args = ['--config',mounted.registration.configuration_file,
+                    '--host',mounted.host_path,'--format=json']
+            def invoke(action, expected):
+                result = json.loads(run([command,action,*args],runtime,expected))
+                assert result['schema_version'] == 2
+                assert result['mode'] == 'working-tree'
+                if result['selection'] is not None:
+                    assert result['selection']['source_commit'] is None
+                    assert result['selection']['projection_commit'] is None
+                    assert result['selection']['dependencies'] == []
+                mounted_results.append(result)
+                return result
+            missing_reference = invoke('check',3)
+            assert missing_reference['observation']['complete']
+            scan = invoke('scan',(0,1))
+            assert scan['result']['publication'] == 'published'
+            files = dict(mounted.source_files,**{'sbc.toml':mounted.registration.config_bytes})
+            files.update({p.relative_to(mounted.source_root).as_posix():p.read_bytes()
+                          for p in (mounted.source_root/'projection').rglob('*') if p.is_file()})
+            child_head = mounted.child_reader.resolve_commit('HEAD')
+            committed = commit_files(mounted.source_repo,files,{'docs/todo/child':child_head})
+            checkout(mounted.source_repo,mounted.source_root,committed)
+            checked = invoke('check',(0,1))
+            assert checked['result']['comparison'] == 'equal'
+            assert scan['selection']['snapshot_id'] == checked['selection']['snapshot_id']
+            module = json.loads(run([python_at(runtime),'-I','-m','sbc_tools','check',*args],runtime,(0,1)))
+            assert module == checked
+            mounted_results.append(module)
+            def checkout_bytes():
+                return {p.relative_to(mounted.source_root).as_posix():p.read_bytes()
+                        for p in mounted.source_root.rglob('*') if p.is_file()
+                        and '.git' not in p.relative_to(mounted.source_root).parts}
+            def selected_payload():
+                output = mounted.source_root/'projection'
+                selected = json.loads((output/'current.json').read_bytes())['bundle']
+                files = output/selected/'files'
+                return {p.relative_to(files).as_posix():p.read_bytes()
+                        for p in files.rglob('*') if p.is_file()}
+            before_repeat = checkout_bytes()
+            before_payload = selected_payload()
+            repeated = invoke('scan',(0,1))
+            assert repeated['selection']['snapshot_id'] == scan['selection']['snapshot_id']
+            assert selected_payload() == before_payload
+            assert {p:b for p,b in checkout_bytes().items() if not p.startswith('projection/')} == {
+                p:b for p,b in before_repeat.items() if not p.startswith('projection/')}
+            (mounted.child_root/'note.md').write_bytes(
+                b'# Installed dirty child\n\n**Document ID:** CHILD-00\n')
+            before_check = checkout_bytes()
+            dirty = invoke('check',1)
+            assert dirty['result']['comparison'] == 'different'
+            assert checkout_bytes() == before_check
+            states = {p['repository_id']:p['checkout_state'] for p in dirty['observation']['participants']}
+            # Repeat publication added an untracked retained output bundle in the
+            # parent. That is its own dirty state, separate from child contents.
+            assert states == {'source':'dirty','child':'dirty'}
+            pointer = mounted.source_root/'projection/current.json'
+            original_pointer = pointer.read_bytes()
+            # A missing ancestor must prevent opening its registered descendant.
+            config = mounted.registration.config_bytes.replace(b'repository_id = "child"}]',
+                b'repository_id = "child"}, {path = "docs/todo/child/nested", repository_id = "nested"}]')
+            original_registration = mounted.registration
+            mounted.registration = replace(mounted.registration,config_bytes=config,
+                source_repositories=dict(mounted.registration.source_repositories,
+                                         nested=mounted.child_root/'nested'))
+            mounted.registration.configuration_file.write_bytes(config)
+            mounted.write_binding()
+            parked = mounted.root/'parked-installed-child'
+            mounted.child_root.rename(parked)
+            try:
+                missing = invoke('scan',3)
+            finally:
+                parked.rename(mounted.child_root)
+                mounted.registration = original_registration
+                mounted.registration.configuration_file.write_bytes(original_registration.config_bytes)
+                mounted.write_binding()
+            assert missing['selection'] is None and missing['result'] is None
+            assert not missing['observation']['complete']
+            participants = {p['repository_id']:p for p in missing['observation']['participants']}
+            assert participants['child']['availability'] == 'missing_checkout'
+            assert participants['nested']['availability'] == 'blocked_by_ancestor'
+            assert participants['source']['observed_head'] == committed
+            assert participants['source']['checkout_state'] == 'unknown'
+            assert participants['source']['corpus_sha256'] is None
+            assert pointer.read_bytes() == original_pointer
+            mounted.child_repo.refs[b'HEAD'] = b'0'*40
+            try:
+                unavailable = invoke('scan',3)
+            finally:
+                mounted.child_repo.refs[b'HEAD'] = child_head.encode()
+            assert unavailable['observation']['participants'][0]['availability'] == 'unavailable_history'
+            assert pointer.read_bytes() == original_pointer
+            mounted.registration = replace(mounted.registration,approved_authority_sha256='0'*64)
+            mounted.write_binding()
+            rejected = invoke('scan',2)
+            assert rejected['error']['code'] == 'invalid_authority'
+            assert rejected['observation'] is None
+            assert pointer.read_bytes() == original_pointer
+            # Schema tooling is a developer dependency in this parent process;
+            # it is deliberately absent from the installed runtime environment.
+            import jsonschema
+            from referencing import Registry, Resource
+            contracts = root.parent/'docs/sbc-tools/contracts'
+            schema = json.loads((contracts/'observation-set.schema.json').read_bytes())
+            registry = Registry().with_resource(schema['$id'],Resource.from_contents(schema))
+            validator = jsonschema.Draft202012Validator(
+                json.loads((contracts/'cli-observation-envelope.schema.json').read_bytes()),registry=registry)
+            for result in mounted_results:
+                validator.validate(result)
+        finally:
+            mounted.doCleanups()
         return {'wheel':wheel.name,'sha256':wheel_sha,'version':version,
+                'platform':platform.platform(),'python':platform.python_version(),
+                'mounted_cli_schema_envelopes':len(mounted_results),
                 'runtime_packages':packages,'build_wheels':BUILD_PINS,'provider_wheels':PINS,
                 'checks':['pure wheel and console metadata','offline installation and pip check',
                           'installed import origin','process/network audit negative controls',
                           'actual console launcher help/version/invocation error',
                           'console scan/commit/check','module and launcher envelope parity',
-                          'wrong authority pin rejection','working-tree console scan/check with null commit IDs'],
+                          'wrong authority pin rejection','working-tree console scan/check with null commit IDs',
+                          'installed mounted scan/commit/check and module parity',
+                          'installed mounted repeat emission byte equality without source changes',
+                          'installed mounted dirty child nonwriting drift',
+                          'installed missing child and blocked descendant with retained pointer',
+                          'installed missing history versus checkout and bad authority rejection',
+                          'installed mounted envelopes validate against approved schema'],
                 'scope':'Local disposable environment; fixture approvals only; no release or gate closure'}
 
 

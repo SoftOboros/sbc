@@ -1,0 +1,72 @@
+{
+  "date": "2026-09-25",
+  "result": "pass",
+  "runtime_revision": "9d666f43efe6ffab4c478a97ba199077e611d7de",
+  "runtime_version": "0.1.0.dev34",
+  "verifier_sha256": "0b3c3034b74dc15d05fddaface29ff7fc98641590d52054ac1e80d5a7fff5856",
+  "installed_distribution": {
+    "wheel": "sbc_tools-0.1.0.dev34-py3-none-any.whl",
+    "sha256": "0561e8b750dc9015b0badeb0b991a46072d957f392938c1465af008b48207996",
+    "version": "sbc-tools 0.1.0.dev34",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.6",
+    "mounted_cli_schema_envelopes": 9,
+    "runtime_packages": [
+      {
+        "name": "dulwich",
+        "version": "1.2.15"
+      },
+      {
+        "name": "pip",
+        "version": "26.1.2"
+      },
+      {
+        "name": "sbc-tools",
+        "version": "0.1.0.dev34"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "urllib3",
+        "version": "2.8.0"
+      }
+    ],
+    "build_wheels": {
+      "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+      "wheel-0.48.0-py3-none-any.whl": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+    },
+    "provider_wheels": {
+      "dulwich-1.2.15-py3-none-any.whl": "5c863992962bab0fc5f75be132399a16f670f2a9283faf9aaeb953fd8891db83",
+      "urllib3-2.8.0-py3-none-any.whl": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+      "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+    },
+    "checks": [
+      "pure wheel and console metadata",
+      "offline installation and pip check",
+      "installed import origin",
+      "process/network audit negative controls",
+      "actual console launcher help/version/invocation error",
+      "console scan/commit/check",
+      "module and launcher envelope parity",
+      "wrong authority pin rejection",
+      "working-tree console scan/check with null commit IDs",
+      "installed mounted scan/commit/check and module parity",
+      "installed mounted repeat emission byte equality without source changes",
+      "installed mounted dirty child nonwriting drift",
+      "installed missing child and blocked descendant with retained pointer",
+      "installed missing history versus checkout and bad authority rejection",
+      "installed mounted envelopes validate against approved schema"
+    ],
+    "scope": "Local disposable environment; fixture approvals only; no release or gate closure"
+  },
+  "prior_runtime_suites": {
+    "revision": "9d666f43efe6ffab4c478a97ba199077e611d7de",
+    "core_tests": 111,
+    "git_provenance_tests": 161,
+    "rerun_this_review": false
+  },
+  "scope": "Installed Windows/Python fixture proof and bounded acceptance review; no runtime gate closure, tag, release, deployment or production authority approval."
+}
