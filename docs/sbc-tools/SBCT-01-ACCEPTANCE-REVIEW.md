@@ -6,6 +6,7 @@
 
 **Latest decision packet:** [Consolidated gate recommendations, 2026-09-25](SBCT-01-GATE-DECISION-PACKET.md).
 Recommends owner approval of GATE-103/104/105; all runtime gates remain open pending explicit disposition.
+**Installation follow-up:** [Requirements recipe and environment ledger, 2026-09-25](SBCT-01-INSTALLATION-REVIEW.md).
 **Latest bounded execution review:** [Command boundaries and golden-profile reconciliation, 2026-09-25](SBCT-01-BOUNDARY-AND-PROFILE-REVIEW.md).
 Earlier tables and follow-ups below retain their historical evidence context.
 

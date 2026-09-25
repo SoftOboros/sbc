@@ -10,13 +10,11 @@ import hashlib
 import inspect
 import json
 import os
-import platform
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 import tempfile
-import venv
 import zipfile
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
@@ -42,8 +40,10 @@ def verify_wheel(path, digest, *, build_tool=False):
             raise ValueError('Native member in '+path.name)
 
 
-def verify(build_wheels, provider_wheels):
+def verify(build_wheels, provider_wheels, *, python=None):
     root = Path(__file__).resolve().parents[1]
+    interpreter = Path(python or sys.executable).resolve()
+    recipe = root/'requirements-git.txt'
     for name,digest in BUILD_PINS.items(): verify_wheel(build_wheels/name,digest,build_tool=True)
     for name,digest in PINS.items(): verify_wheel(provider_wheels/name,digest)
     with tempfile.TemporaryDirectory(prefix='sbct-installed-') as temp:
@@ -54,15 +54,19 @@ def verify(build_wheels, provider_wheels):
             value.update(PATH=str(python_at(env).parent),PYTHONNOUSERSITE='1',
                          PIP_CONFIG_FILE=os.devnull,PIP_DISABLE_PIP_VERSION_CHECK='1')
             return value
-        def run(args, env, expected=0):
+        def run(args, env, expected=0, *, include_stderr=False):
             result = subprocess.run([str(a) for a in args],cwd=work,env=environment(env),
                                     capture_output=True,text=True,encoding='utf-8')
             expected_codes = (expected,) if isinstance(expected, int) else expected
             if result.returncode not in expected_codes:
                 raise RuntimeError(f'Process exit {result.returncode}, expected {expected}: {result.stderr[-1600:]} {result.stdout[-600:]}')
-            return result.stdout
+            return result.stdout + result.stderr if include_stderr else result.stdout
         build_env, runtime = work/'builder',work/'runtime'
-        for env in (build_env,runtime): venv.EnvBuilder(with_pip=True).create(env)
+        for env in (build_env,runtime):
+            run([interpreter,'-I','-m','venv',env],env)
+        runtime_identity = json.loads(run([python_at(runtime),'-I','-c',
+            'import json,platform,sys; print(json.dumps({"platform":platform.platform(),'
+            '"python":platform.python_version(),"version_info":list(sys.version_info[:3])}))'],runtime))
         run([python_at(build_env),'-m','pip','install','--no-index','--no-deps',
              *[build_wheels/p for p in BUILD_PINS]],build_env)
         source = work/'source'
@@ -84,12 +88,48 @@ def verify(build_wheels, provider_wheels):
             entry = next(n for n in names if n.endswith('.dist-info/entry_points.txt'))
             if 'sbc-tools = sbc_tools.cli:main' not in archive.read(entry).decode():
                 raise ValueError('Missing console entry point')
-        run([python_at(runtime),'-m','pip','install','--no-index','--no-deps',wheel,
-             *[provider_wheels/p for p in PINS]],runtime)
+        # Exercise the documented recipe through pip's dependency resolver,
+        # including its interpreter marker, rather than installing all pins.
+        recipe_bytes = recipe.read_bytes()
+        local_recipe = work/'requirements-git.txt'
+        local_recipe.write_bytes(recipe_bytes)
+        before = json.loads(run([python_at(runtime),'-m','pip','list','--format=json'],runtime))
+        tampered = work/'tampered-provider-wheels'
+        tampered.mkdir()
+        for name in PINS:
+            shutil.copyfile(provider_wheels/name,tampered/name)
+        changed = tampered/next(name for name in PINS if name.startswith('dulwich-'))
+        changed.write_bytes(changed.read_bytes()+b'\n')
+        rejection = run([python_at(runtime),'-m','pip','install','--no-index','--no-cache-dir',
+                         '--find-links',tampered,'-r',local_recipe],runtime,1,include_stderr=True)
+        if 'DO NOT MATCH THE HASHES' not in rejection:
+            raise ValueError('Tampered wheel did not fail the requirements hash check')
+        if json.loads(run([python_at(runtime),'-m','pip','list','--format=json'],runtime)) != before:
+            raise ValueError('Rejected provider installation changed runtime packages')
+        # Validate the archive guard independently of digest rejection.
+        for suffix in ('.pyd','.so'):
+            native = work/('native-'+suffix[1:]+'.whl')
+            with zipfile.ZipFile(native,'w') as archive:
+                archive.writestr('fixture/native'+suffix,b'non-executable test sentinel')
+            try:
+                verify_wheel(native,hashlib.sha256(native.read_bytes()).hexdigest())
+            except ValueError as exc:
+                if 'Native member' not in str(exc): raise
+            else:
+                raise ValueError('Native archive guard did not reject '+suffix)
+        run([python_at(runtime),'-m','pip','install','--no-index','--no-cache-dir',
+             '--find-links',provider_wheels,'-r',local_recipe],runtime)
+        run([python_at(runtime),'-m','pip','install','--no-index','--no-deps',wheel],runtime)
         run([python_at(runtime),'-m','pip','check'],runtime)
         packages = json.loads(run([python_at(runtime),'-m','pip','list','--format=json'],runtime))
-        if any(p['name'].lower() in {'django','setuptools','wheel','packaging'} for p in packages):
-            raise ValueError('Runtime contains undeclared framework/build tooling')
+        installed = {p['name'].lower().replace('_','-'):p['version'] for p in packages}
+        expected = {name.split('-')[0].lower().replace('_','-'):name.split('-')[1] for name in PINS}
+        if runtime_identity['version_info'][:2] >= [3,12]:
+            expected.pop('typing-extensions')
+        if set(installed) != set(expected) | {'pip','sbc-tools'}:
+            raise ValueError('Runtime package inventory differs from the selected recipe')
+        if any(installed[name] != version for name,version in expected.items()):
+            raise ValueError('Runtime dependency version differs from the audited pin')
         site = Path(run([python_at(runtime),'-I','-c',
                          'import sysconfig; print(sysconfig.get_path("purelib"))'],runtime).strip())
         (site/'sitecustomize.py').write_bytes(('import sys\n'+inspect.getsource(reject_process_and_network)
@@ -263,10 +303,19 @@ print('blocked')
         finally:
             mounted.doCleanups()
         return {'wheel':wheel.name,'sha256':wheel_sha,'version':version,
-                'platform':platform.platform(),'python':platform.python_version(),
+                'platform':runtime_identity['platform'],'python':runtime_identity['python'],
                 'mounted_cli_schema_envelopes':len(mounted_results),
                 'runtime_packages':packages,'build_wheels':BUILD_PINS,'provider_wheels':PINS,
+                'provider_recipe':{'path':'tools/requirements-git.txt',
+                                   'sha256':hashlib.sha256(recipe_bytes).hexdigest(),
+                                   'resolver_dependencies':expected,
+                                   'typing_extensions_required':runtime_identity['version_info'][:2] < [3,12],
+                                   'tampered_wheel_rejected_without_package_changes':True,
+                                   'native_archive_guard_rejections':['.pyd','.so']},
                 'checks':['pure wheel and console metadata','offline installation and pip check',
+                          'hash-constrained requirements resolver and exact package inventory',
+                          'tampered provider hash rejection without package changes',
+                          'native archive guards with matching digest negative controls',
                           'installed import origin','process/network audit negative controls',
                           'actual console launcher help/version/invocation error',
                           'console scan/commit/check','module and launcher envelope parity',
@@ -284,5 +333,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('build_wheels',type=Path)
     parser.add_argument('provider_wheels',type=Path)
+    parser.add_argument('--python',type=Path,help='Explicit interpreter for disposable build/runtime environments')
     args = parser.parse_args()
-    print(json.dumps(verify(args.build_wheels.resolve(),args.provider_wheels.resolve()),indent=2))
+    print(json.dumps(verify(args.build_wheels.resolve(),args.provider_wheels.resolve(),python=args.python),indent=2))

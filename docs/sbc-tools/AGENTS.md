@@ -12,8 +12,8 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | 111 core tests; 163 provider passes and one native-symlink skip; 66 command boundary cases; nine exact producer comparisons; prior installed dev34 proof |
-| Next work | Owner review of consolidated gate packet; remaining installation-recipe, platform and native-link evidence |
+| Latest execution | Hash-constrained recipe and installed CLI pass on Windows/Python 3.12.14 and 3.14.6; see installation review for suite results and limits |
+| Next work | Owner gate-packet review; Python 3.11 conditional install, non-Windows and native-link evidence; final release support matrix |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
@@ -95,3 +95,8 @@ source remains dev34. No gate, exception or new compatibility profile is approve
 The [consolidated gate decision packet](SBCT-01-GATE-DECISION-PACKET.md)
 recommends owner approval of GATE-103/104/105 and retaining GATE-101/102 open.
 It maps concrete witnesses and remaining work; no owner disposition is recorded.
+
+The [installation reconciliation](SBCT-01-INSTALLATION-REVIEW.md) extends the
+verifier to execute the unchanged requirements recipe and conditional dependency
+resolution on two existing interpreters. Tampered-wheel and native archive guard
+negative controls pass. Runtime remains dev34; GATE-101/102 remain open.

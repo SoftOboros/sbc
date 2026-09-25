@@ -7,6 +7,11 @@
 **Governing contract:** [SBCT-01](SBCT-01-REPOSITORY-CORE.md) 0.9.1 and
 [observation contract](SBCT-01-SUBMODULE-OBSERVATIONS.md) 0.1.3.
 
+**Follow-up evidence:** [Installation reconciliation](SBCT-01-INSTALLATION-REVIEW.md)
+adds direct requirements-recipe execution on Windows/Python 3.12.14 and 3.14.6.
+The original evidence scope below is retained; no gate recommendation or approval
+state changes. The Python 3.11 branch and release environment matrix remain open.
+
 ## Proposed disposition
 
 Recommend owner approval of `GATE-103`, `GATE-104` and `GATE-105` against the

@@ -15,6 +15,10 @@ access before decoding and again before delivering results.
 
 ## Development
 
+Use the [prerelease installation recipe](INSTALLATION.md) for ordinary-user
+environments, exact provider dependencies and offline verification. Package
+metadata's Python floor is not a claim of tested support on every platform.
+
 Python 3.11 or later is required. The implemented codec has no third-party
 runtime dependencies. SQLite is the interpreter's standard-library module.
 From this repository:
@@ -382,18 +386,23 @@ Run the developer harness with directories containing its hash-pinned build and
 provider wheels (acquire those wheels separately):
 
 ```text
-python tools/check_installed_distribution.py BUILD_WHEELS PROVIDER_WHEELS
+python tools/check_installed_distribution.py BUILD_WHEELS PROVIDER_WHEELS [--python PATH_TO_TARGET_PYTHON]
 ```
 
 The harness builds a wheel in a disposable build environment, installs it and the
-verified provider wheels offline into a separate runtime environment, and runs
-`pip check`. It checks the installed import location, actual console launcher,
+providers through the hash-constrained requirements recipe offline into a separate
+runtime environment, and checks the exact resolved package set and `pip check`.
+It rejects tampered provider bytes and tests the native archive guards. An explicit
+`--python` selects the interpreter used for both disposable environments.
+It checks the installed import location, actual console launcher,
 scan/commit/check sequence, module/launcher envelope parity, and rejection of an
 incorrect authority pin. Fixture preparation commits generated output; `scan`
 itself does not commit. The fixture intentionally retains diagnostics, so its
 successful scan and equal comparison return exit 1.
 
-The Windows execution passed for `0.1.0.dev22`. Runtime commands receive no Git
+The initial Windows execution passed for `0.1.0.dev22`; current recipe and
+environment evidence is in the [installation review](../docs/sbc-tools/SBCT-01-INSTALLATION-REVIEW.md).
+Runtime commands receive no Git
 executable on PATH or inherited application credentials, and Python audit hooks
 reject process and network operations with explicit negative controls. Runtime
 wheels contain no native extensions. Build tooling stays separate; setuptools
@@ -401,8 +410,9 @@ contains installer launcher executable resources, and pip creates the Windows
 console launcher. No compiler is used.
 
 This is a local installed-package proof using synthetic approval fixtures. Audit
-hooks are test controls, not an OS sandbox. Other platforms, working-tree mode,
-consumer approval and runtime gate closure remain unproven. The harness prints a
+hooks are test controls, not an OS sandbox. Committed, single-source and mounted
+working-tree modes are exercised. Unexecuted environments, consumer approval and
+runtime gate closure remain unproven. The harness prints a
 JSON report and deletes its disposable environments; it does not publish a release.
 
 
