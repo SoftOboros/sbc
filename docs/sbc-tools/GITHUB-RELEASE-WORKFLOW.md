@@ -89,8 +89,9 @@ matrix execution or account configuration is established by this evidence.
    | Workflow filename | `publish.yml` |
    | Environment | `pypi` |
 
-3. Push the reviewed workflow setup and inspect all matrix artifacts. No GitHub
-   execution is established by local tests or YAML inspection alone.
+3. Completed for candidate verification: the setup and fixture correction were
+   pushed, and all 12 hosted jobs passed at the revision recorded below. Release
+   publication will rerun the matrix for its explicitly selected tag.
 4. Complete the applicable release review, choose a unique version, enable the
    activation variable, create its reviewed tag, and dispatch publication for
    that tag/version. Review the protected-environment approval before upload.
@@ -118,6 +119,19 @@ new hosted run; the first run remains failed historical evidence.
 The [correction receipt](evidence/github-temp-alias-correction.json) records
 111 core, 7 packaging and 165 provider tests plus installed-package verification
 passing through an intentionally aliased temporary directory on local Windows.
+
+The corrected [hosted run](https://github.com/SoftOboros/sbc/actions/runs/36262268799)
+passed all 12 cells at `805a59154cba9de0d0cc940e24475c38bd054fe6`.
+The [matrix receipt](evidence/github-matrix-execution.json) preserves each cell's
+actual Python/platform identity, test counts, permitted skips and GitHub artifact
+digest. Each cell passed 111 core and seven packaging tests, applicable provider
+tests and installed-distribution verification. POSIX skipped only the Windows
+junction witness; Windows skipped none. Hosted Windows used an administrator
+token, so earlier ordinary-user local installation evidence remains separate.
+
+Account setup remains incomplete: the signed-in GitHub settings page showed no
+environments, and its New environment control did not open a form after a reload.
+PyPI requires sign-in. No publishing activation, release tag or upload occurred.
 
 ## Sources
 

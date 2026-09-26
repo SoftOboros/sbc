@@ -1,0 +1,525 @@
+{
+  "date": "2026-09-26",
+  "run_url": "https://github.com/SoftOboros/sbc/actions/runs/36262268799",
+  "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+  "status": "all_12_jobs_passed",
+  "scope": "Hosted candidate verification matrix; no gate acceptance, support-policy approval, publisher configuration or upload inferred",
+  "jobs": [
+    {
+      "id": 108460229101,
+      "name": "ubuntu-24.04 / Python 3.12",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.12.14",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "machine": "x86_64",
+        "administrator_token": null,
+        "uid": 1001,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": [
+              "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+            ]
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229166,
+      "name": "windows-2025 / Python 3.12",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.12.10",
+        "platform": "Windows-2025Server-10.0.26100-SP0",
+        "machine": "AMD64",
+        "administrator_token": true,
+        "uid": null,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": []
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229177,
+      "name": "macos-14 / Python 3.14",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.14.7",
+        "platform": "macOS-14.8.9-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "administrator_token": null,
+        "uid": 501,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": [
+              "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+            ]
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229178,
+      "name": "ubuntu-24.04 / Python 3.13",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.13.15",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "machine": "x86_64",
+        "administrator_token": null,
+        "uid": 1001,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": [
+              "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+            ]
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229180,
+      "name": "macos-14 / Python 3.12",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.12.10",
+        "platform": "macOS-14.8.9-arm64-arm-64bit",
+        "machine": "arm64",
+        "administrator_token": null,
+        "uid": 501,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": [
+              "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+            ]
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229201,
+      "name": "windows-2025 / Python 3.13",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.13.15",
+        "platform": "Windows-2025Server-10.0.26100-SP0",
+        "machine": "AMD64",
+        "administrator_token": true,
+        "uid": null,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": []
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229203,
+      "name": "windows-2025 / Python 3.14",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.14.7",
+        "platform": "Windows-2025Server-10.0.26100-SP0",
+        "machine": "AMD64",
+        "administrator_token": true,
+        "uid": null,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": []
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229206,
+      "name": "ubuntu-24.04 / Python 3.14",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.14.7",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "machine": "x86_64",
+        "administrator_token": null,
+        "uid": 1001,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": [
+              "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+            ]
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229208,
+      "name": "macos-14 / Python 3.11",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.11.9",
+        "platform": "macOS-14.8.9-arm64-arm-64bit",
+        "machine": "arm64",
+        "administrator_token": null,
+        "uid": 501,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": [
+              "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+            ]
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229239,
+      "name": "ubuntu-24.04 / Python 3.11",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.11.16",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+        "machine": "x86_64",
+        "administrator_token": null,
+        "uid": 1001,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": [
+              "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+            ]
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229245,
+      "name": "windows-2025 / Python 3.11",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.11.9",
+        "platform": "Windows-10-10.0.26100-SP0",
+        "machine": "AMD64",
+        "administrator_token": true,
+        "uid": null,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": []
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 108460229255,
+      "name": "macos-14 / Python 3.13",
+      "conclusion": "success",
+      "report": {
+        "status": "passed",
+        "source_sha": "805a59154cba9de0d0cc940e24475c38bd054fe6",
+        "run_id": "36262268799",
+        "python": "3.13.15",
+        "platform": "macOS-14.8.9-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "administrator_token": null,
+        "uid": 501,
+        "checks": {
+          "core": {
+            "exit_code": 0,
+            "tests_run": 111,
+            "skips": []
+          },
+          "packaging": {
+            "exit_code": 0,
+            "tests_run": 7,
+            "skips": []
+          },
+          "provider": {
+            "exit_code": 0,
+            "tests_run": 165,
+            "skips": [
+              "test_native_junction_matrix_rejects_without_reads_or_mutations (test_cli_path_boundaries.CLIPathBoundaryTests.test_native_junction_matrix_rejects_without_reads_or_mutations) ... skipped 'Windows junction witness'"
+            ]
+          },
+          "installed": {
+            "exit_code": 0
+          }
+        }
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 10913215973,
+      "name": "sbct-ubuntu-24.04-py3.14",
+      "digest": "sha256:cbbd0425fa64342902d0251fe25fe781a0ead64419f96d2a544be044e94b948c",
+      "expires_at": "2026-10-26T18:22:23Z"
+    },
+    {
+      "id": 10913151328,
+      "name": "sbct-windows-2025-py3.13",
+      "digest": "sha256:48dd10a29c66c9431531b08e47631cfc9c2315edca164560dfa1a0a5ef95c668",
+      "expires_at": "2026-10-26T18:23:53Z"
+    },
+    {
+      "id": 10913041634,
+      "name": "sbct-ubuntu-24.04-py3.12",
+      "digest": "sha256:c5499149d4ebddb43939ffc1c5463c66255af66d609c55bd657833d0e9c53714",
+      "expires_at": "2026-10-26T18:22:22Z"
+    },
+    {
+      "id": 10912986768,
+      "name": "sbct-ubuntu-24.04-py3.11",
+      "digest": "sha256:2a951dd16522913360c643d9a1a2b27f3ecf7110d26fd3341ae70d2370d41117",
+      "expires_at": "2026-10-26T18:22:24Z"
+    },
+    {
+      "id": 10912877020,
+      "name": "sbct-macos-14-py3.11",
+      "digest": "sha256:13a395cd9bd8644a0719f2c4d757c95abd84cbdd04ec80819efdb71552b73d68",
+      "expires_at": "2026-10-26T18:22:33Z"
+    },
+    {
+      "id": 10912792492,
+      "name": "sbct-windows-2025-py3.12",
+      "digest": "sha256:66332073d306234aab2ed430951b27452d557365e3586cb2101aa5508d7ba406",
+      "expires_at": "2026-10-26T18:23:51Z"
+    },
+    {
+      "id": 10912723078,
+      "name": "sbct-windows-2025-py3.11",
+      "digest": "sha256:e7ab3573a736877a4e07ad572261ee20264e8d991b5cfaebd36be74e25cdbfa2",
+      "expires_at": "2026-10-26T18:23:47Z"
+    },
+    {
+      "id": 10912686842,
+      "name": "sbct-macos-14-py3.13",
+      "digest": "sha256:0755609f175ceb8ca5078ae7b93329065ae4a72f28f309ffe1516e466ff60744",
+      "expires_at": "2026-10-26T18:22:26Z"
+    },
+    {
+      "id": 10912528730,
+      "name": "sbct-ubuntu-24.04-py3.13",
+      "digest": "sha256:fb20f5139898d9681cb7190cea92e0e8e0306be32bb9ebda8eb2e8740d451ae6",
+      "expires_at": "2026-10-26T18:22:17Z"
+    },
+    {
+      "id": 10912452522,
+      "name": "sbct-windows-2025-py3.14",
+      "digest": "sha256:d9c2a1e2ec72d8a21375de2551a1bae3198e507ff765fb73d6548ca1e334193e",
+      "expires_at": "2026-10-26T18:23:45Z"
+    },
+    {
+      "id": 10912302521,
+      "name": "sbct-macos-14-py3.14",
+      "digest": "sha256:16872c9ccfd2a8622176440625d920c5c22074051f24659686e7beab9f26ab31",
+      "expires_at": "2026-10-26T18:22:16Z"
+    },
+    {
+      "id": 10912224328,
+      "name": "sbct-macos-14-py3.12",
+      "digest": "sha256:2e81996f90f62a05ea46bbd1d450afa5d2459c386140e97e5457167401cf3af3",
+      "expires_at": "2026-10-26T18:22:22Z"
+    }
+  ],
+  "limitations": [
+    "Windows hosted runner used an administrator token; prior local ordinary-user evidence remains separate.",
+    "POSIX provider suites skipped only the Windows junction witness.",
+    "Artifact archives are retained by GitHub for 30 days; receipt includes GitHub-reported archive digests.",
+    "Publisher job and Trusted Publishing exchange have not executed."
+  ]
+}

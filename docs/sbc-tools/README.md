@@ -21,8 +21,8 @@ the supporting code separately from the SBC discipline and the SIDX delivery
 contracts it consumes. The PyPI distribution name is `softoboros-sbc`, with
 `sbc_tools` imports and the `sbc-tools` CLI. The package and these documents share
 the SBC repository. No package release is implied. The
-[GitHub workflow setup](GITHUB-RELEASE-WORKFLOW.md) records the candidate matrix,
-local verification and remaining hosted verification and publisher setup.
+[GitHub workflow setup](GITHUB-RELEASE-WORKFLOW.md) records the passing 12-cell
+candidate matrix, local verification and remaining publisher setup.
 
 The owner requires standalone usability, standard Django human authentication
 and minimal MCP OAuth in a bounded example, with production variants maintained

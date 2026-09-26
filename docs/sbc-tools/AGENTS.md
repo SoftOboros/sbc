@@ -12,15 +12,16 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | Local Windows/Python 3.14.6: 111 core, 7 packaging and 165 provider tests pass without skips; renamed distribution installation passes |
-| Next work | Hosted candidate matrix verification and publisher account setup; owner review of GATE-101–105 recommendations; authorized SBCT-02 engine work |
+| Latest execution | All 12 GitHub candidate matrix cells pass at 805a591: Python 3.11–3.14 on Windows, Ubuntu and macOS; installed distribution passes in every cell |
+| Next work | Publisher account/environment setup; owner review of GATE-101–105 recommendations; authorized SBCT-02 engine work |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
 
 The owner-directed [workflow setup](GITHUB-RELEASE-WORKFLOW.md) prepares GitHub
 verification and manual PyPI Trusted Publishing as `softoboros-sbc`. Local
-execution does not establish a hosted matrix run, publisher registration or
-release authorization. SBCT-06 remains draft 0.7.0.
+execution and the [hosted matrix receipt](evidence/github-matrix-execution.json)
+remain distinct evidence. Publisher registration and release authorization are
+not established. SBCT-06 remains draft 0.7.0.
 
 Read [README](README.md), [SBCT-00](SBCT-00-CONCEPTS.md), and the owning phase
 before implementation. The [acceptance review](SBCT-01-ACCEPTANCE-REVIEW.md)
