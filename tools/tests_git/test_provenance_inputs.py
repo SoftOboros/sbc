@@ -55,7 +55,7 @@ class ProvenanceInputTests(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
-        self.root = Path(temp.name)
+        self.root = Path(temp.name).resolve()
         self.repo = Repo.init(temp.name)
         self.addCleanup(self.repo.close)
         self.files = {group + "/" + role: role.encode() for group, roles in ROLES.items() for role in roles}

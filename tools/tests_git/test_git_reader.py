@@ -14,7 +14,7 @@ class GitReaderTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         self.repo = Repo.init(str(self.root))
         self.addCleanup(self.repo.close)
         self.blob = Blob.from_string(b"committed\n")

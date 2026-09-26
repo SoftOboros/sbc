@@ -15,7 +15,7 @@ class CheckoutTreeTests(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
-        self.root = Path(temp.name)
+        self.root = Path(temp.name).resolve()
         self.paths = {"root":self.root,"child":self.root/"child","leaf":self.root/"child/inner"}
         self.repos, self.readers = {}, {}
         for name,path in self.paths.items():

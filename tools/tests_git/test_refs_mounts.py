@@ -25,7 +25,7 @@ class ReferenceMountTests(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
-        self.root = Path(temp.name)
+        self.root = Path(temp.name).resolve()
         self.repos, self.readers = {}, {}
         for name in ("root", "child", "nested"):
             path = self.root/name

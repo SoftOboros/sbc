@@ -55,7 +55,7 @@ class ConsoleHostTests(unittest.TestCase):
         self.assertEqual((1,'equal'),(code,check['result']['comparison']))
         self.assertEqual(scan['selection']['snapshot_id'],check['selection']['snapshot_id'])
         with tempfile.TemporaryDirectory() as temp:
-            relocated = Path(temp)/'copied'
+            relocated = Path(temp).resolve()/'copied'
             shutil.copytree(self.root,relocated)
             out = io.BytesIO()
             moved_config = relocated/self.registration.configuration_file.relative_to(self.root)

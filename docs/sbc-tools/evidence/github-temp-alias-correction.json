@@ -1,0 +1,131 @@
+{
+  "date": "2026-09-26",
+  "scope": "Local verification through an intentionally aliased temporary root; no hosted success inferred",
+  "first_hosted_run": "https://github.com/SoftOboros/sbc/actions/runs/36261797170",
+  "first_hosted_source_sha": "fe7d8128c03e003bf7ca969ca2fc1d661fa49e02",
+  "first_hosted_result": {
+    "ubuntu_passed": 4,
+    "windows_failed": 4,
+    "macos_failed": 4
+  },
+  "pre_correction_alias_reproduction": {
+    "core_failures": 12,
+    "core_errors": 9
+  },
+  "corrected_matrix": {
+    "status": "passed",
+    "source_sha": null,
+    "run_id": null,
+    "python": "3.14.6",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "",
+    "administrator_token": false,
+    "uid": null,
+    "checks": {
+      "core": {
+        "exit_code": 0,
+        "tests_run": 111,
+        "skips": []
+      },
+      "packaging": {
+        "exit_code": 0,
+        "tests_run": 7,
+        "skips": []
+      },
+      "provider": {
+        "exit_code": 0,
+        "tests_run": 165,
+        "skips": []
+      },
+      "installed": {
+        "exit_code": 0
+      }
+    }
+  },
+  "installed": {
+    "distribution": "softoboros-sbc",
+    "wheel": "softoboros_sbc-0.1.0.dev34-py3-none-any.whl",
+    "sha256": "4071a08f41ec770b8dc757fdb1b11ebed8a2d90e8b0ef300703dce848a304dcb",
+    "version": "sbc-tools 0.1.0.dev34",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.6",
+    "mounted_cli_schema_envelopes": 9,
+    "runtime_packages": [
+      {
+        "name": "dulwich",
+        "version": "1.2.15"
+      },
+      {
+        "name": "pip",
+        "version": "26.1.2"
+      },
+      {
+        "name": "softoboros-sbc",
+        "version": "0.1.0.dev34"
+      },
+      {
+        "name": "urllib3",
+        "version": "2.8.0"
+      }
+    ],
+    "build_wheels": {
+      "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+      "wheel-0.48.0-py3-none-any.whl": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+    },
+    "provider_wheels": {
+      "dulwich-1.2.15-py3-none-any.whl": "5c863992962bab0fc5f75be132399a16f670f2a9283faf9aaeb953fd8891db83",
+      "urllib3-2.8.0-py3-none-any.whl": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+      "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+    },
+    "provider_recipe": {
+      "path": "tools/requirements-git.txt",
+      "sha256": "d60847d5ed445059a007173ece943879e57c0486352443c0ea69e07d7624dee3",
+      "resolver_dependencies": {
+        "dulwich": "1.2.15",
+        "urllib3": "2.8.0"
+      },
+      "typing_extensions_required": false,
+      "bootstrap_packages_removed": [],
+      "tampered_wheel_rejected_without_package_changes": true,
+      "native_archive_guard_rejections": [
+        ".pyd",
+        ".so"
+      ]
+    },
+    "checks": [
+      "pure wheel and console metadata",
+      "offline installation and pip check",
+      "hash-constrained requirements resolver and exact package inventory",
+      "tampered provider hash rejection without package changes",
+      "native archive guards with matching digest negative controls",
+      "installed import origin",
+      "process/network audit negative controls",
+      "actual console launcher help/version/invocation error",
+      "console scan/commit/check",
+      "module and launcher envelope parity",
+      "wrong authority pin rejection",
+      "working-tree console scan/check with null commit IDs",
+      "installed mounted scan/commit/check and module parity",
+      "installed mounted repeat emission byte equality without source changes",
+      "installed mounted dirty child nonwriting drift",
+      "installed missing child and blocked descendant with retained pointer",
+      "installed missing history versus checkout and bad authority rejection",
+      "installed mounted envelopes validate against approved schema"
+    ],
+    "scope": "Local disposable environment; fixture approvals only; no release or gate closure"
+  },
+  "changed_source_sha256": {
+    "tools/tests/test_directory_store.py": "6830af1022897f3b07ebc2d4b25802528f59d5dd288a258d5262d2669b10913c",
+    "tools/tests/test_patch_configuration.py": "70fb8c8dacb0389aac051c62447ca334f3ce4f5e587a321b68ca9a5834e2a21e",
+    "tools/tests_git/test_checkout.py": "0bdb032a28644087faa4d2a72a61992c0c61bb13e9f3aa6a16b5252dad79a026",
+    "tools/tests_git/test_checkout_tree.py": "212fdb2d0b56dd33c714be50c74cd0bd5e49cf4a256f0f0962cfe82af8b48e2b",
+    "tools/tests_git/test_console_host.py": "30b5d8af109e5571b8647d07ebff4175e800f767233a12d54d5ab494f43cb357",
+    "tools/tests_git/test_git_reader.py": "3513d00e5505c361c396d7c34e688a05c1335e5656f9d0bd46f3663f80cac9c7",
+    "tools/tests_git/test_provenance_inputs.py": "f27f50945b0dffa4df4765d15198a078269d50c6b357fb7711a311bba418f9e2",
+    "tools/tests_git/test_refs_mounts.py": "edcfa423bb0b9c9b0f9deb4c1ff6c7b64c1da0e36bf091869acb42cd59322794",
+    "tools/tools/check_installed_distribution.py": "fc3a3a7713e86d1d017d75391118a0d97c8afb8e9a48857ad98051ccdb78c50c"
+  },
+  "runtime_changed": false,
+  "publisher_setup": "No environment created; GitHub New environment form did not open. PyPI sign-in required."
+}

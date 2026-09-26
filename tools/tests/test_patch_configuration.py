@@ -56,7 +56,9 @@ class ConfigurationTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        # Fixture targets must match the physical paths used by configuration.
+        # Hosted temp roots may use macOS /var links or Windows short names.
+        self.root = Path(self.temp.name).resolve()
         (self.root/"docs").mkdir()
         (self.root/"docs/nested").mkdir()
         (self.root/"authority.json").write_bytes(b"{}")

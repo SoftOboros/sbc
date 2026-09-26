@@ -14,7 +14,7 @@ class DirectoryStoreTests(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
-        self.root = Path(temp.name)
+        self.root = Path(temp.name).resolve()
         validator = BundleValidator(source_roots=['specs'],profile_sha256='1'*64,
                                     provenance_verifier=SimpleNamespace(verify=lambda *args:None))
         self.store = DirectoryProjectionStore(self.root,validator)

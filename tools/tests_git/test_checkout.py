@@ -12,7 +12,7 @@ class CheckoutTests(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
-        self.root = Path(temp.name)
+        self.root = Path(temp.name).resolve()
         self.repo = Repo.init(temp.name)
         self.addCleanup(self.repo.close)
         self.commit = commit_files(self.repo,{"docs/spec.md":b"committed\n"})

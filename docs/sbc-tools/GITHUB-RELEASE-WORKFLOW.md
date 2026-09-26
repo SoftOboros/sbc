@@ -100,6 +100,25 @@ reserves the name nor proves the account may publish it. Pending publisher
 registration, environment protections, hosted runs and actual publication must
 be verified independently. No package has been uploaded by this preparation.
 
+## Hosted verification follow-up
+
+The first [hosted matrix run](https://github.com/SoftOboros/sbc/actions/runs/36261797170)
+at `fe7d8128c03e003bf7ca969ca2fc1d661fa49e02` passed all four Ubuntu cells.
+Windows and macOS exposed fixture-path alias assumptions: mocked paths were
+compared before resolving the temporary root, while runtime paths were already
+resolved. macOS publication fixtures also supplied the linked `/var` ancestor,
+which the existing runtime correctly rejects. A local aliased-temp reproduction
+produced the same 12 failures and nine errors as macOS.
+
+Fixture setup now resolves its owned temporary roots before constructing targets,
+including relocated checkouts and installed-package work directories. Runtime
+path validation and link rejection remain unchanged. This correction requires a
+new hosted run; the first run remains failed historical evidence.
+
+The [correction receipt](evidence/github-temp-alias-correction.json) records
+111 core, 7 packaging and 165 provider tests plus installed-package verification
+passing through an intentionally aliased temporary directory on local Windows.
+
 ## Sources
 
 The design follows [PyPI Trusted Publishing](https://docs.pypi.org/trusted-publishers/using-a-publisher/),

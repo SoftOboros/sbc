@@ -49,7 +49,7 @@ def verify(build_wheels, provider_wheels, *, python=None, artifacts_directory=No
     for name,digest in BUILD_PINS.items(): verify_wheel(build_wheels/name,digest,build_tool=True)
     for name,digest in PINS.items(): verify_wheel(provider_wheels/name,digest)
     with tempfile.TemporaryDirectory(prefix='sbct-installed-') as temp:
-        work = Path(temp)
+        work = Path(temp).resolve()
         def python_at(env): return env/('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
         def environment(env):
             value = {k:os.environ[k] for k in ('SYSTEMROOT','WINDIR','TEMP','TMP') if k in os.environ}
