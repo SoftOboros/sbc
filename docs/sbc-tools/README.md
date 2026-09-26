@@ -18,8 +18,11 @@ older progress entries below are historical. No runtime gate is closed by the pa
 This family specifies reusable indexing helpers, shared queries, an optional
 Django reference backend, a dashboard, and Interlock composition. It governs
 the supporting code separately from the SBC discipline and the SIDX delivery
-contracts it consumes. The package/repository working name is `sbc-tools`;
-the package and these documents now share the SBC repository. No package release is implied.
+contracts it consumes. The PyPI distribution name is `softoboros-sbc`, with
+`sbc_tools` imports and the `sbc-tools` CLI. The package and these documents share
+the SBC repository. No package release is implied. The
+[GitHub workflow setup](GITHUB-RELEASE-WORKFLOW.md) records the candidate matrix,
+local verification and remaining hosted verification and publisher setup.
 
 The owner requires standalone usability, standard Django human authentication
 and minimal MCP OAuth in a bounded example, with production variants maintained
@@ -39,7 +42,7 @@ The [dashboard host contract](SBCT-04-HOST-CONTRACT.md) is prepared for
 GATE-406 review; its interfaces and witnesses remain proposed.
 
 Read [AGENTS.md](AGENTS.md), then the ratified [SBCT-00](SBCT-00-CONCEPTS.md)
-revision 0.4.2. SBCT-01 is ratified with approved amendment 0.8.0; SBCT-02 is ratified 0.6.2; SBCT-06 is draft 0.6.0; other child phases are 0.5.0. §8 supplies concrete candidate
+revision 0.4.2. SBCT-01 is ratified with approved amendment 0.9.1; SBCT-02 is ratified 0.6.2; SBCT-06 is draft 0.7.0; other child phases are 0.5.0. §8 supplies concrete candidate
 contracts and prerequisites for review. The [implementation acceptance review](SBCT-01-ACCEPTANCE-REVIEW.md) maps current evidence and gaps. Begin with SBCT-01's exact authority/source
 baseline and configuration, then SBCT-02's public interfaces. SBCT-01 GATE-106 and parent review gates are complete; implementation
 acceptance remains unchecked. GATE-206 was approved 2026-09-20; active work is SBCT-01 acceptance gaps followed by the remaining SBCT-02 engine.

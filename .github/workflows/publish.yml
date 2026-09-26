@@ -1,0 +1,93 @@
+name: Publish softoboros-sbc
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact package version on the selected tools-vVERSION tag
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: softoboros-sbc-pypi
+  cancel-in-progress: false
+
+jobs:
+  release-input:
+    if: github.repository == 'SoftOboros/sbc'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Check explicit activation and release identity
+        env:
+          PUBLISH_ENABLED: ${{ vars.SBCT_PYPI_PUBLISH_ENABLED }}
+          REQUESTED_VERSION: ${{ inputs.version }}
+          SELECTED_REF: ${{ github.ref }}
+        run: |
+          python - <<'PY'
+          import os, sys
+          sys.path.insert(0, 'tools/tools')
+          from check_release_artifact import source_version
+          version = source_version()
+          if os.environ['PUBLISH_ENABLED'] != 'true':
+              raise SystemExit('Configure publisher protections and explicitly enable SBCT_PYPI_PUBLISH_ENABLED first')
+          if os.environ['REQUESTED_VERSION'] != version or os.environ['SELECTED_REF'] != 'refs/tags/tools-v' + version:
+              raise SystemExit('Select the reviewed tools-vVERSION tag matching the requested/source version')
+          PY
+  verify:
+    needs: release-input
+    uses: ./.github/workflows/verify.yml
+    permissions:
+      contents: read
+  validate-distribution:
+    needs: verify
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: sbct-ubuntu-24.04-py3.12
+          path: verified
+      - name: Validate the exact tested wheel
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+          RELEASE_SHA: ${{ github.sha }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: python tools/tools/check_release_artifact.py --artifact-dir verified --version "$REQUESTED_VERSION" --source-sha "$RELEASE_SHA" --tag "$RELEASE_TAG"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pypi-distribution
+          path: verified/dist/*.whl
+          if-no-files-found: error
+          retention-days: 30
+  publish:
+    needs: validate-distribution
+    runs-on: ubuntu-24.04
+    environment:
+      name: pypi
+      url: https://pypi.org/p/softoboros-sbc
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: pypi-distribution
+          path: dist
+      - name: Publish verified wheel through PyPI Trusted Publishing
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1
+        with:
+          packages-dir: dist/
+          attestations: true

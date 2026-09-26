@@ -3,12 +3,17 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sbc-tools"
+name = "softoboros-sbc"
 dynamic = ["version"]
 description = "Portable Spec Before Code supporting tools"
+readme = "README.md"
 requires-python = ">=3.11"
 license = {file = "LICENSE"}
 dependencies = []
+
+[project.urls]
+Repository = "https://github.com/SoftOboros/sbc"
+Documentation = "https://github.com/SoftOboros/sbc/tree/main/docs/sbc-tools"
 
 [project.scripts]
 sbc-tools = "sbc_tools.cli:main"

@@ -15,6 +15,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 import zipfile
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
@@ -40,8 +41,9 @@ def verify_wheel(path, digest, *, build_tool=False):
             raise ValueError('Native member in '+path.name)
 
 
-def verify(build_wheels, provider_wheels, *, python=None):
+def verify(build_wheels, provider_wheels, *, python=None, artifacts_directory=None):
     root = Path(__file__).resolve().parents[1]
+    distribution_name = tomllib.loads((root/'pyproject.toml').read_text(encoding='utf-8'))['project']['name']
     interpreter = Path(python or sys.executable).resolve()
     recipe = root/'requirements-git.txt'
     for name,digest in BUILD_PINS.items(): verify_wheel(build_wheels/name,digest,build_tool=True)
@@ -132,7 +134,7 @@ def verify(build_wheels, provider_wheels, *, python=None):
         expected = {name.split('-')[0].lower().replace('_','-'):name.split('-')[1] for name in PINS}
         if runtime_identity['version_info'][:2] >= [3,12]:
             expected.pop('typing-extensions')
-        if set(installed) != set(expected) | {'pip','sbc-tools'}:
+        if set(installed) != set(expected) | {'pip',distribution_name}:
             raise ValueError('Runtime package inventory differs from the selected recipe')
         if any(installed[name] != version for name,version in expected.items()):
             raise ValueError('Runtime dependency version differs from the audited pin')
@@ -311,7 +313,13 @@ print('blocked')
                 validator.validate(result)
         finally:
             mounted.doCleanups()
-        return {'wheel':wheel.name,'sha256':wheel_sha,'version':version,
+        if artifacts_directory is not None:
+            artifacts_directory.mkdir(parents=True,exist_ok=True)
+            destination = artifacts_directory/wheel.name
+            if destination.exists():
+                raise ValueError('Refusing to replace an exported distribution')
+            shutil.copyfile(wheel,destination)
+        return {'distribution':distribution_name,'wheel':wheel.name,'sha256':wheel_sha,'version':version,
                 'platform':runtime_identity['platform'],'python':runtime_identity['python'],
                 'mounted_cli_schema_envelopes':len(mounted_results),
                 'runtime_packages':packages,'build_wheels':BUILD_PINS,'provider_wheels':PINS,
@@ -344,5 +352,7 @@ if __name__ == '__main__':
     parser.add_argument('build_wheels',type=Path)
     parser.add_argument('provider_wheels',type=Path)
     parser.add_argument('--python',type=Path,help='Explicit interpreter for disposable build/runtime environments')
+    parser.add_argument('--artifacts-directory',type=Path,help='Export the exact wheel only after every installed witness passes')
     args = parser.parse_args()
-    print(json.dumps(verify(args.build_wheels.resolve(),args.provider_wheels.resolve(),python=args.python),indent=2))
+    print(json.dumps(verify(args.build_wheels.resolve(),args.provider_wheels.resolve(),python=args.python,
+                            artifacts_directory=args.artifacts_directory),indent=2))

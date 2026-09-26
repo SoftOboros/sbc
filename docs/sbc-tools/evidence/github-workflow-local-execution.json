@@ -1,0 +1,154 @@
+{
+  "date": "2026-09-26",
+  "scope": "Local Windows workflow preparation; uncommitted setup over the base revision, not a hosted GitHub run or release authorization",
+  "base_revision": "2ad39bfa22d1e18c229f77593822f652fb8b0273",
+  "public_main_observed": "1d8b592d97189901674fc4e3ea041748ee7f1f5b",
+  "matrix": {
+    "status": "passed",
+    "source_sha": null,
+    "run_id": null,
+    "python": "3.14.6",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "",
+    "administrator_token": false,
+    "uid": null,
+    "checks": {
+      "core": {
+        "exit_code": 0,
+        "tests_run": 111,
+        "skips": []
+      },
+      "packaging": {
+        "exit_code": 0,
+        "tests_run": 7,
+        "skips": []
+      },
+      "provider": {
+        "exit_code": 0,
+        "tests_run": 165,
+        "skips": []
+      },
+      "installed": {
+        "exit_code": 0
+      }
+    }
+  },
+  "installed": {
+    "distribution": "softoboros-sbc",
+    "wheel": "softoboros_sbc-0.1.0.dev34-py3-none-any.whl",
+    "sha256": "4ab8c5dfea432728a4e415fa3c8960a6a98153e4f5e9c563e38e0c3c83008cd8",
+    "version": "sbc-tools 0.1.0.dev34",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.6",
+    "mounted_cli_schema_envelopes": 9,
+    "runtime_packages": [
+      {
+        "name": "dulwich",
+        "version": "1.2.15"
+      },
+      {
+        "name": "pip",
+        "version": "26.1.2"
+      },
+      {
+        "name": "softoboros-sbc",
+        "version": "0.1.0.dev34"
+      },
+      {
+        "name": "urllib3",
+        "version": "2.8.0"
+      }
+    ],
+    "build_wheels": {
+      "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+      "wheel-0.48.0-py3-none-any.whl": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+    },
+    "provider_wheels": {
+      "dulwich-1.2.15-py3-none-any.whl": "5c863992962bab0fc5f75be132399a16f670f2a9283faf9aaeb953fd8891db83",
+      "urllib3-2.8.0-py3-none-any.whl": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+      "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+    },
+    "provider_recipe": {
+      "path": "tools/requirements-git.txt",
+      "sha256": "d60847d5ed445059a007173ece943879e57c0486352443c0ea69e07d7624dee3",
+      "resolver_dependencies": {
+        "dulwich": "1.2.15",
+        "urllib3": "2.8.0"
+      },
+      "typing_extensions_required": false,
+      "bootstrap_packages_removed": [],
+      "tampered_wheel_rejected_without_package_changes": true,
+      "native_archive_guard_rejections": [
+        ".pyd",
+        ".so"
+      ]
+    },
+    "checks": [
+      "pure wheel and console metadata",
+      "offline installation and pip check",
+      "hash-constrained requirements resolver and exact package inventory",
+      "tampered provider hash rejection without package changes",
+      "native archive guards with matching digest negative controls",
+      "installed import origin",
+      "process/network audit negative controls",
+      "actual console launcher help/version/invocation error",
+      "console scan/commit/check",
+      "module and launcher envelope parity",
+      "wrong authority pin rejection",
+      "working-tree console scan/check with null commit IDs",
+      "installed mounted scan/commit/check and module parity",
+      "installed mounted repeat emission byte equality without source changes",
+      "installed mounted dirty child nonwriting drift",
+      "installed missing child and blocked descendant with retained pointer",
+      "installed missing history versus checkout and bad authority rejection",
+      "installed mounted envelopes validate against approved schema"
+    ],
+    "scope": "Local disposable environment; fixture approvals only; no release or gate closure"
+  },
+  "unchanged_runtime_modules": 30,
+  "actionlint": {
+    "version": "1.7.12",
+    "exit_code": 0,
+    "shellcheck_enabled": false,
+    "distribution_zip_sha256": "6e7241b51e6817ea6a047693d8e6fed13b31819c9a0dd6c5a726e1592d22f6e9",
+    "workflows": [
+      ".github/workflows/verify.yml",
+      ".github/workflows/publish.yml"
+    ]
+  },
+  "source_sha256": {
+    ".github/workflows/verify.yml": "64762307a5054bf3cedf353360176d0b51972015b254649d2f1a8c78de621b74",
+    ".github/workflows/publish.yml": "a5f0caaf28174779d69de94b44c2c6ccd4bcb90e6fac4de3e2796dd7e5af8573",
+    "tools/pyproject.toml": "f08794a998e425f9f3c3de54646c534ac15c031700ea7b120b59878bc2b7dec0",
+    "tools/tools/ci_verify.py": "3d0c3665fc617a936bb7629fe69d66120ac591a25fa56370162c26f4bb5ba2f2",
+    "tools/tools/check_release_artifact.py": "15c092b6a1f739f293e7b74e2a3bb8ef0ad9b9c578142e61813e9f636fcb9a5c",
+    "tools/tools/check_installed_distribution.py": "8eb4fb1d10cd441e73377b508042aefaee3918c6adf5822f7ef90c2af7898504",
+    "tools/tests_tools/test_release_artifact.py": "fab89674c071779e7dbbececc62a1c4d58cb5e86b0cd56844949d51cca5d00ae"
+  },
+  "log_sha256": {
+    "core.stderr": "5f73edc2308e0ef5c22938b1b57cd4131e3508d8ce915a45578cc98994c1daf7",
+    "core.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "installed.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "installed.stdout": "8796a2fca455a28d734729ca3a3b9ccb4edcb931bec5e59b4039f145ba67a1d2",
+    "packaging.stderr": "226061244fbcb98e5f4c7fdfeef390b539cc248ff6469bfcedf7229aa3eb3074",
+    "packaging.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "provider.stderr": "f3ac727867eb649aac1361b9a8a6850363b6fcde9ce27f2814d6f2d8c3aa5f13",
+    "provider.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "not_established": [
+    "Hosted 12-cell matrix execution",
+    "GitHub environment protection configuration",
+    "PyPI pending Trusted Publisher registration",
+    "Release support policy approval",
+    "Acceptance gate closure",
+    "Release tag or package upload"
+  ],
+  "additional_checks": {
+    "actual_wheel_with_synthetic_source_receipt": "passed; fixture only, no GitHub execution inferred",
+    "local_receipt_as_hosted_evidence": "rejected as required",
+    "python_syntax": "passed",
+    "changed_navigation_links": "passed",
+    "git_diff_check": "passed"
+  }
+}

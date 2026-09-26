@@ -2,8 +2,8 @@
 
 **Document ID:** SBCT-06
 **Status:** DRAFT — pending ratification
-**Revision:** 0.6.0
-**Date:** 2026-09-19
+**Revision:** 0.7.0
+**Date:** 2026-09-25
 **Owner:** Ira Abbott
 **Depends on:** [SBCT-00](SBCT-00-CONCEPTS.md) and the other phases required by the selected profile.
 
@@ -107,6 +107,15 @@ of unrelated third-party code or any release/deployment authorization.
 The owner selected the shared `SoftOboros/sbc` repository on 2026-09-21.
 SIDX authority location and publication tooling remain release decisions. Package/support version ranges
 MUST be selected against the reviewed extraction, not guessed in this draft.
+
+On 2026-09-25 the owner selected the PyPI distribution name `softoboros-sbc` and
+requested GitHub matrix verification/publication setup. The
+[bounded setup record](GITHUB-RELEASE-WORKFLOW.md) owns the workflow preparation
+details and remaining account actions. Imports and CLI names stay compatible.
+This direction authorizes that preparation; it does not ratify this phase,
+approve runtime gates or authorize an upload. The candidate matrix collects
+evidence; final supported versions remain a release decision under §6, separate
+from SBCT-01's installation witnesses.
 
 ### Prepared candidate release record and draft sequence
 
@@ -250,3 +259,14 @@ dependency notices remain intact. No phase ratification or release is inferred.
 
 The owner-approved SBCT-00 0.4.2 consolidation resolves repository location.
 This phase remains DRAFT; see [the migration record](REPOSITORY-CONSOLIDATION.md).
+
+### 0.7.0 — 2026-09-25 — owner-directed workflow preparation
+
+**Author:** Codex (recorder)
+**Decision authority:** Ira Abbott, explicit package-name and workflow-setup request
+**Change kind:** clarification
+**Touches:** SBCT-06 §8; distribution identity and candidate verification automation
+**Summary:** Records `softoboros-sbc`, GitHub matrix verification and protected
+Trusted Publishing preparation. Corrects the separation between executed
+SBCT-01 witnesses and release support policy. Phase status remains DRAFT; no
+release, gate approval or account configuration is inferred.

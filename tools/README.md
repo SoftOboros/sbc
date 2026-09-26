@@ -1,5 +1,9 @@
 # SBC Supporting Tools — prerelease implementation
 
+The selected PyPI distribution is **`softoboros-sbc`**. Python imports remain
+`sbc_tools`, and the command remains `sbc-tools`. Publication setup does not mean
+a version has been uploaded. See [GitHub verification and publishing setup](../docs/sbc-tools/GITHUB-RELEASE-WORKFLOW.md).
+
 This package lives in the shared SBC repository under `tools/`.
 Its current implemented surface is the standard-library-only SBCT cursor
 codec, transactional SQLite publication store, extracted document parser and projection validators

@@ -2,7 +2,7 @@
 
 **Document ID:** SBCT-AGENTS
 **Owner:** Ira Abbott
-**Current state:** 2026-09-25, informative implementation record.
+**Current state:** 2026-09-26, informative implementation record.
 
 | State | Value |
 |---|---|
@@ -12,10 +12,15 @@
 | Approved specification gates | GATE-106 and GATE-206; explicit console `--host PATH` |
 | Draft phases | SBCT-03 through SBCT-06 |
 | Implemented | Committed-source indexing, single/mounted working-tree CLI, validation, provenance, atomic publication, SQLite snapshots and cursor codec |
-| Latest execution | Windows/Python 3.14.6: all 165 provider tests pass after authorized Developer Mode enablement, including 26 native symlink and 26 junction command cases; earlier core/install/Linux evidence retained |
-| Next work | Owner review of GATE-101–105 recommendations; authorized SBCT-02 engine work; separate release support-policy review |
+| Latest execution | Local Windows/Python 3.14.6: 111 core, 7 packaging and 165 provider tests pass without skips; renamed distribution installation passes |
+| Next work | Hosted candidate matrix verification and publisher account setup; owner review of GATE-101–105 recommendations; authorized SBCT-02 engine work |
 | Acceptance | GATE-101–105 and GATE-201–205 remain open |
 | Publication | Unified prerelease on `main`; no release tag |
+
+The owner-directed [workflow setup](GITHUB-RELEASE-WORKFLOW.md) prepares GitHub
+verification and manual PyPI Trusted Publishing as `softoboros-sbc`. Local
+execution does not establish a hosted matrix run, publisher registration or
+release authorization. SBCT-06 remains draft 0.7.0.
 
 Read [README](README.md), [SBCT-00](SBCT-00-CONCEPTS.md), and the owning phase
 before implementation. The [acceptance review](SBCT-01-ACCEPTANCE-REVIEW.md)
