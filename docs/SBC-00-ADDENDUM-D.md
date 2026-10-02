@@ -1,9 +1,9 @@
 # SBC-00-ADDENDUM-D — Change Log Shape and the Amendment Object
 
 **Document ID:** SBC-00-ADDENDUM-D
-**Status:** RATIFIED AMENDMENT (2026-08-09)
-**Revision:** 0.5.0
-**Date:** 2026-08-09
+**Status:** RATIFIED AMENDMENT — exact ERRATA-015 packet accepted 2026-09-05; implementation evidence remains outstanding
+**Revision:** 0.8.0
+**Date:** 2026-09-05
 **Author:** Ira Abbott / SoftOboros Inc.
 **Parent:** `docs/SBC-00-CONCEPTS.md`
 **Depends on:** `SBC-00-ADDENDUM-C.md` (`ObjectKind`, `ChangeKind`, attribute provenance, §1 axes)
@@ -125,6 +125,22 @@ derives a replacement id from a path.
 
 ---
 
+### §2.3.1 Assessment of retained legacy input [Normative]
+
+The legacy-input permission in §2.3 remains binding. Historical applicability
+and current obligations are assessed under ADDENDUM-B §1.1, with continuity
+under ADDENDUM-C §7.1. A disposition neither fills a missing legacy field nor
+retroactively amends the governing rule. Retained missing-field evidence and
+endpoint/history limitations MUST remain inspectable.
+
+A disposition record is neither an amendment nor a §2.5 project event. It stays
+inside its owning erratum and MUST NOT generate `ChangeKind`, `Touches`, or a
+suspicion input. §2.4's explicit owner classification still governs conversion
+of old event-shaped entries. No keyword classifier or blanket value substitution
+is authorized by acceptance of historical non-applicability.
+
+---
+
 ## §3 Frozen Enum — `AmendmentStatus` [Normative]
 
 Replaces the 13 status spellings measured in §1.
@@ -209,7 +225,7 @@ This document is ratified when:
 - [x] Every adjacency in §5 carries an `AuthorityRelationship`.
 - [x] `PCDN-SBC-00-C-002` and `-003` are recorded as resolved here and in ADDENDUM-C §12.4.
 
-### §7.2 Consumer conformance
+### §7.2 `SECTION-001` — Consumer conformance
 
 Obligations on tools that read the corpus. These are **not** gates on this document — a spec is
 not unratified because no implementation exists yet — and they are tracked by the consuming
@@ -245,7 +261,7 @@ Status is a snapshot; the consuming family holds the live record.
 
 **Author:** I. Abbott
 **Change kind:** scope
-**Touches:** none — new document
+**Touches:** SBC-00-ADDENDUM-D
 **Summary:** Freezes the §15 change-log shape and the `amendment` object's authored form, after the audit `PCDN-SBC-00-C-003` required.
 
 #### Rationale
@@ -262,7 +278,7 @@ This document is authored in its own block form, so it is its own first conforma
 
 **Author:** I. Abbott (ratifier)
 **Change kind:** clarification
-**Touches:** §7
+**Touches:** sbc:ERRATA-004
 **Summary:** Ratified. §7 split into document acceptance (§7.1, closed) and consumer conformance (§7.2, two items open).
 
 #### Rationale
@@ -292,7 +308,7 @@ acceptance section's structure moved.
 
 **Author:** I. Abbott
 **Change kind:** clarification
-**Touches:** §7.2
+**Touches:** SECTION-001
 **Commits:** 270bec444
 **Summary:** D-C1 met; D-C2 mutation-checked. D-C3 remains open.
 
@@ -318,7 +334,7 @@ This amendment touches a status snapshot only.
 
 **Author:** I. Abbott
 **Change kind:** clarification
-**Touches:** §7.2
+**Touches:** SECTION-001
 **Summary:** D-C3 met; all three consumer-conformance items now closed.
 
 #### Rationale
@@ -368,6 +384,41 @@ carried no semantic force; absence asserts only that nobody has looked. A store
 that cannot express the second will report the first, and its coverage metrics
 will read as clean precisely where they are empty.
 
+### §2.5 Project-event record [Normative]
+
+A project event records that work happened without asserting that spec text
+changed. It uses this exact forward-only form inside a change log:
+
+```markdown
+### EVENT-001 — 2026-08-28 — project event
+
+**Author:** I. Abbott
+**Commits:** a1b2c3d, e4f5a6b
+**Summary:** The implementation wave completed.
+```
+
+The heading contains exactly `EVENT-NNN`, space-em-dash-space, an ISO 8601
+date, and the lowercase literal `project event`. `NNN` is three ASCII digits
+from `001` through `999`; the handle is stable and unique within the containing
+document. It is a local record handle only. It is not an `ObjectKind`, a
+`GlobalObjectIdV1`, a change event under ADDENDUM-C §8.2, or an edge endpoint.
+
+`Author` and `Summary` each appear exactly once, are nonempty, and remain free
+text. `Commits` is optional, appears at most once, and is nonempty when present.
+The field order is `Author`, optional `Commits`, then `Summary`. No other field,
+body prose, or rationale is valid in this form. In particular a project-event
+record MUST NOT carry `Change kind`, `Touches`, `Retires-Dependency`, or any
+relationship field and MUST NOT compile to an `amendment`, `rationale`, edge,
+or suspicion input.
+
+A producer recognizes a project-event candidate only from an `EVENT-` heading
+inside a change log. A malformed candidate is a fail-closed producer
+conformance diagnostic and prevents publication; it is not reinterpreted as an
+amendment or added to the frozen diagnostic-v3 wire profile. Legacy bullet and
+table entries remain readable and unchanged. No prose, keyword, status, date,
+or commit heuristic may reclassify one. An entry that bundles an event with a
+spec change remains untyped until an owner splits it explicitly.
+
 ### 0.5.0 — 2026-08-09 — ratified amendment
 
 **Author:** Ira Abbott (ratifier); OpenAI Codex (drafting and reconciliation)
@@ -398,3 +449,76 @@ What deliberately did not change: the two authored amendment forms, closed
 `AmendmentStatus`, rationale-content guidance, legacy readability, the
 guarantee that no family rewrites history, Git history authority, change-kind
 propagation, deployment authority, or release authority.
+
+### 0.6.0 — 2026-08-28 — ratified project-event form
+
+**Author:** Ira Abbott (owner and ratifier); OpenAI Codex (drafting and reconciliation)
+**Change kind:** semantic
+**Touches:** SBC-00-ADDENDUM-D, sbc:ERRATA-005
+**Summary:** Owner acceptance of `EOQ-001-ERRATA-005` adds the exact
+forward-only `EVENT-NNN` project-event record without adding an object, change
+kind, dependency, or historical classifier.
+
+#### Rationale
+
+Project events are a measured quarter of the legacy change-log population, but
+the amendment block requires a `ChangeKind` that §2.4 correctly prohibits for
+events. A separate explicit record makes new events attributable and stable
+without asserting that spec text changed or enlarging the object and provider
+contracts.
+
+Considered and rejected: an `AmendmentStatus` value that mixes kind and status;
+`Change kind: none`, which collapses declared no-force and undeclared evidence;
+permanent legacy bullets; a new `ObjectKind`; and keyword, status, commit, or
+prose inference over historical entries.
+
+What deliberately did not change: the amendment block and compact forms;
+`AmendmentStatus`, `ObjectKind`, `ChangeKind`, `GlobalObjectIdV1`, edge or
+suspicion semantics; legacy source rows; retained projections; mixed-entry
+classification; diagnostic-v3; deployment; or release authority.
+
+### EVENT-001 — 2026-08-28 — project event
+
+**Author:** Ira Abbott
+**Summary:** The owner accepted `EOQ-001-ERRATA-005` as proposed.
+
+### 0.7.0 — 2026-08-29 — ratified stable-section allocation
+
+**Author:** Ira Abbott (owner and ratifier); OpenAI Codex (drafting and reconciliation)
+**Change kind:** semantic
+**Touches:** SECTION-001
+**Summary:** The owner's accepted decision allocates only §7.2 as `SECTION-001` and backfills only the 0.3.0 and 0.4.0 `Touches` fields to that stable local handle.
+
+#### Rationale
+
+The two earlier amendments explicitly change the consumer-conformance status
+snapshot, so a stable section target preserves their authored scope without
+substituting this document or distributing the changes among the three D-C
+rows.
+
+This amendment begins the coordinated additive object-schema-v3 frontier. It
+does not reinterpret retained projections, alias an ordinal, or allocate any
+other section. The §7.2 title, body, D-C1/D-C2/D-C3 labels, obligations, and
+recorded statuses remain unchanged.
+
+Considered and rejected: promoting the D-C row labels into objects;
+document-, ordinal-, title-, path-, line-, or content-hash identity;
+first-match repair; and new `cites`, `refines`, `blocks`, `verifies`,
+`supersedes`, or checking-source semantics.
+
+### 0.8.0 — 2026-09-05 — ratified ERRATA-015 amendment
+
+**Author:** Ira Abbott (ratifier); OpenAI Codex (drafting and recording)
+**Change kind:** semantic
+**Touches:** SBC-00-ADDENDUM-D
+**Summary:** Reconcile legacy validity and event/amendment boundaries with the separate assessment owner. The owner ratified this exact coordinated packet in task `01a06eee-bae3-7911-9198-adfae97256f1` on September 5, 2026. Accepted patch SHA-256: `220d77faff10b8132768a2d0a19ec7e099decf605ad72dd7f57a174f40e69de1`. This records specification ratification, not implementation, clearance, or deployment.
+
+#### Rationale
+
+The owner accepted decision-packet version 1 and subsequently ratified this exact
+amendment packet on September 5, 2026. This amendment supplies the reserved contract. Treating every old
+missing process field as a present violation, equating acceptance with repair,
+and hiding diagnostics by client arithmetic were considered and rejected.
+The native repair lifecycle, retained historical evidence, C6 clearings, and
+C11/C12 response meanings deliberately do not change. This ratification authorizes deriving implementation from the coordinated
+amendment after the specification commit boundary.

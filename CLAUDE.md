@@ -4,7 +4,7 @@
 
 Normative home for the Spec-Before-Code planning discipline.  This repo distributes:
 
-- The discipline's concepts doc, frozen enums, and invariants (`SBC-INV-1`…`SBC-INV-14`).
+- The discipline's concepts doc, frozen enums, and invariants (`SBC-INV-1`…`SBC-INV-21`).
 - A portable operational-context injection template (ADDENDUM-A) for adoption in other projects.
 - The `ErrataStatus` enum, ERRATA boundary rules, and `ERRATA.md` file template (ADDENDUM-B).
 - The errata log for the `sbc` family itself (`docs/SBC-ERRATA.md`).
@@ -19,6 +19,8 @@ family before tooling work; production integrations remain downstream.
 docs/SBC-00-CONCEPTS.md      normative authority for the discipline
 docs/SBC-00-ADDENDUM-A.md    operational context injection template
 docs/SBC-00-ADDENDUM-B.md    ErrataStatus enum; ERRATA boundary rules; ERRATA.md template
+docs/SBC-00-ADDENDUM-C.md    spec object model and operational review contracts
+docs/SBC-00-ADDENDUM-D.md    amendment records and change-log shape
 docs/SBC-ERRATA.md           errata log for this family
 docs/SPEC-BEFORE-CODE-CONCEPTS.md  SUPERSEDED predecessor / input (ERRATA-003) — not normative
 templates/ERRATA.md          bare ERRATA.md template for adopters
@@ -132,3 +134,14 @@ Current declarations for this repo:
 
 Full discipline applies to this repo from its first commit.  There are no informal phases here;
 the repo exists to distribute the discipline, so every authoring turn is a governed turn.
+
+## Pinned discipline reconciliation
+
+The October 2 [source record](docs/reconciliation/2026-10-02/README.md) imports
+already-ratified SBC source through concepts revision 0.17.0. Use the current
+AGENTS inventory and each document header for exact revisions. Transported
+source retains its original evidence links and amendment history. The navigation
+map resolves those links against the original monorepo commit. SBCT authority
+inputs remain at their existing approved pins; importing discipline documents
+does not approve a tool configuration, close an acceptance gate, or establish
+production adoption.

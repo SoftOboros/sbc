@@ -28,6 +28,15 @@ and optional tooling.
 The guiding documents are available now. Their publication does not claim that
 the indexing or dashboard implementation is complete.
 
+## Discipline source reconciliation
+
+The [October 2 reconciliation](docs/reconciliation/2026-10-02/README.md) carries
+forward the dashboard's existing ratified discipline through concepts revision
+0.17.0, including ERRATA-015 and the superseded predecessor's historical metadata.
+It preserves exact source bytes and original approval records. The linked
+navigation map resolves source-relative evidence without rewriting that history.
+Tool acceptance, SBCT authority pins, and consumer deployment remain separate.
+
 ## Supporting tools
 
 The [Python package](tools/README.md) implements offline committed-source indexing,
@@ -54,7 +63,7 @@ spec that loads before the code.
 ## Normative artifact
 
 [`docs/SBC-00-CONCEPTS.md`](docs/SBC-00-CONCEPTS.md) — the authoritative definition of the
-discipline, its invariants (`SBC-INV-1` … `SBC-INV-14`), and its frozen enums.
+discipline, its invariants (`SBC-INV-1` … `SBC-INV-21`), and its frozen enums.
 
 ## Repository structure
 

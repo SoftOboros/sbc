@@ -56,6 +56,15 @@
 
 <How to confirm the fix is correct.  Evidence recorded once resolved.>
 
+### Assessments and dispositions
+
+Optional append-only records use ADDENDUM-B §1.1 verbatim. Omit this section
+until an exact proposal and authority evidence exist. Accepted unrepaired
+members retain their native repair status. Conditions remain outstanding unless
+separate recorded verification satisfies ADDENDUM-B §1.2. Optional verification
+records use that section's exact companion-file grammar and independent authority;
+never edit an approved condition to append later evidence.
+
 ### Tracking
 
 <Cross-references: related phase §15 entries, related EOQ ids, related commits.>

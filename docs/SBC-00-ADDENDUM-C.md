@@ -1,15 +1,15 @@
 # SBC-00-ADDENDUM-C — Spec Object Model
 
 **Document ID:** SBC-00-ADDENDUM-C
-**Status:** RATIFIED (amended 2026-08-09)
-**Revision:** 0.6.0
-**Date:** 2026-08-09
+**Status:** RATIFIED AMENDMENT — exact retained-source navigation packet accepted 2026-09-16; implementation remains outstanding
+**Revision:** 0.15.0
+**Date:** 2026-09-16
 **Author:** Ira Abbott / SoftOboros Inc.
 **Parent:** `docs/SBC-00-CONCEPTS.md`
 **Canonical path:** `docs/SBC-00-ADDENDUM-C.md`
 **See also:** `SBC-00-ADDENDUM-A.md` (operational injection), `SBC-00-ADDENDUM-B.md` (`ErrataStatus`, ERRATA shape)
 **Blocks:** any tooling family that compiles, indexes, locates, or queries an SBC corpus.
-**Coordinates with:** `TODO-SIDX-00-CONCEPTS.md` (delivery contract), `TODO-SIDX-06E-C6-OBJECT-GRAPH-AND-ACKNOWLEDGMENT.md` rev 0.4.0 (ratified correction Standards Action record), and `docs/ops/doc-handoff.md` (location-declaration ritual).
+**Coordinates with:** `TODO-SIDX-00-CONCEPTS.md` (delivery contract), `TODO-SIDX-06E-C6-OBJECT-GRAPH-AND-ACKNOWLEDGMENT.md` rev 0.4.0 (ratified correction Standards Action record) and rev 0.7.0 (historical-definition compatibility frontier), and `docs/ops/doc-handoff.md` (location-declaration ritual).
 
 ---
 
@@ -84,31 +84,31 @@ Three of these deserve naming as classes rather than counts.
 
 Per SBC-INV-2, each entry cites its source and marks the relationship.
 
-| Term | Definition | Relationship |
-|---|---|---|
-| **Spec object** | An individually addressable, individually citable unit of spec content, carrying a stable id, a kind, and a typed attribute set. | Owned by SBC-00-ADDENDUM-C. |
-| **Definition site** | The single authored location that constitutes a spec object's existence. Every other occurrence of its id is a citation. | Owned by this addendum. |
-| **Citation** | An occurrence of a spec object's id outside its definition site, in a document, commit message, test, or code comment. | Owned by this addendum. |
-| **Edge** | A typed, directional relationship between two spec objects. | Owned by this addendum §5. |
-| **Compiled store** | Any derived representation of the corpus built by a parser. Never authoritative (§0.1). | Owned by this addendum. |
-| **Snapshot** | The committed object index at one commit — the corpus's state as a data structure at that point. | Owned by this addendum §7. |
-| **Baseline** | A named, frozen snapshot spanning a whole family, produced at a ratification or handoff event. | Owned by this addendum §7; composes the DOORS notion. |
-| **Suspicion** | The derived condition of an object whose upstream dependency changed after the object last acknowledged it. | Owned by this addendum §8; adapted from DOORS suspect links: `<delta>` = typed by change kind, cleared in git rather than in a tool. |
-| **Dependency edge** | A typed edge whose registered orientation says one globally identified object depends on another for C6. | Owned by this addendum §5.1. |
-| **Pair state** | Derived state for one `(upstream global object id, dependent global object id, edge type)` relationship generation. | Owned by this addendum §8.3. |
-| **Introduction frontier** | The sorted Git antichain of minimal commits that introduce one continuous pair generation. | Owned by this addendum §8.3. |
-| **Acknowledged-through frontier** | The sorted antichain of maximal upstream change events explicitly accepted by a completed initial or clearing act. | Owned by this addendum §8.3. |
-| **Open cycle** | The interval from the first propagating event after acknowledgment through one valid atomic clearing. | Owned by this addendum §8.3. |
-| **Rationale object** | An addressable record of why a change was made — what was considered, what was rejected, and what deliberately did not change. | Owned by this addendum §1/§4; does not exist upstream. |
-| **Change kind** | The classification of an amendment's semantic force, governing whether it propagates suspicion (§8.2). | Owned by this addendum. |
-| **Allocation authority** | The named owner of an identifier namespace, responsible for preventing collision. | Owned by this addendum §4.3. |
-| **Location record** | A versioned, integrity-bound locator for one governed document at one repository, archive, Memory Alpha, or pointer location. A document may have several concurrent records. | Owned by this addendum §4.4. |
-| **Document lifecycle state** | The declared authority/workflow state of a governed document, kept orthogonal to every storage location. | Owned by this addendum §4.5. |
-| **Normative keyword** | MUST / MUST NOT / SHALL / SHOULD / SHOULD NOT / MAY / RECOMMENDED, binding only when capitalised. | As defined in RFC 2119 / RFC 8174; used without modification. |
-| **Registration policy** | Standards Action / Specification Required / Expert Review. | As defined in `SBC-00-CONCEPTS.md` §5; used without modification. |
-| **AuthorityRelationship** | mirror / adapt / extend / compose / own / derive / represent. | As defined in `SBC-00-CONCEPTS.md` §6; used without modification. |
-| **ErrataStatus** | 🟢 / 🟡 / 🔴 / ⚪ lifecycle values. | As defined in `SBC-00-ADDENDUM-B.md` §1; used without modification. |
-| **OpenQuestionStatus** | The native lifecycle of a PCDN or EOQ definition: `open`, `pending_ratification`, `resolved`, or `unknown`. | Owned by this addendum §4.6. |
+| Term id | Term | Definition | Relationship |
+|---|---|---|---|
+| `TERM-021` | **Spec object** | An individually addressable, individually citable unit of spec content, carrying a stable id, a kind, and a typed attribute set. | Owned by SBC-00-ADDENDUM-C. |
+| `TERM-022` | **Definition site** | The single authored location that constitutes a spec object's existence. Every other occurrence of its id is a citation. | Owned by this addendum. |
+| `TERM-023` | **Citation** | An occurrence of a spec object's id outside its definition site, in a document, commit message, test, or code comment. | Owned by this addendum. |
+| `TERM-024` | **Edge** | A typed, directional relationship between two spec objects. | Owned by this addendum §5. |
+| `TERM-025` | **Compiled store** | Any derived representation of the corpus built by a parser. Never authoritative (§0.1). | Owned by this addendum. |
+| `TERM-026` | **Snapshot** | The committed object index at one commit — the corpus's state as a data structure at that point. | Owned by this addendum §7. |
+| `TERM-027` | **Baseline** | A named, frozen snapshot spanning a whole family, produced at a ratification or handoff event. | Owned by this addendum §7; composes the DOORS notion. |
+| `TERM-028` | **Suspicion** | The derived condition of an object whose upstream dependency changed after the object last acknowledged it. | Owned by this addendum §8; adapted from DOORS suspect links: `<delta>` = typed by change kind, cleared in git rather than in a tool. |
+| `TERM-029` | **Dependency edge** | A typed edge whose registered orientation says one globally identified object depends on another for C6. | Owned by this addendum §5.1. |
+| `TERM-030` | **Pair state** | Derived state for one `(upstream global object id, dependent global object id, edge type)` relationship generation. | Owned by this addendum §8.3. |
+| `TERM-031` | **Introduction frontier** | The sorted Git antichain of minimal commits that introduce one continuous pair generation. | Owned by this addendum §8.3. |
+| `TERM-032` | **Acknowledged-through frontier** | The sorted antichain of maximal upstream change events explicitly accepted by a completed initial or clearing act. | Owned by this addendum §8.3. |
+| `TERM-033` | **Open cycle** | The interval from the first propagating event after acknowledgment through one valid atomic clearing. | Owned by this addendum §8.3. |
+| `TERM-034` | **Rationale object** | An addressable record of why a change was made — what was considered, what was rejected, and what deliberately did not change. | Owned by this addendum §1/§4; does not exist upstream. |
+| `TERM-035` | **Change kind** | The classification of an amendment's semantic force, governing whether it propagates suspicion (§8.2). | Owned by this addendum. |
+| `TERM-036` | **Allocation authority** | The named owner of an identifier namespace, responsible for preventing collision. | Owned by this addendum §4.3. |
+| `TERM-037` | **Location record** | A versioned, integrity-bound locator for one governed document at one repository, archive, Memory Alpha, or pointer location. A document may have several concurrent records. | Owned by this addendum §4.4. |
+| `TERM-038` | **Document lifecycle state** | The declared authority/workflow state of a governed document, kept orthogonal to every storage location. | Owned by this addendum §4.5. |
+| `TERM-039` | **Normative keyword** | MUST / MUST NOT / SHALL / SHOULD / SHOULD NOT / MAY / RECOMMENDED, binding only when capitalised. | As defined in RFC 2119 / RFC 8174; used without modification. |
+| `TERM-040` | **Registration policy** | Standards Action / Specification Required / Expert Review. | As defined in `SBC-00-CONCEPTS.md` §5; used without modification. |
+| `TERM-041` | **AuthorityRelationship** | mirror / adapt / extend / compose / own / derive / represent. | As defined in `SBC-00-CONCEPTS.md` §6; used without modification. |
+| `TERM-042` | **ErrataStatus** | 🟢 / 🟡 / 🔴 / ⚪ lifecycle values. | As defined in `SBC-00-ADDENDUM-B.md` §1; used without modification. |
+| `TERM-043` | **OpenQuestionStatus** | The native lifecycle of a PCDN or EOQ definition: `open`, `pending_ratification`, `resolved`, or `unknown`. | Owned by this addendum §4.6. |
 
 ---
 
@@ -121,11 +121,11 @@ Every spec object has exactly one kind. The set is closed.
 | Value | Definition site shape | Axis |
 |---|---|---|
 | `document` | A governed `.md` file's header block | State |
-| `section` | A numbered heading within a document | State |
+| `section` | A numbered Markdown heading carrying a stable inline-code `SECTION-NNN` handle before its title; unmodified or malformed headings remain positional | State |
 | `invariant` | A bold id at the head of a table cell, list item, or heading (§6.1) | State |
-| `term` | A bold term at the head of a §3 glossary row | State |
-| `gate` | A checklist item in §12 Acceptance | State |
-| `nongoal` | A numbered bold item in §11 Non-Goals | State |
+| `term` | A stable `TERM-NNN` handle in the first cell and a bold term in the second cell of a four-column §3 glossary row; legacy three-column rows remain readable positional objects | State |
+| `gate` | A stable `GATE-NNN` handle in inline code at the beginning of a §12 checklist item's content, followed by exactly ` — ` and nonempty gate text; unmodified or malformed checklist rows remain readable positional objects | State |
+| `nongoal` | A stable `NONGOAL-NNN` handle in inline code at the beginning of a §11 ordered-list item's content, followed by exactly ` — `, a bold title ending in a period, one space, and nonempty body text; unmodified or malformed rows remain readable positional objects | State |
 | `enum_value` | A row in a frozen-enum table | State |
 | `authority_row` | A row in a §6/§10 authority matrix | State |
 | `errata` | An `## ERRATA-NNN` entry | State + Intent |
@@ -189,20 +189,59 @@ kind **MUST** own the matching registered grammar below:
 | PCDN `open_question` | `^PCDN-(?:[A-Z0-9]+-)+[0-9]{3}$`, at most 128 bytes, with the complete handle allocated by its existing registry |
 | EOQ `open_question` | `<family-key>:EOQ-<NNN>-ERRATA-<NNN>` |
 | `errata` | `<family-key>:ERRATA-<NNN>` |
+| `term` | `<family-key>:TERM-<NNN>` |
+| `gate` | `<family-key>:GATE-<NNN>` |
+| `nongoal` | `<family-key>:NONGOAL-<NNN>` |
+| `section` | `<family-key>:SECTION-<NNN>` |
 | block/compact `amendment` | `<document-id>#amendment:<revision>`, where revision matches `^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$` |
 | its linked `rationale` | `<amendment-id>#rationale` |
 
 `<family-key>` is one registry-owned, case-preserving
 `^[A-Za-z][A-Za-z0-9-]{0,63}$` token; every `<NNN>` is exactly three ASCII
-decimal digits. Existing PCDN, EOQ, ERRATA, document, and prefix allocation
-authorities continue to own uniqueness; this profile creates no second
-registry. A syntactically valid canonical value with zero or multiple global
-definitions is unresolved. Family, kind, document, and locator **MUST NOT**
+decimal digits from `001` through `999`. Existing PCDN, EOQ, ERRATA, term,
+gate, non-goal, section, document, and prefix allocation authorities continue to own
+uniqueness; this profile creates no second registry. A syntactically valid
+canonical value with zero or multiple global definitions is unresolved.
+Family, kind, document, and locator **MUST NOT**
 break that collision. Invalid declared document ids remain coverage defects;
 the parser **MUST NOT** strip presentation markup or guess a replacement.
 
-Legacy amendments without a revision and current `section`, `term`, `gate`,
-`nongoal`, `enum_value`, and `authority_row` path-, line-, or text-derived ids
+A valid gate definition is a §12 checklist item whose content begins with the
+complete `GATE-NNN` handle in inline code, followed by exactly space, em dash,
+space, and nonempty gate text: ``- [x] `GATE-001` — <gate text>``. The checklist
+marker owns declared `gate.checked`; the handle is not part of `gate.text`.
+The family owner allocates handles monotonically without reuse, and the number
+conveys identity only. A valid local handle is recognized only within its
+owning family and compiles as `<family-key>:GATE-NNN`.
+
+A valid non-goal definition is a §11 ordered-list item whose content begins
+with the complete `NONGOAL-NNN` handle in inline code, followed by exactly
+space, em dash, space, a bold title ending in a period, one space, and nonempty
+body text: ``1. `NONGOAL-001` — **<non-goal title>.** <body>``. The ordered-list
+number remains presentation only, and the handle is not part of
+`nongoal.text`. The family owner allocates handles monotonically without reuse,
+and the number conveys identity only. A valid local handle is recognized only
+within its owning family and compiles as `<family-key>:NONGOAL-NNN`. A malformed
+or unmodified item remains readable and positional; no stable identity implies
+equivalence or target disambiguation.
+
+A valid section definition is a numbered Markdown heading whose content is an
+existing `§` ordinal, one space, the complete `SECTION-NNN` handle in inline
+code, exactly space, em dash, space, and a nonempty title:
+``### §7.2 `SECTION-001` — Consumer conformance``. The ordinal remains
+presentation and local navigation only; the handle is identity and is not part
+of `section.text`. The family owner allocates handles monotonically without
+reuse, and the number conveys identity only. A valid local handle is recognized
+only within its owning family and compiles as `<family-key>:SECTION-NNN`. An
+unmodified or malformed numbered heading remains positional and edge-ineligible;
+the producer does not alias an ordinal, title, path, line, or content hash to a
+stable section id.
+
+Legacy amendments without a revision, legacy three-column `term` rows, §12
+checklist items without a valid authored gate handle, §11 ordered-list items
+without a valid authored non-goal handle, numbered headings without a valid
+authored section handle, and current `enum_value` and `authority_row` path-,
+line-, or text-derived ids
 remain readable object rows but are not edge endpoints or valid `Touches`
 targets. They make applicable C5/C6 coverage incomplete until another
 Standards Action registers stable authored handles. The provider **MUST NOT**
@@ -211,8 +250,9 @@ Instead, every required commit containing one or more such objects contributes
 exactly one history-gap unit
 `[commit, "object", "edge_ineligible_semantic_identity"]`. No positional id
 enters that counter identity. In particular, `gate.checked` remains valid
-per-snapshot data, but neither its cross-commit change nor an amendment that
-tries to `Touches` that gate becomes resolvable under this profile.
+per-snapshot data for both stable and positional gates, while only a stable
+gate's cross-commit semantic identity or an amendment that `Touches` it becomes
+resolvable under this profile.
 
 **Registration policy:** changing the common predicate, an eligible-kind row,
 an id grammar, a reserved prefix, or the positional-history-gap rule requires
@@ -281,6 +321,37 @@ or `superseded` merely from a path, ZIP member, notebook record, or pointer.
 Every non-`unknown` lifecycle value carries declared provenance or cites the
 authored transition from which it was deterministically derived.
 
+#### §4.5.1 Declared historical definitions in a superseded document [Normative]
+
+A document MAY declare these two contiguous governed-header fields:
+
+```text
+**Document lifecycle state:** superseded
+**Historical definitions:** <id-1>, <id-2>, ...
+```
+
+`Historical definitions` is a nonempty comma-separated list of canonical
+`GlobalObjectIdV1` values. It is operative only when lifecycle is explicitly
+declared `superseded`; an inferred `Status: SUPERSEDED` value is insufficient.
+Every member MUST be unique and MUST identify exactly one edge-eligible
+definition owned by that same document before exclusion. Empty members,
+aliases, unregistered ids, duplicates, absent definitions, and local definition
+collisions fail generation.
+
+In the current projection only, the producer excludes exactly the listed
+definition rows and same-document citation or dependency candidates whose
+source or target is listed. It retains the document object, every location,
+every unlisted contained object, and every source byte. The declaration creates
+no `same-as`, `homonym-of`, `supersedes`, successor, retirement, replacement,
+or equivalence mapping and MUST NOT select by path, age, document name, family,
+first match, or prose description.
+
+Retained committed schema-v3 projections remain immutable and readable. The
+first committed projection implementing one of these declarations begins an
+additive compatibility frontier across producer, store, query, and consumer
+support; it does not reset, truncate, reinterpret, or backfill the fixed C6
+history frontier.
+
 ### §4.6 Frozen enum — `OpenQuestionStatus`
 
 | Value | Meaning |
@@ -295,6 +366,17 @@ definition row and its governing heading/document authority. Later citations,
 directory names, and implementation state **MUST NOT** change it. The parser
 records whether the status was declared in a row or deterministically inferred
 from the governing authored section.
+
+---
+
+### §4.7 Errata assessment metadata [Normative]
+
+The attribute model MAY retain ADDENDUM-B §1.1–§1.2 records and §7.1–§7.2
+evaluated metadata alongside their owning erratum. Their values are represented from
+ADDENDUM-B without modification. They are not definitions, new objects, edge
+targets, native state replacements, or verification evidence for a repair.
+Source record bytes, invalid inputs, decision frontier, and receipt provenance
+MUST remain inspectable. C13 exposes this metadata with scoped confidence.
 
 ---
 
@@ -320,11 +402,11 @@ Directional, typed relationships between spec objects. Every edge carries `kind_
 
 `same-as` and `homonym-of` exist because **term collisions are not defects — unlabelled ones are.** F5's 30 collisions (`executor` across five families) are mostly legitimate domain separation. Without a way to declare that, every collision sits as a permanent open finding and the report trains its readers to ignore it. With it, a collision is either resolved to one concept or explicitly declared distinct, and the residue is the real signal.
 
-The enum registration survives the initial endpoint boundary, but current
-text-derived `term` ids are not `GlobalObjectIdV1`-eligible. A term
-`same-as`/`homonym-of` declaration therefore remains unavailable until another
-Standards Action registers stable term handles; the motivating semantic is not
-permission for an implementation-local exception.
+The enum registration survives the initial endpoint boundary. A stable
+`TERM-NNN` definition is `GlobalObjectIdV1`-eligible, so a term
+`same-as`/`homonym-of` declaration MAY use its canonical global identity.
+Legacy text-derived term ids remain ineligible; the registered stable shape is
+not permission to infer a handle for an unmodified row.
 
 **Reciprocity.** Every edge has a reverse; a store **MUST** materialise both directions. SBC-INV-13 already mandates this for one pair (ERRATA ↔ §15); this generalises it.
 
@@ -435,16 +517,19 @@ nearest-object selection, first-valid-token parsing, and implicit
 Schema-v3 edges remain object-to-object. A `verifies` edge is eligible only
 when both endpoints are globally valid `SpecObject` rows and the source kind is
 registered as a checking object. `GlobalObjectIdV1` registers no checking
-source kind because current gates are positional; consequently this initial
-profile has no live positive `verifies` edge. A declared `verifies` field with
-a locator, nonobject, or ineligible source is unsupported and emits no edge.
+source kind. Stable gate identity changes endpoint eligibility only: checklist
+text, invariant citations, and declared checked state **MUST NOT** infer
+`verifies`, and `gate` is not a checking source kind. Consequently this profile
+has no live positive `verifies` edge. A declared `verifies` field with a
+locator, nonobject, unregistered checking source, or otherwise ineligible
+source is unsupported and emits no edge.
 
 Existing tests, commits, and evidence strings remain locator evidence in
 `verified_by`/`has_verification`; they never become placeholder objects or edge
-endpoints. Registering a stable gate handle or a test/evidence `ObjectKind`
-belongs to the reserved multi-producer phase and requires another Standards
-Action and compatibility frontier. Historical schema-v3 bytes **MUST NOT** be
-reinterpreted.
+endpoints. Registering a test/evidence `ObjectKind`, or admitting `gate` as a
+checking source kind, belongs to the reserved multi-producer phase and requires
+another Standards Action and compatibility frontier. Historical schema-v3 bytes
+**MUST NOT** be reinterpreted.
 
 ---
 
@@ -477,6 +562,146 @@ The alternative — replaying today's parser across 585 historical commits to re
 **History** is the sequence of committed snapshots; git is its authority. An object's history is the diff of its entry across snapshots — no separate history store, and no authored history record that could disagree with git.
 
 **A baseline** is a named, frozen snapshot spanning a family, produced at ratification or at doc-handoff. The handoff ritual already produces frozen content and a commit SHA; a baseline names the set and makes it diffable. Every object emitted to RAG **MUST** carry its baseline id, so a retrieved fragment declares itself as *correct as of baseline N* rather than being merely suspect — which converts the measured stale-RAG failure (0.69 with stale context vs 0.82 without) from a discard signal into a navigable one via `supersedes` edges.
+
+---
+
+### §7.1 Forward operational assessment profile [Normative]
+
+The `sbc-occurrence-v1` profile is non-graph metadata over retained evidence.
+It MUST NOT change `ObjectKind`, endpoint eligibility, `ChangeKind`, `Touches`,
+`Clears-Suspect`, historical coverage counters, or native repair/gate status.
+ADDENDUM-B owns every assessment/disposition value; this section owns matching.
+
+An authored `subject` has exactly `{snapshot_commit, manifest_sha256,
+document_id, object_id, observed_key, locator, record_sha256, anchor_kind,
+anchor_sha256, condition, occurrence_start}`. `document_id` must uniquely resolve
+at the subject snapshot. `object_id` is a canonical eligible unique identity
+or null. `observed_key` is the exact retained diagnostic/object/condition key;
+it is evidence, not continuity identity. `locator` is `{document, line}`, with
+repository-relative POSIX document path and positive integer line. `record_sha256`
+binds the complete raw retained record bytes. `manifest_sha256` binds its exact
+retained projection manifest. `occurrence_start` is a full Git commit on the
+retained interval. `condition` is nonempty exact condition text.
+
+`anchor_kind` is `canonical_object`, `legacy_record`, or `historical_snapshot`.
+For `canonical_object`, `object_id` must be non-null and `anchor_sha256` binds
+canonical `{object_id, kind, text, attributes}` from its retained object row;
+location and inferred locator-derived IDs are excluded. For `legacy_record`,
+`object_id` must be null and the anchor binds the exact UTF-8 source bytes of
+one entire uniquely occurring legacy record within that unique document.
+Whitespace changes break this anchor; a line move alone does not. For
+`historical_snapshot`, the anchor binds the complete retained diagnostic or
+counter-unit record, and its effect attaches only to that exact old snapshot.
+No arbitrary field omission, whitespace normalization, or fuzzy matching is
+permitted. Uniqueness is checked independently at every evaluated snapshot.
+
+`rule` is exactly `{document_id, revision, source_commit, source_sha256,
+locator}` identifying the governing rule bytes and adoption evidence, with
+nonempty strings and the digest/commit grammar from ADDENDUM-B. The condition
+fingerprint is SHA-256 of canonical `{profile: "sbc-occurrence-v1",
+document_id, object_id, anchor_kind, anchor_sha256, condition, rule}`.
+Changing any of those values creates a different condition requiring review.
+
+A decision can first affect the first published snapshot on the tracked
+first-parent chain strictly after its valid receipt and adopted policy are
+both recorded. The receipt's adoption commit is part of the trusted evidence.
+It cannot affect its subject's earlier snapshot. Queries at a retained earlier
+snapshot evaluate only policy, receipt, and decision inputs adopted by then.
+
+Carry-forward requires one unique matching fingerprint in every retained
+projection state on the complete first-parent interval from the approved
+occurrence start to the evaluated snapshot. Each required commit's committed
+projection and source manifest must validate; unchanged projections can share
+bytes. Missing commits, missing projections, unexplained source/projection
+drift, merge-side-only evidence, or unavailable rule ordering break continuity.
+Do not run today's parser over historical source to fill a gap. An interval
+gap produces `undetermined` continuity and no inherited exclusion.
+
+Absence followed by reappearance is a new occurrence, even with identical
+bytes. Absence alone is not a verified repair. At a first trusted observation,
+recurrence is `undetermined` unless complete retained evidence establishes
+newness or recurrence. Conflict, ambiguity, or a changed rule does not choose
+a convenient match. Accepted historical counter members remain historical;
+new observations never inherit their acceptance by sharing a counter name.
+
+The evaluated metadata stores the authored record, validation result, effective
+member set, and all provenance references. It is derivable from retained source
+and authority inputs, not a mutable database-only status. Invalid decisions
+produce review findings without hiding native work. Invalid base carriers still
+follow their existing capability-unavailable rules. This profile adds no C6
+clearings or change events. Approved conditions and independently required
+roadmap work stay actionable, including when the historic act was non-applicable.
+
+### §7.2 Condition verification transition and validity [Normative]
+
+This narrowly extends §7.1 for ADDENDUM-B §1.2; it MUST NOT weaken unchanged
+occurrence matching for parent dispositions. The complete condition is bound
+to its original parent decision/member and occurrence. A verification record
+cannot restore an ineffective parent assessment. Historical-snapshot anchors,
+ambiguous identities, unavailable source, or missing retained projections
+supply no completion effect in this profile.
+
+The provider first establishes the original condition subject exactly at its
+authored snapshot and its uninterrupted §7.1 occurrence through `before`.
+For a changed-state transition, `after.snapshot_commit` MUST have
+`before.snapshot_commit` as its first parent. Both subjects bind their exact
+retained projection rows, manifests, complete source records, and unique
+document/identity independently. For an unchanged-state verification, before
+and after MUST be the same complete subject; it may be a later observation of
+the original uninterrupted occurrence. No historical parser replay fills gaps.
+
+The only supported bridges are:
+- A canonical object retaining its exact eligible object ID, kind, document ID,
+  and statement, with an identical anchor or only the native gate `checked`
+  changing false to true, or native erratum `status` changing from
+  `open`, `diagnosed`, or `deviation-pending-ratification` to `resolved`.
+  Every other anchor attribute is identical.
+- A legacy checkbox retaining the entire exact source statement, with only its
+  checkbox state character changing from space to lowercase or uppercase x.
+  Each complete before/after record is unique in the same document. No inferred
+  positional key, whitespace normalization, record split, or shorter summary
+  supplies equivalence.
+- An identical canonical anchor or identical complete legacy record for work
+  verified without a native state change.
+
+Both subjects have identical `anchor_kind`, `document_id`, and `condition`.
+Canonical bridges retain `object_id`; legacy bridges keep it null.
+`after.occurrence_start` is the after snapshot for a changed anchor; otherwise
+it preserves the original occurrence start. Locator moves are permitted only
+under §7.1's independent binding. The before source may differ from the after
+source: these exact changed bytes and the limited bridge are explicitly reviewed
+by the verification authority, not inherited as unchanged continuity.
+Unsupported changes remain undetermined; this profile supplies no identity
+allocation, rename inference, invariant verification-field edit, or general
+erratum/source rewrite bridge.
+
+The verification cannot become effective until a published snapshot strictly
+after its receipt adoption, the applicable policy adoption, and its first
+retained candidate appearance. The parent assessment must then be effective.
+All before/after, tested, and check-evidence commits must lie on the complete retained
+first-parent interval at or before the receipt adoption commit. Calendar order
+and merge-side commits supply no substitute.
+
+At each later selected snapshot, the completed subject must remain independently
+bound with uninterrupted §7.1 continuity from after. Additionally, every
+`source_scope` path must retain its exact tested-commit blob hash at every
+first-parent commit from tested_commit through selection. Deletion, change, restoration,
+unexplained projection/source drift, ambiguity, or a history gap prevents reuse
+of the old confirmation. This includes changes before the first effective
+publication. A new explicit verification may reuse the independently established
+state bridge with a later tested_commit and new source_scope, provided completed
+subject continuity from after remains intact. This permits a fresh confirmation
+after code/configuration changes without claiming the old confirmation survived.
+It does not bypass a reopened or recurring condition occurrence; a
+reappearing record never inherits an old completion.
+
+A valid latest withdrawal ends only that completion claim. Missing record or
+authority history makes its result undetermined, not satisfied. All as-of
+evaluation uses the policy, candidate, and independently pinned authority
+frontiers retained for that snapshot. Older results are not rewritten by a
+later confirmation, withdrawal, or parent successor. Mechanical validity is
+bounded by the declared source scope and the human-recorded environment claim;
+unobserved external conditions are not silently asserted current.
 
 ---
 
@@ -675,8 +900,19 @@ The model is conformant when it can answer these deterministically. **Surfaces a
 | C10 | What is this family's drift/coverage/normativity profile? | §6.2, §8.4 |
 | C11 | What governed work currently needs attention? | §4.1 object kinds/status, §4.2 provenance |
 | C12 | Where does this document or object live across its lifecycle? | §4.4, §4.5, §7 |
+| C13 | What work remains, what is historically non-applicable, what remains accepted but unrepaired, and what has verified repair evidence? | ADDENDUM-B §1.1–§1.2; §4.7; §7.1–§7.2; SIDX-06B §7.7–§7.8 |
+| C14 | What exact retained source supports this operational-review evidence reference? | §9.1; SIDX-06B §7.10; SIDX-06D §7.9 |
 
-C1 is answerable today by grep. C2–C12 require a conforming derived surface.
+C1 is answerable today by grep. C2–C14 require a conforming derived surface.
+
+### §9.1 Retained operational-review source inspection [Normative]
+
+C14 answers only the exact retained evidence references of C13. It composes
+ADDENDUM-B evidence references and the committed source model without defining
+a new SpecObject, lifecycle value, disposition, checking authority, or graph
+edge. SIDX-06B §7.10 owns its versioned delivery contract; SIDX-06D §7.9 owns
+retention and activation; SIDX-06C §7.9 owns presentation. Reading source is
+inspection, not verification that a repair was executed or a condition satisfied.
 
 ---
 
@@ -698,36 +934,43 @@ C1 is answerable today by grep. C2–C12 require a conforming derived surface.
 
 ## §11 Non-Goals
 
-1. **Not a storage topology.** Relational vs. graph vs. vector vs. columnar, and how many stores — phase-level decisions for a consuming tooling family. This doc constrains only that they be derived (§0.1).
-2. **Not an API surface.** MCP tool names, REST routes, auth scope, and role gating belong to the consuming family's phase docs. §9 is the manifest they implement.
-3. **Not a multi-producer graph — yet.** Commits, PRs, issue trackers, ADRs, meeting transcripts, CI evidence, and external standards could all emit into this model, and the object/edge design is deliberately producer-agnostic to keep that open. Admitting a second producer now would make the first unbuildable. Revisit once the Markdown producer is conformant end to end.
-4. **Not a remediation mandate.** F2/F6/F7 measure real gaps in the existing corpus. This doc makes them visible and does not schedule their repair; that is each family's call, at each family's cost.
-5. **Not a replacement for reading the spec.** The model serves navigation, impact analysis, and metrics. Narrative sections remain the primary onboarding artifact — the compiled projection deliberately does not shred them, because prose context is what an agent's cold start actually consumes.
-6. **Not a change to any existing invariant's meaning.** Six invariants are *proposed* here; none amends a parent invariant's obligation.
+1. `NONGOAL-007` — **Not a storage topology.** Relational vs. graph vs. vector vs. columnar, and how many stores — phase-level decisions for a consuming tooling family. This doc constrains only that they be derived (§0.1).
+2. `NONGOAL-008` — **Not an API surface.** MCP tool names, REST routes, auth scope, and role gating belong to the consuming family's phase docs. §9 is the manifest they implement.
+3. `NONGOAL-009` — **Not a multi-producer graph — yet.** Commits, PRs, issue trackers, ADRs, meeting transcripts, CI evidence, and external standards could all emit into this model, and the object/edge design is deliberately producer-agnostic to keep that open. Admitting a second producer now would make the first unbuildable. Revisit once the Markdown producer is conformant end to end.
+4. `NONGOAL-010` — **Not a remediation mandate.** F2/F6/F7 measure real gaps in the existing corpus. This doc makes them visible and does not schedule their repair; that is each family's call, at each family's cost.
+5. `NONGOAL-011` — **Not a replacement for reading the spec.** The model serves navigation, impact analysis, and metrics. Narrative sections remain the primary onboarding artifact — the compiled projection deliberately does not shred them, because prose context is what an agent's cold start actually consumes.
+6. `NONGOAL-012` — **Not a change to any existing invariant's meaning.** Six invariants are *proposed* here; none amends a parent invariant's obligation.
 
 ---
 
 ## §12 Acceptance [Normative]
 
+Conformance to this ratified revision additionally requires §9.1's
+C14 retained-source contract and its cited cross-owner witnesses. Existing
+acceptance criteria and their recorded states remain unchanged.
+
+Conformance to this proposed revision additionally requires §7.2's recorded
+condition-verification contract and its cited cross-owner requirements.
+Existing acceptance criteria and their recorded states remain unchanged.
+
 ### §12.1 This document is ratified when
 
-- [x] Every term in §3 carries a citation and an SBC-INV-2 relationship marker.
-- [x] `ObjectKind` (§4.1), `LocationKind` (§4.4), `DocumentLifecycleState` (§4.5), `OpenQuestionStatus` (§4.6), `EdgeType` (§5), and `ChangeKind` (§8.2) are closed and each declares a registration policy.
-- [x] The compilation rule (§0.1) is stated normatively and §8.3 resolves its one exception without weakening it.
-- [x] The identifier grammar (§4.3) names a canonical form **and** an allocation authority.
-- [x] Six proposed invariants appear with verification surfaces (§12.3).
-- [x] Every adjacency in §10 carries a decision with an `AuthorityRelationship`.
-- [x] Each non-goal in §11 names the owner of the excluded surface or the reason it is out of scope.
-- [x] Load-bearing sections §0, §3/§4, §10, §12, §15 are present (SBC-INV-9).
-- [x] All PCDNs in §12.4 are resolved.
-- [x] The ratified C6 Standards Action fixes global dependency identity,
+- [x] `GATE-013` — Every term in §3 carries a citation and an SBC-INV-2 relationship marker.
+- [x] `GATE-014` — `ObjectKind` (§4.1), `LocationKind` (§4.4), `DocumentLifecycleState` (§4.5), `OpenQuestionStatus` (§4.6), `EdgeType` (§5), and `ChangeKind` (§8.2) are closed and each declares a registration policy.
+- [x] `GATE-015` — The compilation rule (§0.1) is stated normatively and §8.3 resolves its one exception without weakening it.
+- [x] `GATE-016` — The identifier grammar (§4.3) names a canonical form **and** an allocation authority.
+- [x] `GATE-017` — Six proposed invariants appear with verification surfaces (§12.3).
+- [x] `GATE-018` — Every adjacency in §10 carries a decision with an `AuthorityRelationship`.
+- [x] `GATE-019` — Each non-goal in §11 names the owner of the excluded surface or the reason it is out of scope.
+- [x] `GATE-020` — Load-bearing sections §0, §3/§4, §10, §12, §15 are present (SBC-INV-9).
+- [x] `GATE-021` — All PCDNs in §12.4 are resolved.
+- [x] `GATE-022` — The ratified C6 Standards Action fixes global dependency identity,
   change-event authority, typed DAG clearing, and diagnostic metrics without
   transferring semantic ownership to a delivery handler.
-- [x] The rev 0.6.0 correction registers exact declared/inferred edge
+- [x] `GATE-023` — The rev 0.6.0 correction registers exact declared/inferred edge
   authoring, `GlobalObjectIdV1`, positional history gaps, object-only
   `verifies`, and per-target retirement authority while keeping diagnostic and
   provider serialization in the coordinated SIDX owners.
-
 ### §12.2 Parent amendments this document requires — ✅ landed 2026-07-31
 
 These were listed rather than performed because an addendum does not edit its parent silently. All four landed as `SBC-00-CONCEPTS.md` **rev 0.7.0**, a revision distinct from the **0.6.0** ratification, so the record separates what the corpus was governed by before this date from what changed on it.
@@ -774,7 +1017,7 @@ transport parity; none may reinterpret the adopted meaning.
 |---|---|---|
 | `PCDN-SBC-00-C-001` | Does the model cover submodule corpora (SOS, disco-analyzer, rlvgl, scjson), which own their own repos and ERRATA? | **Parent repo first.** Submodules opt in per-repo. Cross-repo id resolution gets its own phase; until then a submodule corpus is out of the compiled index and its ids are unresolvable from the parent — recorded as a known limitation, not a silent gap. |
 | `PCDN-SBC-00-C-002` | Do `rationale` objects get authored inline (a §15 sub-shape) or as separate linked files? | **Inline sub-shape**, owned by `SBC-00-ADDENDUM-D`. A separate file class adds an unspecified surface that would fork exactly as §15 did. |
-| `PCDN-SBC-00-C-003` | Is the §15 shape frozen now, or after the 27 bullet-form logs are read for content they carry that the table shape cannot? | **After.** Audit performed 2026-07-31 (`scan.py --changelog-audit`); shape frozen in `SBC-00-ADDENDUM-D` against measured content. Both authored forms remain valid input during transition. |
+| `PCDN-SBC-00-C-003` | Is the §15 shape frozen now, or after the 27 bullet-form logs are read for content they carry that the table shape cannot? | **After.** Audit performed 2026-07-31 (`scan.py --changelog-audit`); amendment shape frozen in `SBC-00-ADDENDUM-D` against measured content. Both authored amendment forms remain valid input during transition. ADDENDUM-D §2.5 owns the separate forward-only project-event form, which is not an amendment. |
 | `PCDN-SBC-00-C-004` | Who holds the §4.3 allocation authority — this addendum, or a registry file with a named human owner? | **Registry file with a named human owner**, in the consuming repo. The authority is operational, not normative. Seeded at `docs/spec-index/PREFIX-REGISTRY.md`. |
 | `PCDN-SBC-00-C-005` | Does `ObjectKind` admit `test` and `commit` as objects now, or does that wait for the §11.3 multi-producer phase? | **Wait.** Tests and commits remain locator evidence until the multi-producer phase opens. **Rev 0.6.0 clarification:** locator evidence is not a schema-v3 `verifies` endpoint; §5.3 now requires two globally valid objects and registers no initial checking source kind. |
 
@@ -785,7 +1028,7 @@ transport parity; none may reinterpret the adopted meaning.
 | File | Role |
 |---|---|
 | `docs/SBC-00-CONCEPTS.md` | Parent normative document; §12.2 lists required amendments |
-| `docs/SBC-00-ADDENDUM-A.md` | Operational injection template (unmodified) |
+| `docs/SBC-00-ADDENDUM-A.md` | Operational injection template; rev 0.4.0 propagates the project-event boundary without becoming a second normative owner |
 | `docs/SBC-00-ADDENDUM-B.md` | `ErrataStatus`, ERRATA boundary + template (composed, §10 row 7) |
 | `docs/SBC-00-ADDENDUM-C.md` | This document |
 | `docs/todo/spec-index/TODO-SIDX-06E-C6-OBJECT-GRAPH-AND-ACKNOWLEDGMENT.md` | Ratified C6 Standards Action and rev 0.4.0 correction record; exact diagnostic/provider execution profile |
@@ -821,6 +1064,195 @@ transport parity; none may reinterpret the adopted meaning.
 | 0.5.0 | 2026-08-08 | I. Abbott (ratifier) | **Ratified amendment** | Standards Action adopts SIDX-06E rev 0.3.0: C6 edges resolve global object ids; citation ownership and dependency orientation are closed in §5.1; change events require amendment authority and fingerprint audit; typed Git trailers clear exact pair/frontier members through DAG-aware atomic acts; pair retirement and re-suspicion remain explicit; and the metric triple preserves measured, vacuous, and uncomputable truth. **Change kind:** `semantic`. **Touches:** §3, §5, §8, §12, §13, and §14. **Motivation:** path-source edges and edit-based clearing cannot answer C6 deterministically or equally for human and agent consumers. **Considered and rejected:** family-qualified ids, first-match ownership, blanket propagation, edit-based clearing, arbitrary merge selection, database-authored acknowledgments, and handler-local C6 rules. **What deliberately did not change:** canonical Markdown/Git authority, the closed `EdgeType`/`ChangeKind` values, retained historical snapshots, storage/API ownership, dashboard permission, deployment, or release authority. |
 | 0.6.0 | 2026-08-09 | I. Abbott (owner and ratifier) | **Ratified correction amendment — Standards Action** | Owner ratification adopts SIDX-06E rev 0.4.0 PCDN-SIDX-06E-011 through PCDN-SIDX-06E-016 as written and closes the implementation-audit carrier gaps without weakening rev 0.5.0. It registers the exact standalone `**Spec Edge:**` grammar, declared allowlist, four-row inference registry, provenance and failure classifications (§5.2); freezes `GlobalObjectIdV1`, its eligible-kind table, canonical amendment/rationale identities, and the one-unit positional-history-gap boundary (§4.3.1); makes schema-v3 `verifies` object-only and leaves its positive control deferred until a checking-object kind has a stable registered id (§5.3); evaluates retirement once per amendment/retired target, requires one consistent declared `successor -> retired` edge across every eligible last-present parent, and forbids first/newest/family-local successor choice (§8.2); and freezes the sorted, deduplicated three-key `retired_dependencies` member with array-level declared provenance (§8.2). **Change kind:** `semantic`. **Touches:** §0 metadata; §4.3; §5/§5.1 and new §5.2/§5.3; §8.2; §10; §12.1/§12.2/§12.4; §13; §15. **Authority/provenance:** Ira Abbott explicitly accepted PCDN-SIDX-06E-011 through -016 as written on 2026-08-09; this row is the coordinated upstream Standards Action required by SIDX-06E §10.1. **Diagnostic/provider ownership:** diagnostic-v3 record identity/facts/locators and provider counter precedence remain owned by SIDX-06E rev 0.4.0, producer serialization/profile by SIDX-06A, shared-query compatibility by SIDX-06B, and diagnostic-v1 history by SIDX-06D; none becomes new object-model vocabulary. **Migration boundary:** retained object schema v2 and diagnostic schemas v1/v2 remain immutable/readable; no path/line identity is legitimized, no historical schema-v3 byte is reinterpreted, and no current positional kind is silently promoted. **Considered and rejected:** prose-verb inference, `Relationship:`/JSON/YAML alternatives, nearest/first/family-local resolution, every nonempty id, path/line/hash ids, silent header cleanup, locator-shaped `verifies`, test/commit pseudoobjects, aggregate or first-successor retirement, raw retirement strings, per-member provenance, and reusing diagnostic schema 2 with changed record identity. **What deliberately did not change:** the closed `ObjectKind`, `EdgeType`, `ChangeKind`, `LocationKind`, lifecycle, or open-question enums; Markdown/git authority; rev 0.5.0 pair orientation, fingerprint, DAG clearing, removal/reintroduction, and metric semantics; retained snapshot bytes; C11/C12 public literal ownership; dashboard, deployment, legal, qualification, governance, or release authority. |
 
+### 0.7.0 — 2026-08-23 — ratified stable-term Standards Action
+
+**Author:** Ira Abbott (owner and ratifier)
+**Change kind:** semantic
+**Touches:** sbc:TERM-021, sbc:TERM-022, sbc:TERM-023, sbc:TERM-024, sbc:TERM-025, sbc:TERM-026, sbc:TERM-027, sbc:TERM-028, sbc:TERM-029, sbc:TERM-030, sbc:TERM-031, sbc:TERM-032, sbc:TERM-033, sbc:TERM-034, sbc:TERM-035, sbc:TERM-036, sbc:TERM-037, sbc:TERM-038, sbc:TERM-039, sbc:TERM-040, sbc:TERM-041, sbc:TERM-042, sbc:TERM-043
+**Summary:** Owner ratification registers stable term definitions as four-column §3 glossary rows carrying exact `TERM-NNN` authored handles and canonical compiled identities `<family-key>:TERM-NNN`. Handles are allocated monotonically without reuse; their numbers convey identity only.
+
+#### Rationale
+
+The twenty-three ADDENDUM-C terms are part of the measured sixty-target and six-source SBC wave. This amendment makes those already-compiled objects edge-eligible while preserving every definition and relationship exactly.
+
+The eligible-kind table and related positional-boundary paragraphs have no pre-existing stable object target. This entry deliberately does not substitute their containing document; their positional carriers remain explicit in the summary and source diff.
+
+The first committed projection produced from explicit stable handles is an additive object-schema-v3 compatibility frontier. Retained historical schema-v3 bytes are not reinterpreted or backfilled, and producer, store, query, and consumer support deploy atomically.
+
+Considered and rejected: text, path, line, document, or content-hash identity; first-match repair; silent promotion of legacy rows; and a schema-version change without a wire-shape change.
+
+What deliberately did not change: term definition or relationship text; the closed enums; term equivalence; document lifecycle; retained projection bytes; or the positional status of unmodified three-column term rows and every other positional kind.
+
+### 0.8.0 — 2026-08-23 — ratified stable-gate Standards Action
+
+**Author:** Ira Abbott (owner and ratifier)
+**Change kind:** semantic
+**Touches:** sbc:GATE-013, sbc:GATE-014, sbc:GATE-015, sbc:GATE-016, sbc:GATE-017, sbc:GATE-018, sbc:GATE-019, sbc:GATE-020, sbc:GATE-021, sbc:GATE-022, sbc:GATE-023, sbc:ERRATA-009
+**Summary:** Owner acceptance of `EOQ-001-ERRATA-009` adds `gate` to `GlobalObjectIdV1`, freezes the exact authored §12 checklist shape and `<family-key>:GATE-NNN` identity, and assigns `GATE-013` through `GATE-023` to this document's existing gates in authored source order.
+
+#### Rationale
+
+The 31 accepted SBC gate identities account for exactly 31 invalid definition targets and twelve invalid citation sources. The stable shape closes that measured population while preserving every gate's text and declared checked state.
+
+This amendment begins an additive object-schema-v3 compatibility frontier at the first committed projection containing explicit handles. Retained historical bytes are neither reinterpreted nor backfilled, and producer, store, query, and consumer support deploy atomically.
+
+Considered and rejected: document-scoped, path/line, content-hash, invariant-derived, prose-label, and first-match identity; silent promotion of malformed or unmodified checklist items; and any implicit `blocks` or `verifies` relationship.
+
+What deliberately did not change: gate text or checked state; the closed object, edge, change, location, lifecycle, or open-question enums; the semantic fingerprint fields; the absence of a checking source kind for `verifies`; retained projection bytes; ERRATA-006's ambiguous invariant targets; or the positional status of non-goals, sections, enum values, authority rows, and the other twenty-one legacy amendments.
+
+### 0.9.0 — 2026-08-23 — ratified stable-non-goal Standards Action
+
+**Author:** Ira Abbott (owner and ratifier)
+**Change kind:** semantic
+**Touches:** sbc:NONGOAL-007, sbc:NONGOAL-008, sbc:NONGOAL-009, sbc:NONGOAL-010, sbc:NONGOAL-011, sbc:NONGOAL-012, sbc:ERRATA-010
+**Summary:** Owner acceptance of `EOQ-001-ERRATA-010` adds `nongoal` to `GlobalObjectIdV1`, freezes the exact authored §11 ordered-list shape and `<family-key>:NONGOAL-NNN` identity, and assigns `NONGOAL-007` through `NONGOAL-012` to this document's existing non-goals in authored source order.
+
+#### Rationale
+
+The accepted 16-row SBC non-goal frontier accounts for exactly sixteen invalid definition targets and one invalid citation source. The stable shape closes that measured identity population while preserving every non-goal's text. The existing citation remains without an edge because ERRATA-006 still owns its ambiguous invariant target.
+
+This amendment begins an additive object-schema-v3 compatibility frontier at the first committed projection containing explicit handles. Retained historical bytes are neither reinterpreted nor backfilled, and producer, store, query, and consumer support deploy atomically.
+
+Considered and rejected: document-scoped, path/line, content-hash, title-derived, bare ordered-list, and first-match identity; silent promotion of malformed or unmodified items; inferred equivalence among similar current and predecessor text; and target disambiguation.
+
+What deliberately did not change: non-goal text; the closed object, edge, change, location, lifecycle, or open-question enums; the semantic fingerprint fields; the inference registry; retained projection bytes; ERRATA-005; ERRATA-006's ambiguous invariant targets; or the positional status of sections, enum values, authority rows, and the other twenty-one legacy amendments.
+
+### 0.10.0 — 2026-08-28 — ratified historical-definition Standards Action
+
+**Author:** Ira Abbott (owner and ratifier)
+**Change kind:** semantic
+**Touches:** sbc:ERRATA-006, SPEC-BEFORE-CODE-CONCEPTS
+**Summary:** Owner acceptance of `EOQ-001-ERRATA-006` ratifies the exact
+declared historical-definition list and current-projection-only exclusion
+measured by the six-part candidate.
+
+#### Rationale
+
+The superseded predecessor remains valuable source and contains accepted stable
+terms, gates, non-goals, and amendment history, but its ten rebound invariant
+definitions create 94 ambiguous dependency targets. An exact authored member
+list closes that mismatch without selecting a replacement definition or
+generalizing superseded lifecycle into whole-document exclusion.
+
+The first implementing projection is an additive compatibility frontier.
+Retained schema-v3 bytes remain readable and immutable, and historical
+collision, gap, and unlogged-change units remain evidence rather than becoming
+zero.
+
+Considered and rejected: banner, path, age, document-name, family, newest, or
+first-match selection; removing the entire predecessor from the corpus;
+per-object successor mappings not authored by an owner; implicit equivalence;
+and any reset or truncation of C6 history.
+
+What deliberately did not change: the ten historical invariant texts; any
+current replacement invariant; accepted stable predecessor terms, gates,
+non-goals, or amendments; the closed object, edge, change, location, lifecycle,
+and open-question enums; semantic fingerprints; source bytes; retained
+projection bytes; or provider truth semantics.
+
+### 0.11.0 — 2026-08-29 — ratified project-event boundary clarification
+
+**Author:** Ira Abbott (owner and ratifier); OpenAI Codex (drafting and reconciliation)
+**Change kind:** clarification
+**Touches:** SBC-00-ADDENDUM-C, PCDN-SBC-00-C-003, sbc:ERRATA-011
+**Summary:** Owner acceptance of `SBC-ERRATA-011` scopes PCDN-SBC-00-C-003's two-form statement to amendment forms and records ADDENDUM-D §2.5 as the separate non-amendment project-event form.
+
+### 0.12.0 — 2026-08-29 — ratified stable-section Standards Action
+
+**Author:** Ira Abbott (owner and ratifier); OpenAI Codex (drafting and reconciliation)
+**Change kind:** semantic
+**Touches:** SBC-00-ADDENDUM-C
+**Summary:** The owner's accepted decision adds `section` to `GlobalObjectIdV1`, freezes the exact authored numbered-heading shape and `<family-key>:SECTION-NNN` identity, and authorizes only ADDENDUM-D §7.2 as `SECTION-001` in this wave.
+
+#### Rationale
+
+The two accepted backfills name one already-authored consumer-conformance
+status snapshot. Stable section identity lets those amendment and rationale
+records retain their declared scope without substituting the containing
+document or promoting the D-C1, D-C2, and D-C3 row labels into objects.
+
+This amendment begins an additive object-schema-v3 compatibility frontier at
+the first committed projection containing the explicit handle. Retained
+historical bytes are neither reinterpreted nor backfilled, and unmodified or
+malformed headings remain positional and edge-ineligible.
+
+Considered and rejected: automatic ordinal aliases; document-, title-, path-,
+line-, or content-hash identity; first-match repair; D-C row objects; and new
+`cites`, `refines`, `blocks`, `verifies`, `supersedes`, or checking-source
+semantics.
+
+What deliberately did not change: the §7.2 title, body, D-C row labels,
+obligations, or status text; any other section; the closed object, edge, change,
+location, lifecycle, or open-question enums; retained projection bytes; or the
+79 unrelated SBC diagnostics and global legacy provider gaps.
+
 ---
 
 *End of SBC-00-ADDENDUM-C*
+
+### 0.13.0 — 2026-09-05 — ratified ERRATA-015 amendment
+
+**Author:** Ira Abbott (ratifier); OpenAI Codex (drafting and recording)
+**Change kind:** semantic
+**Touches:** SBC-00-ADDENDUM-C
+**Summary:** Add C13 and exact forward occurrence/evidence rules without changing C6 or retained history. The owner ratified this exact coordinated packet in task `01a06eee-bae3-7911-9198-adfae97256f1` on September 5, 2026. Accepted patch SHA-256: `220d77faff10b8132768a2d0a19ec7e099decf605ad72dd7f57a174f40e69de1`. This records specification ratification, not implementation, clearance, or deployment.
+
+#### Rationale
+
+The owner accepted decision-packet version 1 and subsequently ratified this exact
+amendment packet on September 5, 2026. This amendment supplies the reserved contract. Treating every old
+missing process field as a present violation, equating acceptance with repair,
+and hiding diagnostics by client arithmetic were considered and rejected.
+The native repair lifecycle, retained historical evidence, C6 clearings, and
+C11/C12 response meanings deliberately do not change. This ratification authorizes deriving implementation from the coordinated
+amendment after the specification commit boundary.
+
+### 0.14.0 — 2026-09-13 — ratified condition-verification amendment
+
+**Author:** Ira Abbott (ratifier); OpenAI Codex (drafting and recording)
+**Change kind:** semantic
+**Touches:** SBC-00-ADDENDUM-C
+**Summary:** Specify §7.2's part of recorded condition verification under
+SBC ERRATA-015. The owner ratified this exact packet and its linked digest
+manifest on September 13, 2026 in task `01a06eee-bae3-7911-9198-adfae97256f1`.
+Accepted packet commit: `7645b24614f181b64ac254b7028367b9f26b6842`.
+Accepted patch SHA-256: `8d61a050dd6ed81ee8ec41cdf3829f020185b4e132d1419dbad12df88fb1cb39`.
+Accepted manifest SHA-256: `fbb41f409f5445b8d7b53a09dc35fb657520e3c275adc94d1b6624831a8832fb`.
+This ratifies the specification; no concrete verification record, approval pin,
+native-state change, implementation, or deployment is asserted.
+
+#### Rationale
+
+Independent condition binding does not admit later verification or establish a
+before/after completion transition. The ratified coordinated amendment supplies those
+contracts while preserving approved obligation changes as a distinct action.
+Automatic interpretation of arbitrary test logs, reuse of exception authority,
+editing approved condition evidence, and inference from absence were rejected.
+The initial profile records human-confirmed evidence; machine-execution profiles
+remain unregistered. Exact-text ratification precedes implementation.
+
+### 0.15.0 — 2026-09-16 — ratified retained-source navigation amendment
+
+**Author:** Ira Abbott (ratifier); OpenAI Codex (drafting and recording)
+**Change kind:** semantic
+**Touches:** SBC-00-ADDENDUM-C
+**Summary:** Add §9.1's C14 retained-source contract and coordinated owner
+references. Source inspection does not grant repair, disposition, verification,
+criterion completion, or deployment authority. Existing checklist states remain.
+
+#### Rationale
+
+The current inspector preserves evidence references but cannot open their exact
+retained documents. The coordinated six-owner proposal registers one named
+read-only capability, binds every read to an existing C13 subject/reference,
+and gives the inspector a bounded escaped-text viewer with reliable return.
+An arbitrary repository browser, current-HEAD links, expanded history admission,
+new main-list flags, and silent historical policy changes were rejected. The
+delivery profile can read already admitted historical bytes without changing
+their C13 generation or policy provenance. The owner ratified this exact packet
+and linked digest manifest on September 16, 2026 in task
+`01a06eee-bae3-7911-9198-adfae97256f1`. Accepted proposal commit:
+`cbb9c97e5f526cfd53e9171eed5d4a9ecf543bf7`. Accepted patch SHA-256:
+`66c2fba5349c83e2561b8650d8c1688cbb4fc353a6f68719ccbce6d57383d173`. Accepted manifest SHA-256:
+`e53d12d0740cce085ec5fbf5aacb9eba81d5d0cdf876dbb9300748e16ed24a11`. This records specification ratification;
+implementation and its execution witnesses remain outstanding.

@@ -1,0 +1,411 @@
+{
+  "informative_only": true,
+  "date": "2026-10-02",
+  "source_repository": "iraabbott/softoboros.com",
+  "source_commit": "2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2",
+  "standalone_base_commit": "401c61f7df1403143627268594ba987c7f34ce8a",
+  "source_integration_commit": "5ec9424afc7162ed6e9933e9040a59e4730868a2",
+  "authorization": "Owner requested consolidation and then instructed proceed; existing ratifications are transported, not newly issued.",
+  "files": [
+    {
+      "target_path": "docs/SBC-00-CONCEPTS.md",
+      "previous_sha256": "bff52dc6d076287bccec397ad27ccb645a19cb677b27f6614a1b772fd4eb1fd1",
+      "source_blob": "4cc328a4d5a98130b140ab08c9f47eed14720554",
+      "source_path": "docs/spec-before-code/docs/SBC-00-CONCEPTS.md",
+      "sha256": "5cf7e559c5ea29f7fd9f9ed0c98f4093d8d62d3d05aee792336d954c5725a136",
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SBC-00-CONCEPTS.md",
+      "byte_identical_to_source": true
+    },
+    {
+      "target_path": "docs/SBC-00-ADDENDUM-A.md",
+      "previous_sha256": "1d1278eb256636648acc6cf8b247819434629246f251e6ff8ec9b8b60c50fd0e",
+      "source_blob": "037cd725fc1c9893da0a6d9238bb68e317557410",
+      "source_path": "docs/spec-before-code/docs/SBC-00-ADDENDUM-A.md",
+      "sha256": "590858c107f4f07ca501a8c5598b1270f93711dddcbe9491da3b76b9ec2c1acb",
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SBC-00-ADDENDUM-A.md",
+      "byte_identical_to_source": true
+    },
+    {
+      "target_path": "docs/SBC-00-ADDENDUM-B.md",
+      "previous_sha256": "4f0ce82403333b7abc9377d0acf6c5cb18bf48926cabc81dddbb1ae67d8e584d",
+      "source_blob": "5130360fd434a6504dbbd2674b7ed334ac080887",
+      "source_path": "docs/spec-before-code/docs/SBC-00-ADDENDUM-B.md",
+      "sha256": "33e16919f5d64e585f0c8957da8a468c5a207f4dbd12ef2e02b93eefc2fa97e1",
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SBC-00-ADDENDUM-B.md",
+      "byte_identical_to_source": true
+    },
+    {
+      "target_path": "docs/SBC-00-ADDENDUM-C.md",
+      "previous_sha256": "61b047431600a7d4923fac4d3ddb0de70b7acf7affa2381cbb93b294b350d284",
+      "source_blob": "e680912b982ff1ae8f5f42916c5d47dc30138001",
+      "source_path": "docs/spec-before-code/docs/SBC-00-ADDENDUM-C.md",
+      "sha256": "e43c1b0a48e60e4985e60b3f24b434ee2014331a0c9404510c88a59f2995ab05",
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SBC-00-ADDENDUM-C.md",
+      "byte_identical_to_source": true
+    },
+    {
+      "target_path": "docs/SBC-00-ADDENDUM-D.md",
+      "previous_sha256": "4045dbab4f1308322fd3eac24790e04f6eafc2bcefc9b19de500d83032a45c82",
+      "source_blob": "974c1f73fd55f0950c54df43373a5ca1a6345459",
+      "source_path": "docs/spec-before-code/docs/SBC-00-ADDENDUM-D.md",
+      "sha256": "2c51050d0e767aefc703ad2ad35fe767c63ec0a3ad690336def560e5adf8a065",
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SBC-00-ADDENDUM-D.md",
+      "byte_identical_to_source": true
+    },
+    {
+      "target_path": "docs/SBC-ERRATA.md",
+      "previous_sha256": "f132f4e16abd66de950d70d463a649437c447888c04a99924d75f31628db7778",
+      "source_blob": "29883fb41a956d32c42a9ba0199d89c4325015e8",
+      "source_path": "docs/spec-before-code/docs/SBC-ERRATA.md",
+      "sha256": "98920c8724315d30b044a3ee68f900e8c72a2cc867c1cfef67698981d171155a",
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SBC-ERRATA.md",
+      "byte_identical_to_source": true
+    },
+    {
+      "target_path": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "previous_sha256": "66bf148829ceb5813a9aa6a459edac7db0ff38fb9e8277cb08bd75d3619624ec",
+      "source_blob": "937c514e609d1fcd0efdebd220bc7ad3668c79b3",
+      "source_path": "docs/spec-before-code/docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "sha256": "ec0140dc6a9e956ce60525ce169961ff8bdcd2a535a37ec8e08f29bc5b6e091c",
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "byte_identical_to_source": true
+    },
+    {
+      "target_path": "templates/ERRATA.md",
+      "previous_sha256": "2b6b61bb47051c9889698886379ab662e0337b2f5f176dc9dedb2a7bd52dadd9",
+      "source_blob": "f0e0e9ac49896014591b02980891a6e980e6932c",
+      "source_path": "docs/spec-before-code/templates/ERRATA.md",
+      "sha256": "9f76250ca53177ef500539e224a3c9dea8a6202d10b37c6acab76ab8e5b5f863",
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/templates/ERRATA.md",
+      "byte_identical_to_source": true
+    }
+  ],
+  "ratification_evidence": [
+    {
+      "receipt": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/ratification.json",
+        "sha256": "a1bd3445649e2fc47d885adfb40cd99a613f6c68f6efa085cba2bc6f964f26d3",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/ratification.json"
+      },
+      "patch": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/coordinated-owner-amendments.patch",
+        "sha256": "220d77faff10b8132768a2d0a19ec7e099decf605ad72dd7f57a174f40e69de1",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/coordinated-owner-amendments.patch"
+      },
+      "manifest": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/coordinated-owner-amendments.json",
+        "sha256": "b7438a655ed2787576e762a66d998d90612a3ff2bc40c15bd50d1a3011752888",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/coordinated-owner-amendments.json"
+      },
+      "accepted_digest_checks": "passed"
+    },
+    {
+      "receipt": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/condition-completion-ratification.json",
+        "sha256": "922f7e4f8fe841d088d3e1bde56d1eceed8d8cc66a1ea9bb6f032d31f9ad0bb6",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/condition-completion-ratification.json"
+      },
+      "patch": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/condition-completion-amendments.patch",
+        "sha256": "8d61a050dd6ed81ee8ec41cdf3829f020185b4e132d1419dbad12df88fb1cb39",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/condition-completion-amendments.patch"
+      },
+      "manifest": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/condition-completion-amendments.json",
+        "sha256": "fbb41f409f5445b8d7b53a09dc35fb657520e3c275adc94d1b6624831a8832fb",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/condition-completion-amendments.json"
+      },
+      "accepted_digest_checks": "passed"
+    },
+    {
+      "receipt": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/older-repair-admission-ratification.json",
+        "sha256": "982a1c30cd573c20ac55829fe1de34bc23dfd3586be8ce18d51f8b9235ba3441",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/older-repair-admission-ratification.json"
+      },
+      "patch": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/older-repair-admission-amendments.patch",
+        "sha256": "7a14dc351e36ac6087f7bf33170d325f14012589d410e4c44057b83c920087af",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/older-repair-admission-amendments.patch"
+      },
+      "manifest": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/older-repair-admission-amendments.json",
+        "sha256": "53243c828791312bff72d68e1f323fa158468825d2be28ce0e5ae3879cc4089a",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/older-repair-admission-amendments.json"
+      },
+      "accepted_digest_checks": "passed"
+    },
+    {
+      "receipt": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/retained-source-navigation-ratification.json",
+        "sha256": "e3aabf1af4f8fa95f67371e2409e4823793e0067615a68eacea8c311a0f36c39",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/retained-source-navigation-ratification.json"
+      },
+      "patch": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/retained-source-navigation-amendments.patch",
+        "sha256": "66c2fba5349c83e2561b8650d8c1688cbb4fc353a6f68719ccbce6d57383d173",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/retained-source-navigation-amendments.patch"
+      },
+      "manifest": {
+        "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/retained-source-navigation-amendments.json",
+        "sha256": "e53d12d0740cce085ec5fbf5aacb9eba81d5d0cdf876dbb9300748e16ed24a11",
+        "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/retained-source-navigation-amendments.json"
+      },
+      "accepted_digest_checks": "passed"
+    }
+  ],
+  "source_evidence_adoption": {
+    "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/source-evidence-adoption.json",
+    "sha256": "abb34fa62d0348a58f300def558dc88a4a5a225beb1199cfd3bff4058edf3f0b",
+    "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/source-evidence-adoption.json"
+  },
+  "links": [
+    {
+      "file": "docs/SBC-00-ADDENDUM-A.md",
+      "line": 50,
+      "original_href": "docs/SBC-00-CONCEPTS.md",
+      "classification": "adoption_template",
+      "source_target_exists": false,
+      "source_url": null,
+      "source_path": "docs/spec-before-code/docs/docs/SBC-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SBC-ERRATA.md",
+      "line": 293,
+      "original_href": "../../plans/sbc-dashboard-review-2026-09-05/authority-scope-evidence.json",
+      "classification": "retained_source_evidence",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/authority-scope-evidence.json",
+      "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/authority-scope-evidence.json"
+    },
+    {
+      "file": "docs/SBC-ERRATA.md",
+      "line": 1723,
+      "original_href": "../../plans/sbc-dashboard-review-2026-09-05/ratification.md",
+      "classification": "retained_source_evidence",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/ratification.md",
+      "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/ratification.md"
+    },
+    {
+      "file": "docs/SBC-ERRATA.md",
+      "line": 1736,
+      "original_href": "../../plans/sbc-dashboard-review-2026-09-05/condition-completion-ratification.md",
+      "classification": "retained_source_evidence",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/condition-completion-ratification.md",
+      "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/condition-completion-ratification.md"
+    },
+    {
+      "file": "docs/SBC-ERRATA.md",
+      "line": 1758,
+      "original_href": "../../plans/sbc-dashboard-review-2026-09-05/review-and-delivery.md",
+      "classification": "retained_source_evidence",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/plans/sbc-dashboard-review-2026-09-05/review-and-delivery.md",
+      "source_path": "docs/plans/sbc-dashboard-review-2026-09-05/review-and-delivery.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 10,
+      "original_href": "SBC-00-CONCEPTS.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SBC-00-CONCEPTS.md",
+      "source_path": "docs/spec-before-code/docs/SBC-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 13,
+      "original_href": "SBC-ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/docs/SBC-ERRATA.md",
+      "source_path": "docs/spec-before-code/docs/SBC-ERRATA.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 19,
+      "original_href": "../CLAUDE.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/CLAUDE.md",
+      "source_path": "docs/spec-before-code/CLAUDE.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 19,
+      "original_href": "todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md",
+      "source_path": "docs/todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 19,
+      "original_href": "todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md",
+      "source_path": "docs/todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 19,
+      "original_href": "todo/memalpha/ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/memalpha/ERRATA.md",
+      "source_path": "docs/todo/memalpha/ERRATA.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 33,
+      "original_href": "../CLAUDE.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/CLAUDE.md",
+      "source_path": "docs/spec-before-code/CLAUDE.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 62,
+      "original_href": "../CLAUDE.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/CLAUDE.md",
+      "source_path": "docs/spec-before-code/CLAUDE.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 64,
+      "original_href": "todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md",
+      "source_path": "docs/todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 64,
+      "original_href": "todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md",
+      "source_path": "docs/todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 68,
+      "original_href": "todo/memalpha/ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/memalpha/ERRATA.md",
+      "source_path": "docs/todo/memalpha/ERRATA.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 78,
+      "original_href": "../CLAUDE.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/CLAUDE.md",
+      "source_path": "docs/spec-before-code/CLAUDE.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 98,
+      "original_href": "todo/memalpha/ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/memalpha/ERRATA.md",
+      "source_path": "docs/todo/memalpha/ERRATA.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 119,
+      "original_href": "todo/memalpha/ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/memalpha/ERRATA.md",
+      "source_path": "docs/todo/memalpha/ERRATA.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 152,
+      "original_href": "todo/streamz/TODO-STREAMZ-06-PROTOCOL-MEDIA-INTEGRATION.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/streamz/TODO-STREAMZ-06-PROTOCOL-MEDIA-INTEGRATION.md",
+      "source_path": "docs/todo/streamz/TODO-STREAMZ-06-PROTOCOL-MEDIA-INTEGRATION.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 194,
+      "original_href": "todo/memalpha/ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/memalpha/ERRATA.md",
+      "source_path": "docs/todo/memalpha/ERRATA.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 235,
+      "original_href": "../CLAUDE.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/spec-before-code/CLAUDE.md",
+      "source_path": "docs/spec-before-code/CLAUDE.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 236,
+      "original_href": "todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md",
+      "source_path": "docs/todo/streamz/semantic-servo/TODO-SSV-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 237,
+      "original_href": "todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md",
+      "source_path": "docs/todo/streamz/schematic-exec/TODO-SE-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 238,
+      "original_href": "todo/streamz/TODO-STREAMZ-06-PROTOCOL-MEDIA-INTEGRATION.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/streamz/TODO-STREAMZ-06-PROTOCOL-MEDIA-INTEGRATION.md",
+      "source_path": "docs/todo/streamz/TODO-STREAMZ-06-PROTOCOL-MEDIA-INTEGRATION.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 239,
+      "original_href": "todo/memalpha/ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": true,
+      "source_url": "https://github.com/iraabbott/softoboros.com/blob/2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2/docs/todo/memalpha/ERRATA.md",
+      "source_path": "docs/todo/memalpha/ERRATA.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 240,
+      "original_href": "../streamz/submodules/disco-analyzer/docs/concepts/ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": false,
+      "source_url": null,
+      "source_path": "docs/spec-before-code/streamz/submodules/disco-analyzer/docs/concepts/ERRATA.md"
+    }
+  ],
+  "new_ratifications": 0,
+  "native_gate_changes": 0,
+  "runtime_approval_pin_changes": 0,
+  "sbct_authority_pin_changes": 0
+}

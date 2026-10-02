@@ -1,9 +1,9 @@
 # SBC-00-ADDENDUM-A — Operational Context Injection Template
 
 **Document ID:** SBC-00-ADDENDUM-A
-**Status:** RATIFIED (2026-07-31)
-**Revision:** 0.3.0
-**Date:** 2026-07-31
+**Status:** RATIFIED (amended 2026-08-29)
+**Revision:** 0.4.0
+**Date:** 2026-08-29
 **Parent:** `docs/SBC-00-CONCEPTS.md`
 **Canonical path:** `docs/SBC-00-ADDENDUM-A.md`
 
@@ -200,11 +200,12 @@ in (SBC-INV-16).  Write **MUST**, not "must".
 
 ### Change logs and rationale
 
-The §15 change-log shape is frozen in `SBC-00-ADDENDUM-D.md`.  Each entry declares a revision,
-date, author, status, **change kind**, and the object ids it **touches**.  Amendments whose change
-kind is `semantic`, `scope`, or `retirement` MUST carry a rationale block recording what was
-considered and rejected, what the failure mode would have been, and what deliberately did not
-change (SBC-INV-17).
+The §15 amendment shape is frozen in `SBC-00-ADDENDUM-D.md`.  Each amendment entry declares a
+revision, date, author, status, **change kind**, and the object ids it **touches**.  Amendments
+whose change kind is `semantic`, `scope`, or `retirement` MUST carry a rationale block recording
+what was considered and rejected, what the failure mode would have been, and what deliberately
+did not change (SBC-INV-17).  A forward project event instead uses ADDENDUM-D §2.5's separate
+`EVENT-NNN` record and declares neither `Change kind:` nor `Touches:`.
 
 The last of those is the one most often lost and the most valuable on re-read: "this generalised
 without modification" is a load-bearing claim about the design's stability, and it is unrecoverable
@@ -262,3 +263,10 @@ this addendum when the feature is activated.
 | 0.1.0 | 2026-05-31 | I. Abbott | DRAFT | Initial draft; anonymised from project operational context; all family/path references parameterised |
 | 0.2.0 | 2026-07-31 | I. Abbott (ratifier) | **Ratified** | Ratification only — no content change. Closes the gap recorded in ERRATA-004, where this addendum sat DRAFT while the discipline it injects was in continuous force. Ratified at existing content; the material accumulated since lands separately at 0.3.0. |
 | 0.3.0 | 2026-07-31 | I. Abbott (ratifier) | **Ratified (amendment)** | **Injection-template amendment** propagating `SBC-00-CONCEPTS.md` 0.7.0 into the injectable block, per §0's rule that new vocabulary lands in the concepts doc first and propagates here — never the reverse. Adds three subsections: *Identifier hygiene* (global prefix uniqueness with a named owner, unpadded canonicalisation, one definition site per object, and the capitalisation gate — SBC-INV-15/16); *Change logs and rationale* (frozen §15 shape, `Touches:`, and the rationale obligation — SBC-INV-17); *Tooling that reads the corpus* (the compilation rule and the commit-trailer carve-out — SBC-INV-18). Each cites its owning document rather than restating it, per SBC-INV-2 — this addendum is informative narrative and must not become a second normative surface. Adopting projects re-paste the block to pick these up; the `<!-- SBC-INJECT-* -->` markers make the boundary machine-findable for a diff. |
+
+### 0.4.0 — 2026-08-29 — amended
+
+**Author:** Ira Abbott (owner and ratifier); OpenAI Codex (drafting and reconciliation)
+**Change kind:** clarification
+**Touches:** SBC-00-ADDENDUM-A, sbc:ERRATA-011
+**Summary:** Owner acceptance of `SBC-ERRATA-011` scopes the injection template's frozen-field statement to amendment entries and cites ADDENDUM-D §2.5 as the separate project-event record.

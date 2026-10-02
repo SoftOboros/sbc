@@ -1,6 +1,8 @@
 # TODO-SBC-00 — Spec-Before-Code: Concepts, Vocabulary, and Frozen Invariants
 
 **Document ID:** SPEC-BEFORE-CODE-CONCEPTS
+**Document lifecycle state:** superseded
+**Historical definitions:** INV-SBC-1, INV-SBC-2, INV-SBC-3, INV-SBC-4, INV-SBC-5, INV-SBC-6, INV-SBC-7, INV-SBC-8, INV-SBC-9, INV-SBC-10
 
 > ⛔ **SUPERSEDED — 2026-05-31.** This is the **predecessor / input** document. It was the
 > in-repo, softoboros-relative rendering of the discipline (paths point at `../CLAUDE.md` and
@@ -71,26 +73,37 @@ None of these are errors. They are the boundary at which the discipline stopped 
 
 For every term that also appears in `CLAUDE.md` or an external standard, the entry cites the authoritative source and marks the relationship per SBC-INV-2, using the discipline's own three phrasings.
 
+| Term id | Term | Definition | Relationship |
+|------|------|-----------|--------------|
+| `TERM-044` | **Spec-Before-Code discipline** | The planning cycle in which every behaviour change is preceded by a ratified terms doc, to prevent vocabulary drift and invariant erosion across multi-phase initiatives. | As narrated in [`../CLAUDE.md`](../CLAUDE.md) §`Spec-Before-Code Planning Discipline`; rendered normative here without modification. |
+
+The pre-existing `**Concepts doc** (terms doc)` entry below did not satisfy the
+registered legacy definition shape and was not one of the 60 compiled term
+objects in this migration. It remains unassigned rather than being silently
+promoted across the compatibility frontier.
+
 | Term | Definition | Relationship |
 |------|-----------|--------------|
-| **Spec-Before-Code discipline** | The planning cycle in which every behaviour change is preceded by a ratified terms doc, to prevent vocabulary drift and invariant erosion across multi-phase initiatives. | As narrated in [`../CLAUDE.md`](../CLAUDE.md) §`Spec-Before-Code Planning Discipline`; rendered normative here without modification. |
 | **Concepts doc** (terms doc) | The normative artifact of a phase: a `-NN-CONCEPTS.md` carrying vocabulary, ownership decisions, and frozen invariants — no executable artifact. | As narrated in `CLAUDE.md` §`Phase document shape`; used without modification. |
-| **Normative section** | A section referenced by the doc's §12 Acceptance checklist; binding on implementers. | As narrated in `CLAUDE.md` §`Normative vs. informative sections`; used without modification. |
-| **Informative section** | Any section not referenced by §12 — problem statement, narrative, non-goals, change log. Advisory only. | As narrated in `CLAUDE.md` §`Normative vs. informative sections`; used without modification. |
-| **Normative keyword** | MUST / MUST NOT / SHALL / SHOULD / SHOULD NOT / MAY / RECOMMENDED, binding only when capitalised. | As defined in RFC 2119 / RFC 8174; used without modification (external grammar — see §10 row 1). |
-| **Frozen enum** | A closed value set encoding an invariant or cross-phase contract (claim class, servo mode, registration policy, etc.); adding a value follows its declared registration policy. | As narrated in `CLAUDE.md` §`Frozen enumerations — registration policy`; used without modification. |
-| **Registration policy** | The named rule governing how a frozen enum gains a value: Standards Action, Specification Required, or Expert Review (§5). | As narrated in `CLAUDE.md` §`Frozen enumerations`; the three values are frozen as an enum here — adapted: this doc owns them as `RegistrationPolicy` (§5). |
-| **Conformance target** | The named artifact an initiative's acceptance list binds ("a conforming SSV deployment MUST satisfy gates (a)–(d)"). Optional phases yield a second conformance level. | As narrated in `CLAUDE.md` §`Conformance targets`; used without modification. |
-| **Authority relationship** | The declared relationship between a repo concept and an externally-authored grammar it crosses: mirror / adapt / extend / compose / own / derive / represent (§6). | As narrated in `CLAUDE.md` §`Standards integration`; the seven values are frozen as an enum here — adapted: this doc owns them as `AuthorityRelationship` (§6). |
-| **Errata entry** | A permanent, sequentially-numbered record (`ERRATA-NNN`) of a known issue, execution deviation, infrastructure bug, or stealth revert, kept in a family's living `ERRATA.md`. | As narrated in `CLAUDE.md` §`Errata logs` and §`Convention: per-initiative ERRATA.md`; used without modification. Reference shape: [`todo/memalpha/ERRATA.md`](todo/memalpha/ERRATA.md). |
-| **Errata status** | The lifecycle icon on an entry: 🟢 resolved / 🟡 diagnosed / 🔴 open / ⚪ deviation-pending-ratification (§7). | As narrated in `CLAUDE.md` §`Errata logs`; frozen as an enum here — adapted: this doc owns the legend as `ErrataStatus` (§7). |
-| **EOQ** | Errata Open Question, identifier `EOQ-NNN-<ERRATA-id>`: a stable handle for an open (⚪/🔴) question in a family's errata log. | As narrated in `CLAUDE.md` §`EOQ identifiers`; used without modification. Identifier grammar frozen in §8. |
-| **PCDN** | A per-concept-doc open question carried inside a concepts doc, shape `PCDN-<PHASE>-NNN`, resolved during ratification. | As narrated in `CLAUDE.md` (referenced under EOQ identifiers as the parallel shape); used without modification. |
-| **Stealth revert** | A behaviour change that undoes ratified-and-implemented phase content while riding an unrelated commit's scope. Prohibited by construction (SBC-INV-7). | As narrated in `CLAUDE.md` §`Stealth-revert prohibition`; used without modification. |
-| **§15 amendment** | A dated change-log entry that ratifies a change to a normative section, frozen-enum value, or invariant. Must land **before** any behaviour PR that depends on the change. | As narrated in `CLAUDE.md` §`Execution discipline`; used without modification. |
-| **Phase code** | The commit-subject citation `<INITIATIVE><NN><letter>` (e.g. `SSV02a:`, `SE03b:`) naming the originating phase of an execution PR. | As narrated in `CLAUDE.md` §`Execution discipline`; used without modification. Grammar frozen in §8. |
-| **Spec family** | A `docs/todo/<family>/` (or co-located subrepo `docs/concepts/`) tree of `-NN-CONCEPTS` docs + README + `ERRATA.md` running this discipline. | As narrated in `CLAUDE.md` §`Errata logs` and §`Convention: subrepo-private spec lineage`; used without modification. |
-| **Wave** | A batch of parallel-agent invocations sharing one base SHA, in the fan-out workflow (Wave 0 ratification … Wave N i18n sweep). | Owned by `CLAUDE.md` §`Parallel-Agent Workflow`; referenced here as the *execution* counterpart to this doc's *planning* scope — does not exist as a meta-vocabulary term in this doc's frozen enums (§11 non-goal 2). |
+
+| Term id | Term | Definition | Relationship |
+|------|------|-----------|--------------|
+| `TERM-045` | **Normative section** | A section referenced by the doc's §12 Acceptance checklist; binding on implementers. | As narrated in `CLAUDE.md` §`Normative vs. informative sections`; used without modification. |
+| `TERM-046` | **Informative section** | Any section not referenced by §12 — problem statement, narrative, non-goals, change log. Advisory only. | As narrated in `CLAUDE.md` §`Normative vs. informative sections`; used without modification. |
+| `TERM-047` | **Normative keyword** | MUST / MUST NOT / SHALL / SHOULD / SHOULD NOT / MAY / RECOMMENDED, binding only when capitalised. | As defined in RFC 2119 / RFC 8174; used without modification (external grammar — see §10 row 1). |
+| `TERM-048` | **Frozen enum** | A closed value set encoding an invariant or cross-phase contract (claim class, servo mode, registration policy, etc.); adding a value follows its declared registration policy. | As narrated in `CLAUDE.md` §`Frozen enumerations — registration policy`; used without modification. |
+| `TERM-049` | **Registration policy** | The named rule governing how a frozen enum gains a value: Standards Action, Specification Required, or Expert Review (§5). | As narrated in `CLAUDE.md` §`Frozen enumerations`; the three values are frozen as an enum here — adapted: this doc owns them as `RegistrationPolicy` (§5). |
+| `TERM-050` | **Conformance target** | The named artifact an initiative's acceptance list binds ("a conforming SSV deployment MUST satisfy gates (a)–(d)"). Optional phases yield a second conformance level. | As narrated in `CLAUDE.md` §`Conformance targets`; used without modification. |
+| `TERM-051` | **Authority relationship** | The declared relationship between a repo concept and an externally-authored grammar it crosses: mirror / adapt / extend / compose / own / derive / represent (§6). | As narrated in `CLAUDE.md` §`Standards integration`; the seven values are frozen as an enum here — adapted: this doc owns them as `AuthorityRelationship` (§6). |
+| `TERM-052` | **Errata entry** | A permanent, sequentially-numbered record (`ERRATA-NNN`) of a known issue, execution deviation, infrastructure bug, or stealth revert, kept in a family's living `ERRATA.md`. | As narrated in `CLAUDE.md` §`Errata logs` and §`Convention: per-initiative ERRATA.md`; used without modification. Reference shape: [`todo/memalpha/ERRATA.md`](todo/memalpha/ERRATA.md). |
+| `TERM-053` | **Errata status** | The lifecycle icon on an entry: 🟢 resolved / 🟡 diagnosed / 🔴 open / ⚪ deviation-pending-ratification (§7). | As narrated in `CLAUDE.md` §`Errata logs`; frozen as an enum here — adapted: this doc owns the legend as `ErrataStatus` (§7). |
+| `TERM-054` | **EOQ** | Errata Open Question, identifier `EOQ-NNN-<ERRATA-id>`: a stable handle for an open (⚪/🔴) question in a family's errata log. | As narrated in `CLAUDE.md` §`EOQ identifiers`; used without modification. Identifier grammar frozen in §8. |
+| `TERM-055` | **PCDN** | A per-concept-doc open question carried inside a concepts doc, shape `PCDN-<PHASE>-NNN`, resolved during ratification. | As narrated in `CLAUDE.md` (referenced under EOQ identifiers as the parallel shape); used without modification. |
+| `TERM-056` | **Stealth revert** | A behaviour change that undoes ratified-and-implemented phase content while riding an unrelated commit's scope. Prohibited by construction (SBC-INV-7). | As narrated in `CLAUDE.md` §`Stealth-revert prohibition`; used without modification. |
+| `TERM-057` | **§15 amendment** | A dated change-log entry that ratifies a change to a normative section, frozen-enum value, or invariant. Must land **before** any behaviour PR that depends on the change. | As narrated in `CLAUDE.md` §`Execution discipline`; used without modification. |
+| `TERM-058` | **Phase code** | The commit-subject citation `<INITIATIVE><NN><letter>` (e.g. `SSV02a:`, `SE03b:`) naming the originating phase of an execution PR. | As narrated in `CLAUDE.md` §`Execution discipline`; used without modification. Grammar frozen in §8. |
+| `TERM-059` | **Spec family** | A `docs/todo/<family>/` (or co-located subrepo `docs/concepts/`) tree of `-NN-CONCEPTS` docs + README + `ERRATA.md` running this discipline. | As narrated in `CLAUDE.md` §`Errata logs` and §`Convention: subrepo-private spec lineage`; used without modification. |
+| `TERM-060` | **Wave** | A batch of parallel-agent invocations sharing one base SHA, in the fan-out workflow (Wave 0 ratification … Wave N i18n sweep). | Owned by `CLAUDE.md` §`Parallel-Agent Workflow`; referenced here as the *execution* counterpart to this doc's *planning* scope — does not exist as a meta-vocabulary term in this doc's frozen enums (§11 non-goal 2). |
 
 ## 4. Source-of-truth map — one owner per meta-concept
 
@@ -199,23 +212,23 @@ Restated as enforceable rules. Each names the surface that verifies it. Touching
 
 ## 11. Non-goals
 
-1. **Not a replacement for `CLAUDE.md`.** The operating narrative stays where agents load it. This doc gives it stable identifiers; it does not relocate it.
-2. **Not a spec for the parallel-agent execution workflow.** Waves, worktree isolation, docker contention, cherry-pick cadence, bench authorization — all stay owned by `CLAUDE.md` §`Parallel-Agent Workflow`. Reason: those are execution-time concurrency rules, a different contract surface; folding them in would couple planning vocabulary to fan-out mechanics that change independently.
-3. **Not a per-family content authority.** This doc never freezes a claim class, servo mode, or netlist dialect — those belong to their families. It freezes only the *meta*-vocabulary every family shares.
-4. **Not retroactive enforcement.** Existing single-doc TODOs and phase-1 prototypes MAY remain informal; the discipline (and this doc) bind a family only from the moment it produces a `-NN-CONCEPTS` gate.
+1. `NONGOAL-013` — **Not a replacement for `CLAUDE.md`.** The operating narrative stays where agents load it. This doc gives it stable identifiers; it does not relocate it.
+2. `NONGOAL-014` — **Not a spec for the parallel-agent execution workflow.** Waves, worktree isolation, docker contention, cherry-pick cadence, bench authorization — all stay owned by `CLAUDE.md` §`Parallel-Agent Workflow`. Reason: those are execution-time concurrency rules, a different contract surface; folding them in would couple planning vocabulary to fan-out mechanics that change independently.
+3. `NONGOAL-015` — **Not a per-family content authority.** This doc never freezes a claim class, servo mode, or netlist dialect — those belong to their families. It freezes only the *meta*-vocabulary every family shares.
+4. `NONGOAL-016` — **Not retroactive enforcement.** Existing single-doc TODOs and phase-1 prototypes MAY remain informal; the discipline (and this doc) bind a family only from the moment it produces a `-NN-CONCEPTS` gate.
 
 ## 12. Acceptance
 
 This TODO is considered landed when:
 
-- [x] Every meta-term used across the initiative families appears in §3 with a citation and a relationship marker (SBC-INV-2 applied to this doc).
-- [x] Every row in §4 names exactly one authoritative owner.
-- [x] The three discipline enums (`RegistrationPolicy` §5, `AuthorityRelationship` §6, `ErrataStatus` §7) are closed and each declares its own registration policy (SBC-INV-3).
-- [x] The identifier grammars in §8 are closed and marked Standards Action.
-- [x] All ten discipline rules appear in §9 as `SBC-INV-N` with a verification surface.
-- [x] Every adjacency named in §2 / §10 carries a reconciliation decision with an `AuthorityRelationship` where an external grammar is involved (SBC-INV-8).
-- [x] Non-goals in §11 each name the owner of the excluded surface or the reason it is out of scope.
-- [x] This doc carries the load-bearing section set §0/§3/§4/§10/§12/§15 (SBC-INV-9 applied to itself).
+- [x] `GATE-024` — Every meta-term used across the initiative families appears in §3 with a citation and a relationship marker (SBC-INV-2 applied to this doc).
+- [x] `GATE-025` — Every row in §4 names exactly one authoritative owner.
+- [x] `GATE-026` — The three discipline enums (`RegistrationPolicy` §5, `AuthorityRelationship` §6, `ErrataStatus` §7) are closed and each declares its own registration policy (SBC-INV-3).
+- [x] `GATE-027` — The identifier grammars in §8 are closed and marked Standards Action.
+- [x] `GATE-028` — All ten discipline rules appear in §9 as `SBC-INV-N` with a verification surface.
+- [x] `GATE-029` — Every adjacency named in §2 / §10 carries a reconciliation decision with an `AuthorityRelationship` where an external grammar is involved (SBC-INV-8).
+- [x] `GATE-030` — Non-goals in §11 each name the owner of the excluded surface or the reason it is out of scope.
+- [x] `GATE-031` — This doc carries the load-bearing section set §0/§3/§4/§10/§12/§15 (SBC-INV-9 applied to itself).
 
 ## 13. Files cited
 
@@ -235,4 +248,17 @@ This TODO is considered landed when:
 
 ## 15. Change log
 
+**Identity annotation (2026-08-23).** Under the canonical successor's rev 0.12.0
+Standards Action, `TERM-044` through `TERM-060` identify the 17 rows that already
+compiled as term objects. The visible `Concepts doc (terms doc)` row remains
+explicitly unassigned because it never matched the registered legacy definition
+shape. No definition, relationship, supersession status, invariant, or authority
+changes.
+
+**Gate identity annotation (2026-08-23).** Under the canonical successor's rev
+0.14.0 and ADDENDUM-C rev 0.8.0 Standards Action, `GATE-024` through `GATE-031`
+identify the eight rows that already compiled as positional gate objects. The
+allocation follows authored source order and changes no gate text, checked state,
+supersession status, invariant, or authority. This annotation does not restore
+normative force to the superseded document.
 - **2026-05-31** — Ratified. Crystallizes the Spec-Before-Code discipline (previously narrative-only in `CLAUDE.md`) into a normative `-00-CONCEPTS` artifact in its own form. §0 dual-authority policy fixed (`CLAUDE.md` operational, this doc normative). Three discipline enums frozen: `RegistrationPolicy` (§5), `AuthorityRelationship` (§6, transcribed from `CLAUDE.md` §`Standards integration`), `ErrataStatus` (§7) — all Standards Action. Identifier grammars frozen in §8. Ten discipline rules transcribed as `SBC-INV-1`…`SBC-INV-10` in §9 with verification surfaces. Six reconciliation decisions in §10, including the explicit non-absorption of the parallel-agent execution workflow (row 3). No existing family is re-blocked; this doc adds stable handles to rules already in force.

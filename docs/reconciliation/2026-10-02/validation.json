@@ -1,0 +1,88 @@
+{
+  "informative_only": true,
+  "standalone_base_commit": "401c61f7df1403143627268594ba987c7f34ce8a",
+  "source_commit": "2808f9bd1c9a85f6ea049a1cd7675ab7d79778e2",
+  "transported_files": [
+    {
+      "file": "docs/SBC-00-CONCEPTS.md",
+      "source_bytes_equal": true,
+      "document_ids_preserved": true,
+      "source_checklist_lines": 12
+    },
+    {
+      "file": "docs/SBC-00-ADDENDUM-A.md",
+      "source_bytes_equal": true,
+      "document_ids_preserved": true,
+      "source_checklist_lines": 0
+    },
+    {
+      "file": "docs/SBC-00-ADDENDUM-B.md",
+      "source_bytes_equal": true,
+      "document_ids_preserved": true,
+      "source_checklist_lines": 0
+    },
+    {
+      "file": "docs/SBC-00-ADDENDUM-C.md",
+      "source_bytes_equal": true,
+      "document_ids_preserved": true,
+      "source_checklist_lines": 11
+    },
+    {
+      "file": "docs/SBC-00-ADDENDUM-D.md",
+      "source_bytes_equal": true,
+      "document_ids_preserved": true,
+      "source_checklist_lines": 8
+    },
+    {
+      "file": "docs/SBC-ERRATA.md",
+      "source_bytes_equal": true,
+      "document_ids_preserved": true,
+      "source_checklist_lines": 0
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "source_bytes_equal": true,
+      "document_ids_preserved": true,
+      "source_checklist_lines": 8
+    },
+    {
+      "file": "templates/ERRATA.md",
+      "source_bytes_equal": true,
+      "document_ids_preserved": true,
+      "source_checklist_lines": 0
+    }
+  ],
+  "accepted_packet_digest_checks": 4,
+  "protected_tracked_files_verified": 191,
+  "protected_paths": [
+    "tools",
+    "docs/sbc-tools",
+    ".github",
+    "assets"
+  ],
+  "runtime_approval_pin_changes": 0,
+  "sbct_authority_pin_changes": 0,
+  "newly_checked_source_criteria": 0,
+  "active_errata_links_verified": 4,
+  "contextual_or_unverified_links": [
+    {
+      "file": "docs/SBC-00-ADDENDUM-A.md",
+      "line": 50,
+      "original_href": "docs/SBC-00-CONCEPTS.md",
+      "classification": "adoption_template",
+      "source_target_exists": false,
+      "source_url": null,
+      "source_path": "docs/spec-before-code/docs/docs/SBC-00-CONCEPTS.md"
+    },
+    {
+      "file": "docs/SPEC-BEFORE-CODE-CONCEPTS.md",
+      "line": 240,
+      "original_href": "../streamz/submodules/disco-analyzer/docs/concepts/ERRATA.md",
+      "classification": "historical_predecessor",
+      "source_target_exists": false,
+      "source_url": null,
+      "source_path": "docs/spec-before-code/streamz/submodules/disco-analyzer/docs/concepts/ERRATA.md"
+    }
+  ],
+  "native_or_deployed_runtime_tests": "not run; executable and approved tooling inputs unchanged"
+}
